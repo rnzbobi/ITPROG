@@ -1,0 +1,94 @@
+.clearfix {
+    clear: both;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.header {
+    background-color: #ffffff;
+    color: #fff;
+    padding: 2vh 4vw;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.search-form {
+    display: flex;
+    align-items: center;
+    margin-left: 50px;
+    flex-grow: 1; /* Allow the search form to grow to fill the space */
+}
+
+.search-input {
+    padding: 1.2vh; /* Adjust padding using viewport units */
+    border: solid;
+    border-width: 1px;
+    border-radius: 5px 0 0 5px;
+    width: 40vw; /* Adjust width using viewport units */
+    max-width: 80%; /* Limit maximum width */
+}
+
+.search-button {
+    padding: 1vh 2vw; /* Adjust padding using viewport units */
+    background-color: #ffffff;
+    border: solid;
+    border-width: 1px;
+    border-radius: 0 5px 5px 0;
+    color: rgb(0, 0, 0);
+    cursor: pointer;
+    min-width: 4vh; /* Adjust minimum width using viewport units */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-button img{
+    width: 1vw;
+    height: auto;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+}
+
+.nav-links a {
+    text-decoration: none; /* Remove underline */
+    font-family: 'Montserrat', sans-serif;
+    color: inherit;
+    margin: 0 1vw; /* Adjust margin using viewport units */
+}
+
+#user-id{
+    color:black;
+}
+
+.nav-links img {
+    margin-top: 5px;
+    max-height: 4vh; /* Adjust icon height using viewport units */
+}
+
+.Balance-header {
+    margin-left: auto; /* Push to the right */
+}
+
+.Balance-header h2 span{
+    color: black;
+}
+
+#balance{
+    font-family: 'Montserrat', sans-serif;
+    color: black;
+}
+
+.logo img {
+    margin-right: 100px;
+    max-height: 6vh; /* Adjust logo height using viewport units */
+}
+
