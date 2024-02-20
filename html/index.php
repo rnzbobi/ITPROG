@@ -1,14 +1,8 @@
 <?php
 session_start();
 
-// Dummy database connection
-$servername = "localhost";
-$username = "root";
-$password = "password";
-$dbname = "myDB";
-
 // Create connection
-$conn = mysqli_connect("localhost", "root", "p@ssword") or die ("Unable to connect!". mysqli_error());
+$conn = mysqli_connect("localhost", "root", "") or die ("Unable to connect!". mysqli_error());
         mysqli_select_db($conn, "test");
 
 // Check connection
@@ -50,7 +44,15 @@ if (isset($_SESSION['username'])) {
             <div class="nav-links">
                 <a href="user.html"><img src="images/user.png" alt="User"></a>
                 <a href="cart.html"><img src="images/shopping-cart.png" alt="Cart"></a>
-                <a href="user.html"><h2><span id="user-id">Guest</span></h2></a>
+                <?php
+            if($loggedIn){
+                echo '<a href="profile.php"><h2><span id="user-id">Profile</span></h2></a>';
+                echo '<a href="logout.php"><h2><span id="user-id">Logout</span></h2></a>';
+            } else {
+                echo '<a href="login.php"><h2><span id="user-id">Login/Signup</span></h2></a>';
+            }
+            ?>
+
             </div>
             <div class="Balance-header">
                 <h2 id="balance">Balance: <span id="balance-value">10000</span></h2>
