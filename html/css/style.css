@@ -67,7 +67,7 @@ body {
 
 #user-id{
     color:black;
-    font-size: 22px;
+    font-size: 14px;
 }
 
 .nav-links img {
@@ -80,9 +80,9 @@ body {
 }
 
 #balance{
-    margin-top: 21px;
+    margin-top: 19px;
     font-family: 'Montserrat', sans-serif;
-    font-size: 22px;
+    font-size: 14px;
     color: black;
 }
 

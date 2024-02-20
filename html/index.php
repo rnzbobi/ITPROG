@@ -4,16 +4,15 @@ session_start();
 // Dummy database connection
 $servername = "localhost";
 $username = "root";
-$password = "password";
-$dbname = "myDB";
+$password = "p@ssword";
+$dbname = "dbclothes";
 
 // Create connection
-$conn = mysqli_connect("localhost", "root", "p@ssword") or die ("Unable to connect!". mysqli_error());
-        mysqli_select_db($conn, "test");
+$conn = mysqli_connect($servername, $username, $password, $dbname);
 
 // Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
 }
 
 // Check if the user is already logged in
@@ -23,8 +22,8 @@ if (isset($_SESSION['username'])) {
 } else {
     $loggedIn = false;
 }
-
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
