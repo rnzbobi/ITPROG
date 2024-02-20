@@ -67,7 +67,7 @@ body {
 
 #user-id{
     color:black;
-    font-size: 18px;
+    font-size: 14px;
 }
 
 .nav-links img {
@@ -77,13 +77,12 @@ body {
 
 .Balance-header {
     margin-left: auto; /* Push to the right */
-    font-size: 18px;
 }
 
 #balance{
     margin-top: 21px;
     font-family: 'Montserrat', sans-serif;
-    font-size: 18px;
+    font-size: 14px;
     color: black;
 }
 
