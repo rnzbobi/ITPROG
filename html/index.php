@@ -1,5 +1,3 @@
-<<<<<<< Updated upstream:ITPROG_PHASE1/index.html
-=======
 <?php
 session_start();
 
@@ -10,7 +8,7 @@ $password = "password";
 $dbname = "myDB";
 
 // Create connection
-$conn = mysqli_connect("localhost", "root", "") or die ("Unable to connect!". mysqli_error());
+$conn = mysqli_connect("localhost", "root", "p@ssword") or die ("Unable to connect!". mysqli_error());
         mysqli_select_db($conn, "test");
 
 // Check connection
@@ -28,7 +26,6 @@ if (isset($_SESSION['username'])) {
 
 ?>
 
->>>>>>> Stashed changes:html/index.php
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -53,18 +50,7 @@ if (isset($_SESSION['username'])) {
             <div class="nav-links">
                 <a href="user.html"><img src="images/user.png" alt="User"></a>
                 <a href="cart.html"><img src="images/shopping-cart.png" alt="Cart"></a>
-<<<<<<< Updated upstream:ITPROG_PHASE1/index.html
-                <a href="user.html"><h2><span id="user-id">Username</span></h2></a>
-=======
-                <?php
-                if ($loggedIn) {
-                    echo '<li><a href="profile.php">Profile (' . $username . ')</a></li>';
-                    echo '<li><a href="logout.php">Logout</a></li>';
-                } else {
-                    echo '<a href="login.php"><h2><span id="login">Login/Signup</span></h2></a>';
-                }
-                ?>
->>>>>>> Stashed changes:html/index.php
+                <a href="user.html"><h2><span id="user-id">Guest</span></h2></a>
             </div>
             <div class="Balance-header">
                 <h2 id="balance">Balance: <span id="balance-value">10000</span></h2>
@@ -73,7 +59,7 @@ if (isset($_SESSION['username'])) {
         
     </header>    
     <main>
-
+    
     </main>
 </body>
 </html>

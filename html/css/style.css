@@ -67,10 +67,6 @@ body {
 
 #user-id{
     color:black;
-}
-
-#login{
-    color:black;
     font-size: 22px;
 }
 
@@ -83,12 +79,10 @@ body {
     margin-left: auto; /* Push to the right */
 }
 
-.Balance-header h2 span{
-    color: black;
-}
-
 #balance{
+    margin-top: 21px;
     font-family: 'Montserrat', sans-serif;
+    font-size: 22px;
     color: black;
 }
 
