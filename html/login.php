@@ -1,6 +1,11 @@
 <?php
 session_start();
 
+// Display registration successful message
+if (isset($_GET['registration_successful']) && $_GET['registration_successful'] == 'true') {
+    echo "<h2>Registration successful!</h2>";
+}
+
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Get the submitted username and password
@@ -50,6 +55,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <button type="submit">Login</button>
         </form>
+
+        <p>Don't have an account? <a href="signup.php">Sign up here</a>.</p>
     </main>
 </body>
 </html>
