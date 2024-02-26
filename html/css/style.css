@@ -30,7 +30,7 @@ body {
     border: solid;
     border-width: 1px;
     border-radius: 5px 0 0 5px;
-    width: 50vw; /* Adjust width using viewport units */
+    width: 40vw; /* Adjust width using viewport units */
     max-width: 80%; /* Limit maximum width */
 }
 
@@ -76,7 +76,7 @@ body {
 }
 
 .Balance-header {
-    margin-left: auto; /* Push to the right */
+    margin-left: 15.35px; /* Push to the right */
 }
 
 #balance{
