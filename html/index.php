@@ -4,7 +4,7 @@ session_start();
 // Dummy database connection
 $servername = "localhost";
 $username = "root";
-$password = "p@ssword";
+$password = "";
 $dbname = "dbclothes";
 
 // Create connection
@@ -35,6 +35,9 @@ if (isset($_SESSION['username'])) {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
@@ -58,7 +61,32 @@ if (isset($_SESSION['username'])) {
         
     </header>    
     <main>
-    
+        <?php
+        // Retrieve image data from the database
+        $sql = "SELECT id, name, brand, category, color, price, gender, size, available_quantity, image_URL, description FROM individual_clothes";
+        $result = mysqli_query($conn, $sql);
+
+        if (mysqli_num_rows($result) > 0) {
+            echo '<div class="grid-container">';
+            while ($row = mysqli_fetch_assoc($result)) {
+                echo "<div class='box-items'>";
+                // Wrap the image in a container
+                echo "<div class='image-container'>";
+                echo '<a href="cart.php"><img src="'.$row['image_URL'].'" alt="'.$row["name"].'" /></a>';
+                echo "</div>"; // Close the image container
+                echo "<div class='box-items-content'>";
+                echo "<h3>" . $row["name"] . "</h3>";
+                echo "<p class='price'>$" . $row["price"] . "</p>";
+                echo "<a href='cart.php' class='add-to-cart-btn'>Add to Cart</a>";
+                echo "</div>"; // Close the box-items-content
+                echo "</div>"; // Close the box-items
+            }
+            echo '</div>'; // Close the grid container
+            
+        } else {
+            echo "0 results";
+        }
+        ?>
     </main>
 </body>
 </html>
