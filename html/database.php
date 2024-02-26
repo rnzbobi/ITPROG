@@ -24,12 +24,13 @@ if (!function_exists('displayContent')) {
             while ($row = mysqli_fetch_assoc($result)) {
                 echo "<div class='box-items'>";
                 echo "<div class='image-container'>";
-                echo '<a href="view.php"><img src="'.$row['image_URL'].'" alt="'.$row["name"].'" /></a>';
+                echo '<a href="view.php?item_id=' . $row['id'] . '"><img src="'.$row['image_URL'].'" alt="'.$row["name"].'" /></a>';
                 echo "</div>"; 
                 echo "<div class='box-items-content'>";
                 echo "<h3>" . $row["name"] . "</h3>";
                 echo "<p class='price'>$" . $row["price"] . "</p>";
-                echo "<a href='cart.php' class='add-to-cart-btn'>Add to Cart</a>";
+				
+                 echo "<a href='cart.php?item_id=" . $row['id'] . "' class='add-to-cart-btn'>Add to Cart</a>";
                 echo "</div>";
                 echo "</div>";
             }
