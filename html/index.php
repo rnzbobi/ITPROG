@@ -139,21 +139,46 @@ if (!isset($_SESSION['username'])) {
                 </form>
                     </aside>
         <main>
-        <?php
-            // Check if filter fields are set
-            if (isset($_GET['category']) || isset($_GET['brand']) || isset($_GET['color']) || isset($_GET['gender']) || isset($_GET['size']) || isset($_GET['price'])) {
-                // Include filter.php if filter fields are set
-                include 'filter.php';
-            } elseif (isset($_GET['search'])) {
-                // Include search.php if search parameter is set
-                include 'search.php';
-            } else {
-                // Fetch default content if no filters, search, or sort
-                $result = getDefaultContent($conn);
-                // Display content based on the result fetched
-                displayContent($result);
-            }
-        ?>
+        <form action="index.php" method="GET" id="sortForm" class="sort-form">
+        <select name="sort" id="sort" class="sort-select">
+            <option value="best-selling">Best Selling</option>
+            <option value="A-Z">A - Z</option>
+            <option value="Z-A">Z - A</option>
+            <option value="lowhigh">Price low to high</option>
+            <option value="highlow">Price high to low</option>
+        </select>
+    </form>
+
+    <?php
+    // Check if filter fields are set
+    if (isset($_GET['category']) || isset($_GET['brand']) || isset($_GET['color']) || isset($_GET['gender']) || isset($_GET['size']) || isset($_GET['price'])) {
+        // Include filter.php if filter fields are set
+        include 'filter.php';
+    } elseif (isset($_GET['search'])) {
+        // Include search.php if search parameter is set
+        include 'search.php';
+    } elseif (isset($_GET['sort'])) {
+        // Include sort.php if sort parameter is set
+        include 'sort.php';
+    } else {
+        // Fetch default content if no filters, search, or sort
+        $result = getDefaultContent($conn);
+        // Display content based on the result fetched
+        displayContent($result);
+    }
+    ?>
+
+    <script>
+        // Get the select element
+        const sortSelect = document.getElementById('sort');
+
+        // Add event listener for change event
+        sortSelect.addEventListener('change', function() {
+            // Submit the form when the select value changes
+            document.getElementById('sortForm').submit();
+        });
+    </script>
+
     </main>
     <div class="clearfix"></div>
 </body>
