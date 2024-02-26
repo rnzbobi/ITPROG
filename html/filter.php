@@ -2,7 +2,7 @@
 include 'database.php';
 
 // Check if any filter parameters are present in the URL
-if (isset($_GET['category']) || isset($_GET['brand']) || isset($_GET['color']) || isset($_GET['gender']) || isset($_GET['size']) || isset($_GET['price']))  {
+if (isset($_GET['category']) || isset($_GET['brand']) || isset($_GET['color']) || isset($_GET['gender']) || isset($_GET['size']) || isset($_GET['price'])) {
     // Fetch filtered content if filters are applied
     $filters = array(
         'category' => $_GET['category'],
@@ -35,9 +35,41 @@ if (isset($_GET['category']) || isset($_GET['brand']) || isset($_GET['color']) |
         }
     }
 
+    // Check if sorting option is set
+    if (isset($_GET['sort'])) {
+        $sortOption = $_GET['sort'];
+
+        // Initialize the sorting query based on the selected option
+        switch ($sortOption) {
+            case 'best-selling':
+                // Add sorting query for best-selling items
+                $sql .= ' ORDER BY sold_quantity DESC';
+                break;
+            case 'A-Z':
+                // Add sorting query for A-Z
+                $sql .= ' ORDER BY name ASC';
+                break;
+            case 'Z-A':
+                // Add sorting query for Z-A
+                $sql .= ' ORDER BY name DESC';
+                break;
+            case 'lowhigh':
+                // Add sorting query for Price low to high
+                $sql .= ' ORDER BY price ASC';
+                break;
+            case 'highlow':
+                // Add sorting query for Price high to low
+                $sql .= ' ORDER BY price DESC';
+                break;
+            default:
+                // Default sorting query
+                break;
+        }
+    }
+
     $result = executeQuery($conn, $sql);
 
-    // Display filtered content
+    // Display filtered and sorted content
     displayContent($result);
 } else {
     echo "No filters applied.";

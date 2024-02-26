@@ -286,19 +286,6 @@ main {
     font-family: 'Montserrat', sans-serif;
 }
 
-/* .sort-button {
-    font-family: 'Montserrat', sans-serif;
-    padding: 8px 20px;
-    height: 38px;
-    font-size: 16px;
-    background-color: #000000;
-    color: #fff;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-} */
-
 .sort-button:hover {
     background-color: #292929;
 }
