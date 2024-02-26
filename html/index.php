@@ -25,7 +25,7 @@ if (!isset($_SESSION['username'])) {
         <div class="header">
             <div class="logo">
                 <a href="index.php">
-                    <img src="images/download.png" alt="Logo">
+                    <img src="images/logo.png" alt="Logo">
                 </a>
             </div>
             <form class="search-form" action="index.php" method="GET">
