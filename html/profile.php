@@ -2,7 +2,7 @@
     session_start();
 
     $conn = mysqli_connect("localhost", "root", "") or die ("Unable to connect!". mysqli_error());
-    mysqli_select_db($conn, "test");
+    mysqli_select_db($conn, "dbclothes");
     
     // Check connection
     if ($conn->connect_error) {
