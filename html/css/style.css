@@ -53,14 +53,22 @@ main {
     height: 2vw;
     border-width: 1px;
     border-radius: 5px 0 0 5px;
-    width: 45vw; /* Adjust width using viewport units */
+    width: 44vw; /* Adjust width using viewport units */
     max-width: 80%; /* Limit maximum width */
+}
+
+/* Style placeholder text */
+.search-input::placeholder {
+    color: #999; /* Set the color of the placeholder text */
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    text-align: left;
 }
 
 .search-button {
     padding: 1vh 2vw; /* Adjust padding using viewport units */
     background-color: #ffffff;
-    height: 54px;
+    height: 62px;
     border: solid;
     border-width: 1px;
     border-radius: 0 5px 5px 0;
@@ -70,6 +78,7 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-bottom: 1px;
 }
 
 .search-button img{
@@ -93,12 +102,13 @@ main {
     text-decoration: none; /* Remove underline */
     font-family: 'Montserrat', sans-serif;
     color: inherit;
-    margin-right: 25px;
 }
 
 .nav-links img {
+    text-align: center;
+    margin-right: 55px;
     margin-top: 5px;
-    max-height: 4vh; /* Adjust icon height using viewport units */
+    max-height: 3vh; /* Adjust icon height using viewport units */
 }
 
 .nav-links h2{
@@ -106,6 +116,8 @@ main {
     font-family: 'Montserrat', sans-serif;
     font-size: 18px;
     color: black;
+    margin-right: 15px;
+    margin-left: 20px;
 }
 
 #user-id{
@@ -255,4 +267,25 @@ main {
 .filter-form button:hover {
     background-color: #1b1b1b;
     width: 100%;
+}
+
+.sort-form {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.sort-select {
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-right: 10px;
+    background-color: #f8f8f8;
+    color: #333;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.sort-button:hover {
+    background-color: #292929;
 }
