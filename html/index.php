@@ -44,22 +44,117 @@ if (!isset($_SESSION['username'])) {
                 echo '<a href="login.php"><h2><span id="user-id">Login/Signup</span></h2></a>';
             }
             ?>
-
+                <h2>Balance: <span id="balance-value">10000</span></h2>
             </div>
-            <div class="Balance-header">
+            <!-- <div class="Balance-header">
                 <h2 id="balance">Balance: <span id="balance-value">10000</span></h2>
-            </div>
+            </div> -->
         </div>
-    </header>    
-    <main>
+    </header>
+    <aside class="sidebar">
+                <form class="filter-form" action="index.php" method="GET">
+                    <h2>Filters</h2>
+
+                    <label for="category">Category:</label>
+                    <select name="category" id="category">
+                        <option value="">All</option>
+                        <!-- Fetch and display unique categories from your database -->
+                        <?php
+                        $categories = getDistinctValues($conn, 'category', 'individual_clothes');
+                        foreach ($categories as $category) {
+                            echo '<option value="' . $category . '">' . $category . '</option>';
+                        }
+                        ?>
+                    </select><br>
+                    <label for="brand">Brand:</label>
+                    <select name="brand" id="brand">
+                        <option value="">All</option>
+                        <!-- Fetch and display unique categories from your database -->
+                        <?php
+                        $brands = getDistinctValues($conn, 'brand', 'individual_clothes');
+                        foreach ($brands as $brand) {
+                            echo '<option value="' . $brand . '">' . $brand . '</option>';
+                        }
+                        ?>
+                    </select><br>
+                    <label for="color">Color:</label>
+                    <select name="color" id="color">
+                        <option value="">All</option>
+                        <!-- Fetch and display unique categories from your database -->
+                        <?php
+                        $colors = getDistinctValues($conn, 'color', 'individual_clothes');
+                        foreach ($colors as $color) {
+                            echo '<option value="' . $color . '">' . $color . '</option>';
+                        }
+                        ?>
+                    </select><br>
+                    <label for="gender">Gender:</label>
+                    <select name="gender" id="gender">
+                        <option value="">All</option>
+                        <!-- Fetch and display unique categories from your database -->
+                        <?php
+                        $genders = getDistinctValues($conn, 'gender', 'individual_clothes');
+                        foreach ($genders as $gender) {
+                            echo '<option value="' . $gender . '">' . $gender . '</option>';
+                        }
+                        ?>
+                    </select><br>
+                    <label for="size">Sizes:</label>
+                    <select name="size" id="size">
+                        <option value="">All</option>
+                        <!-- Fetch and display unique categories from your database -->
+                        <?php
+                        $sizes = getDistinctValues($conn, 'size', 'individual_clothes');
+                        foreach ($sizes as $size) {
+                            echo '<option value="' . $size . '">' . $size . '</option>';
+                        }
+                        ?>
+                    </select><br>
+                    <label for="price">Price Range:</label>
+                    <select name="price" id="price">
+                        <option value="">All</option>
+                        <?php
+                        // Retrieve minimum and maximum prices from the database
+                        $minPrice = executeQuery($conn, "SELECT MIN(price) AS min_price FROM individual_clothes")->fetch_assoc()['min_price'];
+                        $maxPrice = executeQuery($conn, "SELECT MAX(price) AS max_price FROM individual_clothes")->fetch_assoc()['max_price'];
+
+                        // Calculate the number of segments dynamically based on the range of prices
+                        $segmentWidth = ($maxPrice - $minPrice) / 5; // Adjust the number of segments as needed
+                        $startPrice = $minPrice;
+
+                        // Define and generate price range segments dynamically
+                        while ($startPrice < $maxPrice) {
+                            $endPrice = $startPrice + $segmentWidth;
+                            if ($endPrice >= $maxPrice) {
+                                $optionLabel = '$' . $startPrice . ' - $' . $maxPrice;
+                            } else {
+                                $optionLabel = '$' . $startPrice . ' - $' . $endPrice;
+                            }
+                            echo '<option value="' . $startPrice . '-' . $endPrice . '">' . $optionLabel . '</option>';
+                            $startPrice = $endPrice;
+                        }
+                        ?>
+                    </select><br>
+                    <button type="submit">Apply</button>
+                </form>
+                    </aside>
+        <main>
         <?php
-        if (isset($_GET['search'])) {
-            include 'search.php';
-        } else {
-            $result = getDefaultContent($conn);
-            displayContent($result);
-        }
+            // Check if filter fields are set
+            if (isset($_GET['category']) || isset($_GET['brand']) || isset($_GET['color']) || isset($_GET['gender']) || isset($_GET['size']) || isset($_GET['price'])) {
+                // Include filter.php if filter fields are set
+                include 'filter.php';
+            } elseif (isset($_GET['search'])) {
+                // Include search.php if search parameter is set
+                include 'search.php';
+            } else {
+                // Fetch default content if no filters, search, or sort
+                $result = getDefaultContent($conn);
+                // Display content based on the result fetched
+                displayContent($result);
+            }
         ?>
     </main>
+    <div class="clearfix"></div>
 </body>
 </html>
