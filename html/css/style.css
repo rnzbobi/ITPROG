@@ -105,17 +105,10 @@ main {
 }
 
 .nav-links img {
-<<<<<<< Updated upstream
-    width:120%;
-    height: auto;
-    margin-top: 5px;
-    max-height: 4.5vh; /* Adjust icon height using viewport units */
-=======
     text-align: center;
     margin-right: 55px;
     margin-top: 5px;
     max-height: 3vh; /* Adjust icon height using viewport units */
->>>>>>> Stashed changes
 }
 
 .nav-links h2{
