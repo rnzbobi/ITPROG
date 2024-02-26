@@ -1,23 +1,13 @@
 <?php
 session_start();
+include 'database.php';
 
-// Create connection
-$conn = mysqli_connect("localhost", "root", "") or die ("Unable to connect!". mysqli_error());
-        mysqli_select_db($conn, "dbclothes");
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// Check if the user is already logged in
-if (isset($_SESSION['username'])) {
+if (!isset($_SESSION['username'])) {
+    $loggedIn = false;
+} else {
     $loggedIn = true;
     $username = $_SESSION['username'];
-} else {
-    $loggedIn = false;
 }
-
 ?>
 
 <!DOCTYPE html>
