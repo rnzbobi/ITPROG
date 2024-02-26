@@ -30,7 +30,7 @@ body {
     border: solid;
     border-width: 1px;
     border-radius: 5px 0 0 5px;
-    width: 40vw; /* Adjust width using viewport units */
+    width: 50vw; /* Adjust width using viewport units */
     max-width: 80%; /* Limit maximum width */
 }
 
@@ -87,9 +87,11 @@ body {
 }
 
 .logo img {
-    margin-right: 100px;
-    max-height: 6vh; /* Adjust logo height using viewport units */
+    width: 150px; /* Adjust the width according to your design */
+    height: auto; /* Maintain aspect ratio */
+    max-height: 150px; /* Maximum height to ensure consistency */
 }
+
 
 .grid-container {
     display: grid;
