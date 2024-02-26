@@ -97,8 +97,10 @@ main {
 }
 
 .nav-links img {
+    width:120%;
+    height: auto;
     margin-top: 5px;
-    max-height: 4vh; /* Adjust icon height using viewport units */
+    max-height: 4.5vh; /* Adjust icon height using viewport units */
 }
 
 .nav-links h2{
