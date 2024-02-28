@@ -8,11 +8,6 @@ if (!isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
 }
 
-echo "<link rel='stylesheet' href='css/signupstyle.css' type='text/css' />";
-echo "<link rel='preconnect' href='https://fonts.googleapis.com'>";
-echo "<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>";
-echo "<link href='https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap' rel='stylesheet'>";
-
 if (isset($_SESSION['username'])) {
     $conn = mysqli_connect("localhost", "root", "") or die ("Unable to connect!". mysqli_error());
     mysqli_select_db($conn, "dbclothes");
@@ -44,6 +39,7 @@ if (isset($_SESSION['username'])) {
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Purchase History</title>
             <link rel="stylesheet" href="css/style.css" type="text/css" />
+            <link rel='stylesheet' href='css/signupstyle.css' type='text/css' />
             <link rel="preconnect" href="https://fonts.googleapis.com">
             <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
             <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap" rel="stylesheet">
@@ -87,6 +83,7 @@ if (isset($_SESSION['username'])) {
                         <div class="card">
                             <div class="card-header"><h2>Order ID</h2><?php echo $purchases['order_id']?></div>
                             <div class="card-details">
+                                <img src=<?php echo $purchases['image_URL']; ?> class="card-image">
                                 <p>Date: <?php echo $purchases['order_date']; ?></p>
                                 <p>Product Name: <?php echo $purchases['name']; ?></p>
                                 <p>Product Brand: <?php echo $purchases['brand']; ?></p>
@@ -94,7 +91,6 @@ if (isset($_SESSION['username'])) {
                                 <p>Product Color: <?php echo $purchases['color']; ?></p>
                                 <p>Size: <?php echo $purchases['size']; ?></p>
                                 <p>Quantity: <?php echo $purchases['quantity']; ?></p>
-                                <p>Price per Unit: ₱<?php echo number_format($purchases['price_per_unit'], 2); ?></p>
                                 <p>Total Cost: ₱<?php echo number_format($purchases['total_price'], 2); ?></p>
                             </div>
                         </div>

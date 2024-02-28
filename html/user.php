@@ -8,11 +8,6 @@
         $username = $_SESSION['username'];
     }
 
-    echo "<link rel='stylesheet' href='css/signupstyle.css' type='text/css' />";
-    echo "<link rel='preconnect' href='https://fonts.googleapis.com'>";
-    echo "<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>";
-    echo "<link href='https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap' rel='stylesheet'>";
-
     if (!isset($_SESSION['username'])) {
         header("Location: login.php");
         exit();
@@ -37,6 +32,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Index.html</title>
     <link rel="stylesheet" href="css/style.css" type="text/css" />
+    <link rel='stylesheet' href='css/signupstyle.css' type='text/css' />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
     </head>
@@ -71,6 +67,8 @@
             </div> -->
         </div>
     </header>
+
+    <div class="user-info">
     <?php
         if ($result) {
             $user = mysqli_fetch_assoc($result);
@@ -79,10 +77,13 @@
             $masked_password = str_repeat('*', strlen($user['user_password']));
             echo "<h2>Password: " . $masked_password . "</h2><br>";
             echo "<h2>Balance: ". $user['balance'] . "</h2><br>";
-            echo '<a href="viewpurchasehistory.php"><h2>View Purchase History</h2></a>';
-            echo '<a href="index.php"><h2>Go Back</h2></a>';
+            echo '<a href="viewpurchasehistory.php"><h3>View Purchase History</h3></a>';
+            echo '<a href="index.php"><h3>Go Back</h3></a>';
         } else {
             echo "<h2>Error: " . mysqli_error($conn) . "</h2>";
         }
     }
-?>
+    ?>
+    </div>
+</body>
+</html>
