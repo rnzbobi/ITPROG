@@ -26,6 +26,12 @@
         $sql = "SELECT * FROM user_id WHERE username='$username'";
         $result = mysqli_query($conn, $sql);
     ?>
+
+    <?php if (isset($_SESSION['error'])): ?>
+        <div class="error-message"><?php echo $_SESSION['error']; ?></div>
+        <?php unset($_SESSION['error']); // Clear the error message from the session ?>
+    <?php endif; ?>
+
     <html lang="en">
     <head>
     <meta charset="UTF-8">
@@ -72,22 +78,24 @@
     <?php
         if ($result) {
             $user = mysqli_fetch_assoc($result);
+            echo '<form class="formstyle" action="edit.php" method="post">';
             echo '<label class="labelstyle" for="name">Name:</label>';
-            echo '<input class="inputstyle2" type="text" id="name" value="' . $user['name'] . '" disabled><br>';
+            echo '<input class="inputstyle2" type="text" name="name" id="name" value="' . $user['name'] . '" required tabindex="1"><br>';
             echo '<label class="labelstyle" for="username">Username:</label>';
-            echo '<input class="inputstyle2" type="text" id="username" value="' . $user['username'] . '" disabled><br>';
-            $masked_password = str_repeat('*', strlen($user['user_password']));
+            echo '<input class="inputstyle2" type="text" name="username" id="username" value="' . $user['username'] . '" required tabindex="2"><br>';
             echo '<label class="labelstyle" for="password">Password:</label>';
-            echo '<input class="inputstyle2" type="password" id="password" value="' . $masked_password . '" disabled><br>';
+            echo '<input class="inputstyle2" type="password" name="password" id="password" value="' . $user['user_password'] . '" required tabindex="3"><br>';
+            echo '<label class="labelstyle" for="confirmpassword">Confirm Password:</label>';
+            echo '<input class="inputstyle2" type="password" name="confirmpassword" id="confirmpassword" value="' . $user['user_password'] . '" required tabindex="4"><br>';
             echo '<label class="labelstyle" for="balance">Balance:</label>';
-            echo '<input class="inputstyle2" type="text" id="balance" value="' . $user['balance'] . '" disabled><br>';
-            echo '<a class="astyle" href="editprofile.php"><h3>Edit Profile</h3></a><br><br>';
-            echo '<a class="astyle" href="viewpurchasehistory.php"><h3>View Purchase History</h3></a>';
-            echo '<a class="astyle" href="index.php"><h3>Go Back</h3></a>';
+            echo '<input class="inputstyle2" type="text" name="balance" id="balance" value="' . $user['balance'] . '" readonly tabindex="-1"><br>';
+            echo '<button class="buttonstyle2" type="submit" value="save" tabindex="5">Save Edit</button>';
+            echo '</form>';
         } else {
             echo "<h2>Error: " . mysqli_error($conn) . "</h2>";
         }
     }
+        echo '<a class="astyle" href="user.php"><h3>Cancel</h3></a>';
     ?>
     </div>
 </body>

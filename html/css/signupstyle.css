@@ -1,4 +1,4 @@
-body {
+.bodystyle {
     margin: 0;
     padding: 0;
     font-family: "Montserrat", sans-serif;
@@ -11,26 +11,25 @@ body {
     padding: 20px;
 }
 
-h1 {
+.h1style {
     text-align: center;
     color: #343a40;
 }
 
-form {
+.formstyle {
     background-color: #ffffff;
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
 }
 
-label {
+.labelstyle {
     display: block;
     margin-bottom: 5px;
     color: #495057;
 }
 
-input[type="text"],
-input[type="password"] {
+.inputstyle {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
@@ -39,7 +38,16 @@ input[type="password"] {
     box-sizing: border-box;
 }
 
-button {
+.inputstyle2 {
+    width: auto;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.buttonstyle {
     width: 100%;
     padding: 10px;
     background-color: #000000;
@@ -50,22 +58,38 @@ button {
     transition: background-color 0.3s;
 }
 
-button:hover {
+.buttonstyle:hover {
     background-color: #808080;
 }
 
-p {
+.buttonstyle2 {
+    background-color: #000000;
+    text-decoration: none;
+    padding: 10px 20px;
+    border: none;
+    color: #ffffff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.buttonstyle2:hover {
+    background-color: #808080; /* Change background color on hover */
+    color: #fff; /* Change text color on hover */
+}
+
+.pstyle {
     text-align: center;
     margin-top: 20px;
     color: #6c757d;
 }
 
-a {
+.astyle {
     color: #007bff;
     text-decoration: none;
 }
 
-a:hover {
+.astyle:hover {
     text-decoration: underline;
 }
 

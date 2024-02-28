@@ -43,9 +43,8 @@ if (isset($_SESSION['username'])) {
             <link rel="preconnect" href="https://fonts.googleapis.com">
             <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
             <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap" rel="stylesheet">
-            
         </head>
-        <body>
+        <body class="bodystyle">
         <header>
         <div class="header">
             <div class="logo">
@@ -76,7 +75,7 @@ if (isset($_SESSION['username'])) {
             </div> -->
         </div>
         </header>
-        <h1>Purchase History for <?php echo $user['name'];?></h1>
+        <h1 class="h1style">Purchase History for <?php echo $user['name'];?></h1>
             <div class="container">
                 <div class="card-container">
                     <?php while ($purchases = mysqli_fetch_assoc($result)): ?>
@@ -84,14 +83,14 @@ if (isset($_SESSION['username'])) {
                             <div class="card-header"><h2>Order ID</h2><?php echo $purchases['order_id']?></div>
                             <div class="card-details">
                                 <img src=<?php echo $purchases['image_URL']; ?> class="card-image">
-                                <p>Date: <?php echo $purchases['order_date']; ?></p>
-                                <p>Product Name: <?php echo $purchases['name']; ?></p>
-                                <p>Product Brand: <?php echo $purchases['brand']; ?></p>
-                                <p>Product Category: <?php echo $purchases['category']; ?></p>
-                                <p>Product Color: <?php echo $purchases['color']; ?></p>
-                                <p>Size: <?php echo $purchases['size']; ?></p>
-                                <p>Quantity: <?php echo $purchases['quantity']; ?></p>
-                                <p>Total Cost: ₱<?php echo number_format($purchases['total_price'], 2); ?></p>
+                                <p class="pstyle">Date: <?php echo $purchases['order_date']; ?></p>
+                                <p class="pstyle">Product Name: <?php echo $purchases['name']; ?></p>
+                                <p class="pstyle">Product Brand: <?php echo $purchases['brand']; ?></p>
+                                <p class="pstyle">Product Category: <?php echo $purchases['category']; ?></p>
+                                <p class="pstyle">Product Color: <?php echo $purchases['color']; ?></p>
+                                <p class="pstyle">Size: <?php echo $purchases['size']; ?></p>
+                                <p class="pstyle">Quantity: <?php echo $purchases['quantity']; ?></p>
+                                <p class="pstyle">Total Cost: $<?php echo number_format($purchases['total_price'], 2); ?></p>
                             </div>
                         </div>
                     <?php endwhile; ?>
@@ -105,6 +104,6 @@ if (isset($_SESSION['username'])) {
         echo "<h2>Error: " . mysqli_error($conn) . "</h2>";
     }
 } else {
-    echo "<h1>ERROR! Cannot fetch purchase history</h1>";
+    echo "<h1 class='h1style'>ERROR! Cannot fetch purchase history</h1>";
 }
 ?>
