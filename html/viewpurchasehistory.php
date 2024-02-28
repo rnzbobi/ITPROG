@@ -80,12 +80,12 @@ if (isset($_SESSION['username'])) {
             </div> -->
         </div>
         </header>
+        <h1>Purchase History for <?php echo $user['name'];?></h1>
             <div class="container">
-                <h1>Purchase History</h1>
                 <div class="card-container">
                     <?php while ($purchases = mysqli_fetch_assoc($result)): ?>
                         <div class="card">
-                            <div class="card-header"><h2>Order ID</h2><?php echo $purchases['order_id']; ?></div>
+                            <div class="card-header"><h2>Order ID</h2><?php echo $purchases['order_id']?></div>
                             <div class="card-details">
                                 <p>Date: <?php echo $purchases['order_date']; ?></p>
                                 <p>Product Name: <?php echo $purchases['name']; ?></p>
