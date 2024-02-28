@@ -157,7 +157,7 @@ if (!isset($_SESSION['username'])) {
         <main>
         <form action="index.php" method="GET" id="sortForm" class="sort-form">
         <select name="sort" id="sort" class="sort-select">
-            <option value="">-</option>
+            <option value="">Sort by:</option>
             <option value="best-selling"<?php if (isset($_GET['sort']) && $_GET['sort'] === 'best-selling') echo ' selected'; ?>>Best Selling</option>
             <option value="A-Z"<?php if (isset($_GET['sort']) && $_GET['sort'] === 'A-Z') echo ' selected'; ?>>A - Z</option>
             <option value="Z-A"<?php if (isset($_GET['sort']) && $_GET['sort'] === 'Z-A') echo ' selected'; ?>>Z - A</option>
