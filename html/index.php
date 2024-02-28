@@ -28,8 +28,8 @@ if (!isset($_SESSION['username'])) {
                     <img src="images/logo.png" alt="Logo">
                 </a>
             </div>
-            <form class="search-form" action="index.php" method="GET">
-                <input type="text" name="search" class="search-input" placeholder="Search...">
+            <form class="search-form" action="index.php?search=" method="GET">
+                <input type="text" name="search" class="search-input" placeholder="Search..." value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
                 <button type="submit" class="search-button"><img src="images/search-interface-symbol.png" alt="Search"></button>
             </form>
             <div class="nav-links">
@@ -163,6 +163,12 @@ if (!isset($_SESSION['username'])) {
             <option value="Z-A"<?php if (isset($_GET['sort']) && $_GET['sort'] === 'Z-A') echo ' selected'; ?>>Z - A</option>
             <option value="lowhigh"<?php if (isset($_GET['sort']) && $_GET['sort'] === 'lowhigh') echo ' selected'; ?>>Price low to high</option>
             <option value="highlow"<?php if (isset($_GET['sort']) && $_GET['sort'] === 'highlow') echo ' selected'; ?>>Price high to low</option>
+            <input type="hidden" name="category" value="<?php echo isset($_GET['category']) ? $_GET['category'] : ''; ?>">
+            <input type="hidden" name="brand" value="<?php echo isset($_GET['brand']) ? $_GET['brand'] : ''; ?>">
+            <input type="hidden" name="color" value="<?php echo isset($_GET['color']) ? $_GET['color'] : ''; ?>">
+            <input type="hidden" name="gender" value="<?php echo isset($_GET['gender']) ? $_GET['gender'] : ''; ?>">
+            <input type="hidden" name="size" value="<?php echo isset($_GET['size']) ? $_GET['size'] : ''; ?>">
+            <input type="hidden" name="price" value="<?php echo isset($_GET['price']) ? $_GET['price'] : ''; ?>">
         </select>
         </form>
 
@@ -186,37 +192,59 @@ if (!isset($_SESSION['username'])) {
         ?>
 
     <script>
-        // Get all select elements in the filter form
-        const filterSelects = document.querySelectorAll('.filter-form select');
+    // Get all select elements in the filter form
+    const filterSelects = document.querySelectorAll('.filter-form select');
 
-        // Add event listeners to all filter select elements
-        filterSelects.forEach(select => {
-            select.addEventListener('change', () => {
-                // Submit the filter form when a select value changes
-                document.querySelector('.filter-form').submit();
-            });
-        });
+    // Function to handle filter form submission
+    const handleFilterFormSubmission = () => {
+        // Append the filter parameters to the form action URL
+        const filterForm = document.querySelector('.filter-form');
+        const currentUrl = window.location.href.split('?')[0];
 
-        // Get the select element for sorting
-        const sortSelect = document.getElementById('sort');
+        // Get the filter parameters from the filter form
+        const filterParams = new URLSearchParams(new FormData(filterForm));
 
-        // Add event listener for change event
-        sortSelect.addEventListener('change', function() {
-            // Append the sorting option and filter parameters to the form action URL
-            const form = document.getElementById('sortForm');
-            const currentUrl = window.location.href.split('?')[0];
-            const sortValue = sortSelect.value;
-            const sortParam = sortValue ? '&sort=' + sortValue : '';
+        // Get the sort parameter from the URL
+        const sortParam = new URLSearchParams(window.location.search).get('sort');
 
-            // Get the filter parameters from the filter form
-            const filterParams = new URLSearchParams(new FormData(document.querySelector('.filter-form')));
+        // Construct the final form action URL with both sorting and filter parameters
+        const finalUrl = currentUrl + '?' + filterParams.toString() + (sortParam ? '&sort=' + sortParam : '');
 
-            // Construct the final form action URL with both sorting and filter parameters
-            form.action = currentUrl + '?' + filterParams.toString() + sortParam;
+        // Set the final URL to the action attribute of the filter form
+        filterForm.action = finalUrl;
 
-            // Submit the form when the select value changes
-            form.submit();
-        });
+        // Submit the filter form
+        filterForm.submit();
+    };
+
+    // Add event listeners to all filter select elements
+    filterSelects.forEach(select => {
+        select.addEventListener('change', handleFilterFormSubmission);
+    });
+
+    // Get the select element for sorting
+    const sortSelect = document.getElementById('sort');
+
+    // Add event listener for change event
+    sortSelect.addEventListener('change', function() {
+        // Append the sorting option to the form action URL
+        const sortForm = document.getElementById('sortForm');
+        const currentUrl = window.location.href.split('?')[0];
+        const sortValue = sortSelect.value;
+        const sortParam = sortValue ? '&sort=' + sortValue : '';
+
+        // Get the filter parameters from the filter form
+        const filterParams = new URLSearchParams(new FormData(document.querySelector('.filter-form')));
+
+        // Construct the final form action URL with both sorting and filter parameters
+        const finalUrl = currentUrl + '?' + filterParams.toString() + sortParam;
+
+        // Set the final URL to the action attribute of the sort form
+        sortForm.action = finalUrl;
+
+        // Submit the sort form
+        sortForm.submit();
+    });
     </script>
     </main>
     <div class="clearfix"></div>
