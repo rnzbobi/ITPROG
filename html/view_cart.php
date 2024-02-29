@@ -32,9 +32,9 @@ if (!isset($_SESSION['username'])) {
                 <button type="submit" class="search-button"><img src="images/search-interface-symbol.png" alt="Search"></button>
             </form>
             <div class="nav-links">
-                <a href="social-media.html"><img src="images/social.png" alt="Social"></a>
-                <a href="user.php"><img src="images/user.png" alt="User"></a>
+                <a href="social-media.php"><img src="images/social.png" alt="Social"></a>
                 <a href="view_cart.php"><img src="images/shopping-cart.png" alt="Cart"></a>
+                <a href="user.php"><img src="images/user.png" alt="User"></a>
                 <?php
             if($loggedIn){
                 echo '<a href="user.php"><h2><span id="user-id">Profile</span></h2></a>';
