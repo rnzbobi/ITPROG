@@ -34,7 +34,7 @@ if (!isset($_SESSION['username'])) {
             </form>
             <div class="nav-links">
                 <a href="social-media.html"><img src="images/social.png" alt="Social"></a>
-                <a href="cart.html"><img src="images/shopping-cart.png" alt="Cart"></a>
+                <a href="view_cart.php"><img src="images/shopping-cart.png" alt="Cart"></a>
                 <a href="user.php"><img src="images/user.png" alt="User"></a>
                 <?php
             if($loggedIn){
