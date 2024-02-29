@@ -40,7 +40,7 @@ main {
     justify-content: space-between;
 }
 
-.search-form {
+.search-form {  
     display: flex;
     align-items: center;
     margin-left: 10px;
@@ -276,13 +276,13 @@ main {
 }
 
 .sort-select {
-    padding: 8px;
-    font-size: 16px;
-    border: 1px solid #ccc;
+    padding: 6px;
+    font-size: 14px;
+    border: 1px solid #000000;
     border-radius: 3px;
     margin-right: 10px;
-    background-color: #f8f8f8;
-    color: #333;
+    background-color: #ffffff;
+    color: #000000;
     font-family: 'Montserrat', sans-serif;
 }
 
