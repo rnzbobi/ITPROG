@@ -40,7 +40,7 @@ main {
     justify-content: space-between;
 }
 
-.search-form {
+.search-form {  
     display: flex;
     align-items: center;
     margin-left: 10px;

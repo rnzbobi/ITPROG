@@ -44,23 +44,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap" rel="stylesheet">
 </head>
 
-<body>
+<body class="bodystyle">
     <div class="container">
-        <h1>LOGIN</h1>
+        <h1 class="h1style">LOGIN</h1>
 
         <main>
-            <form action="login.php" method="post">
+            <form class="formstyle" action="login.php" method="post">
                 
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" required>
+                <label class="labelstyle" for="username">Username:</label>
+                <input class="inputstyle" type="text" id="username" name="username" required>
 
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
+                <label class="labelstyle" for="password">Password:</label>
+                <input class="inputstyle" type="password" id="password" name="password" required>
 
-                <button type="submit">Login</button>
+                <button class="buttonstyle" type="submit">Login</button>
             </form>
 
-            <p>Don't have an account? <a href="signup.php"> Signup here</a>.</p>
+            <p class="pstyle">Don't have an account? <a class="astyle" href="signup.php"> Signup here</a>.</p>
         </main>
     </div>
 </body>

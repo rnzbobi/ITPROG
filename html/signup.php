@@ -51,25 +51,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="bodystyle">
     <div class="container">
-        <h1>SIGNUP</h1>
+        <h1 class="h1style">SIGNUP</h1>
 
         <main>
-            <form action="signup.php" method="post">
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" required>
+            <form class="formstyle" action="signup.php" method="post">
+                <label class="labelstyle" for="name">Name:</label>
+                <input class="inputstyle" type="text" id="name" name="name" required>
                 
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" required>
+                <label class="labelstyle" for="username">Username:</label>
+                <input class="inputstyle" type="text" id="username" name="username" required>
 
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
+                <label class="labelstyle" for="password">Password:</label>
+                <input class="inputstyle" type="password" id="password" name="password" required>
 
-                <button type="submit">Signup</button>
+                <button class="buttonstyle" type="submit">Signup</button>
             </form>
 
-            <p>Already have an account? <a href="login.php">Login here</a>.</p>
+            <p class="pstyle">Already have an account? <a class="astyle" href="login.php">Login here</a>.</p>
         </main>
     </div>
 </body>
