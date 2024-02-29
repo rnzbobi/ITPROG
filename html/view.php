@@ -19,6 +19,47 @@ if (!isset($_SESSION['username'])) {
     <link rel="stylesheet" href="css/style.css" type="text/css" />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+	 <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f5f5f5;
+        }
+        .item-details-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px;
+            gap: 20px;
+        }
+        .item-image img {
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .item-info {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            width: 300px;
+        }
+        .item-info h2 {
+            margin-top: 0;
+        }
+        .add-to-cart-btn, .go-back-btn {
+            display: inline-block;
+            background: #007bff;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .add-to-cart-btn:hover, .go-back-btn:hover {
+			background: #0056b3; /* Slightly darker blue on hover for both */
+		}
+    </style>
 </head>
 <body>
     <header>
@@ -33,18 +74,19 @@ if (!isset($_SESSION['username'])) {
                 <button type="submit" class="search-button"><img src="images/search-interface-symbol.png" alt="Search"></button>
             </form>
             <div class="nav-links">
-                <a href="social-media.php"><img src="images/social.png" alt="Social"></a>
-                <a href="view_cart.php"><img src="images/shopping-cart.png" alt="Cart"></a>
-                <a href="user.php"><img src="images/user.png" alt="User"></a>
+                <a href="social-media.html"><img src="images/social.png" alt="Social"></a>
+                <a href="user.html"><img src="images/user.png" alt="User"></a>
+                <a href="cart.html"><img src="images/shopping-cart.png" alt="Cart"></a>
                 <?php
             if($loggedIn){
-                echo '<a href="user.php"><h2><span id="user-id">Profile</span></h2></a>';
+                echo '<a href="profile.php"><h2><span id="user-id">Profile</span></h2></a>';
                 echo '<a href="logout.php"><h2><span id="user-id">Logout</span></h2></a>';
             } else {
                 echo '<a href="login.php"><h2><span id="user-id">Login/Signup</span></h2></a>';
             }
             ?>
-
+			 <h2>Balance: <span id="balance-value">10000</span></h2>
+       
             </div>
             <div class="Balance-header">
                 <h2 id="balance">Balance: <span id="balance-value">10000</span></h2>
@@ -96,7 +138,9 @@ if (!isset($_SESSION['username'])) {
                     echo '<p><strong>Description:</strong> ' . $description . '</p>';
                     // Add any other information you want to display
                     echo '<a href="cart.php?item_id=' . $item_id . '" class="add-to-cart-btn">Add to Cart</a>';
+					echo '<a href="index.php" class="go-back-btn">Go Back</a>';
                     echo '</div>';
+					
                 } else {
                     echo "Item not found.";
                 }
