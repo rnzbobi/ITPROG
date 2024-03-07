@@ -19,13 +19,15 @@ if (!isset($_SESSION['username'])) {
     <link rel="stylesheet" href="css/style.css" type="text/css" />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </head>
 <body>
     <header>
         <div class="header">
             <div class="logo">
                 <a href="index.php">
-                    <img src="images/EGGHEAD.png" alt="Logo">
+                    <img src="images/logo.png" alt="Logo">
                 </a>
             </div>
             <form class="search-form" action="index.php?search=" method="GET">
@@ -33,12 +35,12 @@ if (!isset($_SESSION['username'])) {
                 <button type="submit" class="search-button"><img src="images/search-interface-symbol.png" alt="Search"></button>
             </form>
             <div class="nav-links">
-                <a href="social-media.php"><img src="images/social.png" alt="Social"></a>
-                <a href="view_cart.php"><img src="images/shopping-cart.png" alt="Cart"></a>
-                <a href="user.php"><img src="images/user.png" alt="User"></a>
+                <a href="social-media.html"><img src="images/social.png" alt="Social"></a>
+                <a href="cart.html"><img src="images/shopping-cart.png" alt="Cart"></a>
+                <a href="user.html"><img src="images/user.png" alt="User"></a>
                 <?php
             if($loggedIn){
-                echo '<a href="user.php"><h2><span id="user-id">Profile</span></h2></a>';
+                echo '<a href="profile.php"><h2><span id="user-id">Profile</span></h2></a>';
                 echo '<a href="logout.php"><h2><span id="user-id">Logout</span></h2></a>';
             } else {
                 echo '<a href="login.php"><h2><span id="user-id">Login/Signup</span></h2></a>';
@@ -189,6 +191,19 @@ if (!isset($_SESSION['username'])) {
             // Display content based on the result fetched
             displayContent($result);
         }
+		
+		
+		if (isset($_SESSION['item_added_to_cart'])) {
+    unset($_SESSION['item_added_to_cart']);
+    echo '<script>
+    Swal.fire({
+        title: "Success!",
+        text: "Item added to cart",
+        icon: "success",
+        confirmButtonText: "Ok"
+    });
+    </script>';
+}
         ?>
 
     <script>
