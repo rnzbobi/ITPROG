@@ -8,6 +8,8 @@ if (!isset($_SESSION['username'])) {
     $loggedIn = true;
     $username = $_SESSION['username'];
 }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -19,7 +21,7 @@ if (!isset($_SESSION['username'])) {
     <link rel="stylesheet" href="css/style.css" type="text/css" />
     <!-- Your other existing links and styles -->
     <style>
-        /* Your existing inline styles */
+
 
         /* New styles for updated layout */
         .container {
@@ -41,21 +43,21 @@ if (!isset($_SESSION['username'])) {
             padding: 1rem; /* Padding around the text */
         }
         .item-details h1 {
-            font-size: 2rem;
+            font-size: 3rem;
             margin-bottom: 0.5em;
         }
         .item-details .name {
-            font-size: 1.2rem;
+            font-size: 1.5rem;
             color: #333;
             margin-bottom: 0.5em;
         }
 		.item-details .color {
-            font-size: 1.2rem;
+            font-size: 1.5rem;
             color: #333;
             margin-bottom: 0.5em;
         }
         .item-details .price {
-            font-size: 1.5rem;
+            font-size: 2.3rem;
             color: #E44D26;
             font-weight: bold;
         }
@@ -72,6 +74,33 @@ if (!isset($_SESSION['username'])) {
         .size-options button:hover {
             background-color: #e9e9e9;
         }
+        .description {
+            margin-top: 20px; /* Adds space above the description */
+            padding: 15px; /* Adds padding inside the description box */
+            background-color: #f2f2f2; /* Light grey background for the description area */
+            border-radius: 8px; /* Rounded corners for the description box */
+            font-size: 1rem; /* Sets the font size */
+            line-height: 1.3; /* Sets the line height for better readability */
+            color: #333; /* Dark grey color for the text, easier on the eyes than pure black */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* A subtle shadow to lift the description off the page */
+        }
+        .add-to-cart-btn, .checkout-btn {
+            display: block; /* Makes the link fill the width of its container */
+            padding: 10px 15px; /* Adds padding inside the button */
+            background-color: #000000; /* Blue background color */
+            color: white; /* White text */
+            text-align: center; /* Centers the text inside the button */
+            text-decoration: none; /* Removes the underline from the link */
+            border-radius: 5px; /* Rounded corners for the button */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Adds a shadow for depth */
+            border: none; /* No border */
+            margin-top: 10px; /* Adds space above the first button */
+        }
+        .checkout-btn {
+           background-color: #28a745; /* Green background color for the checkout button */
+            margin-top: 20px; /* Adds more space above the checkout button */
+        }
+        
     </style>
 </head>
 <body>
@@ -128,17 +157,27 @@ if (!isset($_SESSION['username'])) {
                             <h1><?php echo htmlspecialchars($row['brand']); ?></h1>
 							 <p class="name"> <?php echo htmlspecialchars($row['name']); ?></p>
 							 <p class="color"> <?php echo htmlspecialchars($row['color']); ?></p>
-                            <p class="price">
+                             <p class="color"> <?php echo htmlspecialchars($row['category']); ?></p>
+                             <p class="color"> <?php echo htmlspecialchars($row['gender']); ?></p>
+                             <p class="price">
                                 P<?php echo htmlspecialchars($row['price']); ?>
                             </p>
-                            <div class="size-options">
-                                <!-- Size options would be dynamically generated in production -->
-                                <button>S</button>
-                                <button>M</button>
-                                <button>L</button>
-                                <button>XL</button>
-                            </div>
+                            <label for="size-select">Size:</label>
+                            <select id="size-select" name="size">
+                                <?php 
+                                // Assuming sizes are stored in a comma-separated list in the database
+                                $sizes = explode(',', $row['size']); // Convert the string to an array
+                                foreach ($sizes as $size) {
+                                    echo "<option value=\"$size\">$size</option>";
+                                }
+                                ?>
+                            </select>
                             <a href="cart.php?item_id=<?php echo $item_id; ?>" class="add-to-cart-btn">Add to Cart</a>
+
+                            <a href="checkout.php?item_id=<?php echo $item_id; ?>" class="add-to-cart-btn">Checkout</a>
+                            <div class="description">
+                                <?php echo htmlspecialchars($row['description']); ?>
+                             </div>      
                         </div>
                     </div>
                     <?php
