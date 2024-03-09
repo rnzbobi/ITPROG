@@ -83,7 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .form-group input[type="number"],
         .form-group textarea {
             padding: 0.5rem;
-            font-size: 1rem;
+            font-size: 2rem;
             border: 1px solid #ccc;
             border-radius: 4px;
         }
@@ -150,12 +150,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <div class="form-group">
                 <label for="price">Price:</label>
-                <input type="text" id="price" name="price" required>
+                <input type="number" id="price" name="price" required step="0.01" min="0">
             </div>
 
             <div class="form-group">
                 <label for="quantity">Available Quantity:</label>
-                <input type="number" id="quantity" name="quantity" required>
+                <input type="number" id="quantity" name="quantity" required min="0">
             </div>
 
             <div class="form-group">
