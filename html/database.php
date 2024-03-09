@@ -52,8 +52,15 @@ if (!function_exists('executeQuery')) {
 if (!function_exists('displayContent')) {
     function displayContent($result) {
         if (mysqli_num_rows($result) > 0) {
+            $displayedItems = []; // Array to store displayed items
             echo '<div class="grid-container">';
             while ($row = mysqli_fetch_assoc($result)) {
+                $key = $row['name'] . $row['brand'] . $row['category'] . $row['color'] . $row['price'] . $row['gender'] . $row['image_URL'] . $row['description']; // Define a key for merging
+
+                if (!in_array($key, $displayedItems)) {
+                    // If the item has not been displayed yet, display it
+                    $displayedItems[] = $key;
+                    
                 echo "<div class='box-items'>";
                 echo "<div class='image-container'>";
                 echo '<a href="view.php?item_id=' . $row['id'] . '"><img src="'.$row['image_URL'].'" alt="'.$row["name"].'" /></a>';
@@ -63,14 +70,18 @@ if (!function_exists('displayContent')) {
                 echo "<p class='price'>$" . $row["price"] . "</p>";
                 echo "<a href='cart.php?item_id=" . $row['id'] . "' class='add-to-cart-btn'>Add to Cart</a>";
                 echo "</div>";
-                echo "</div>";
+                echo "</div>";                
+                }
             }
             echo '</div>';
+
         } else {
             echo "No results found.";
         }
     }
 }
+
+
 
 $servername = "localhost";
 $username = "root";
