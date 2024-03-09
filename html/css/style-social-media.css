@@ -1,0 +1,46 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #181818;
+}
+
+.header {
+    background-color: #181818;
+    color: #fff; /* Text color */
+    padding: 0;
+    align-items: center;
+}
+
+.logo img{
+    width: 15%;
+    height: auto;
+}
+
+.nav-links img{
+    width: 35px;
+    height: auto;
+    margin-left: 30px;
+    filter: invert(1);
+}
+
+/* Add this CSS to your stylesheet */
+.nav-links a {
+    text-decoration: none; /* Remove underline */
+    color: #fff; /* Set text color */
+}
+
+.nav-links a:hover {
+    color: #ccc; /* Change text color on hover if needed */
+}
+
+#user-id{
+    margin-left: 30px;
+    font-size: 18px;
+    color: #fff;
+    font-family: 'Montserrat', sans-serif;
+}
+
+#user-id:visited{
+    text-decoration: none;
+}
