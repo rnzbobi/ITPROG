@@ -1,0 +1,103 @@
+.clearfix {
+    clear: both;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #181818;
+}
+
+/* CSS Styles for Sidebar and Main Content */
+.sidebar {
+    float: left;
+    width: 200px; /* Adjust width as needed */
+    padding: 20px;
+    background-color: #181818;
+    margin-left: 450px;
+}
+
+main {
+    margin-left: 240px; /* Adjust margin to accommodate sidebar width and space */
+    padding: 20px;
+    overflow: hidden; /* Ensure proper clearing */
+}
+
+/* Clearing after the main content */
+.clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.nav-links {
+    display: flex;
+}
+
+.nav-links a {
+    text-decoration: none; /* Remove underline */
+    font-family: 'Montserrat', sans-serif;
+    color: inherit;
+    margin-bottom: 10px; /* Add some space between links */
+    margin-left: 24px;
+    margin-right: 15px;
+}
+
+.nav-links img{
+    margin-top: 20px;
+    width:40px;
+    filter: invert(1);
+    margin-bottom: 60px;
+}
+
+#user-id{
+    color:rgb(255, 255, 255);
+    font-size: 22px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+}
+
+.word-links a{
+    text-decoration: none;
+    margin-left: 25px;
+}
+
+.logo img {
+    width: 125%; /* Adjust the width according to your design */
+    height: auto; /* Maintain aspect ratio */
+    max-height: 125%; /* Maximum height to ensure consistency */
+}
+
+.post {
+    border-bottom: 1px solid #ffffff;
+    padding: 50px 0;
+    margin-bottom: 0px;
+    max-width: 500px;
+    max-height: 750px;
+    margin-left: 100px;
+}
+
+.post p {
+    color: rgb(255, 255, 255);
+    font-size: 16px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 200;
+    max-width: 100%;
+    word-wrap: break-word;
+}
+
+.post h2{
+    color: rgb(255, 255, 255);
+    font-size: 22px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    max-width: 100%;
+    word-wrap: break-word;
+}
+
+
+.post img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}

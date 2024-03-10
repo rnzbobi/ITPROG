@@ -16,13 +16,12 @@ if (!isset($_SESSION['username'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Index.html</title>
-    <link rel="stylesheet" href="css/style-social-media.css" type="text/css" />
+    <link rel="stylesheet" href="css/social_style.css" type="text/css" />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <div class="header">
+    <aside class="sidebar">
             <div class="logo">
                 <a href="index.php">
                     <img src="images/EGGHEAD(dark).png" alt="Logo">
@@ -32,16 +31,21 @@ if (!isset($_SESSION['username'])) {
                 <a href="index.php"><img src="images/shop.png" alt="Index"></a>
                 <a href="view_cart.php"><img src="images/shopping-cart.png" alt="Cart"></a>
                 <a href="user.php"><img src="images/user.png" alt="User"></a>
-                <?php
-                    if($loggedIn){
-                        echo '<a href="user.php"><h2><span id="user-id">Profile</span></h2></a>';
-                        echo '<a href="logout.php"><h2><span id="user-id">Logout</span></h2></a>';
-                    } else {
-                        echo '<a href="login.php"><h2><span id="user-id">Login/Signup</span></h2></a>';
-                    }
-                ?>
             </div>
-        </div>
-    </header>
+            <div class="word-links">
+            <?php
+                    if($loggedIn){
+                        echo '<a href="user.php"><span id="user-id">Profile</span></a><br><br><br><br>';
+                        echo '<a href="logout.php"><span id="user-id">Logout</span></a>';
+                    } else {
+                        echo '<a href="login.php"><span id="user-id">Login/Signup</span></a>';
+                    }
+            ?>
+            </div>
+    </aside>
+    <main>
+        <?php include 'display_posts.php'; ?>
+    </main>
+    <div class="clearfix"></div>
 </body>
 </html>
