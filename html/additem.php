@@ -12,37 +12,45 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+$message = ""; // Initialize the message variable.
+
 // Check if form was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Prepare and bind
     $stmt = $conn->prepare("INSERT INTO individual_clothes (name, brand, category, color, gender, size, price, available_quantity, image_url, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     
-    // Set parameters
-    $name = $_POST['name'];
-    $brand = $_POST['brand'];
-    $category = $_POST['category'];
-    $color = $_POST['color'];
-    $gender = $_POST['gender'];
-    $size = $_POST['size'];
-    $price = (double)$_POST['price']; 
-    $quantity = (int)$_POST['quantity'];
-    $image_url = $_POST['image_url'];
-    $description = $_POST['description'];
+    // Set parameters and sanitize input
+    $name = filter_var($_POST['name'], FILTER_SANITIZE_STRING);
+    $brand = filter_var($_POST['brand'], FILTER_SANITIZE_STRING);
+    $category = filter_var($_POST['category'], FILTER_SANITIZE_STRING);
+    $color = filter_var($_POST['color'], FILTER_SANITIZE_STRING);
+    $gender = filter_var($_POST['gender'], FILTER_SANITIZE_STRING);
+    $size = filter_var($_POST['size'], FILTER_SANITIZE_STRING);
+    $price = filter_var($_POST['price'], FILTER_VALIDATE_FLOAT);
+    $quantity = filter_var($_POST['quantity'], FILTER_VALIDATE_INT);
+    $image_url = filter_var($_POST['image_url'], FILTER_SANITIZE_URL);
+    $description = filter_var($_POST['description'], FILTER_SANITIZE_STRING);
 
-    // Bind parameters with correct types
-    $stmt->bind_param("ssssssdiss", $name, $brand, $category, $color, $gender, $size, $price, $quantity, $image_url, $description);
-
-    // Execute
-    if ($stmt->execute()) {
-        echo "New record created successfully";
+    // Validate inputs
+    if ($price === false || $quantity === false) {
+        $message = "Invalid input in price or quantity field.";
     } else {
-        echo "Error: " . $stmt->error;
+        // Bind parameters with correct types
+        $stmt->bind_param("ssssssdiss", $name, $brand, $category, $color, $gender, $size, $price, $quantity, $image_url, $description);
+
+        // Execute and set message based on result
+        if ($stmt->execute()) {
+            $_SESSION['message'] = "New record created successfully";
+        } else {
+            $_SESSION['message'] = "Error: " . $stmt->error;
+        }
+        $stmt->close();
+        $conn->close();
+        // Redirect to the same page to display the success message
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit();
     }
-
-    $stmt->close();
-    $conn->close();
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -111,41 +119,51 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
 
 <header>
-    <!-- Your header content -->
+    
 </header>
 
 <main>
     <div class="form-container">
         <h1>Add New Item</h1>
-        <form method="POST" class="item-form">
+        <?php 
+        // Display the session message if set
+        if (!empty($_SESSION['message'])): ?>
+            <div class="alert success">
+                <?= $_SESSION['message']; ?>
+            </div>
+            <?php 
+            // Clear the message after displaying it
+            unset($_SESSION['message']);
+        endif;
+        ?>
             <div class="form-group">
                 <label for="name">Name:</label>
-                <input type="text" id="name" name="name" required>
+                <input type="text" id="name" name="name" required maxlength="45">
             </div>
 
             <div class="form-group">
                 <label for="brand">Brand:</label>
-                <input type="text" id="brand" name="brand" required>
+                <input type="text" id="brand" name="brand" required maxlength="45">
             </div>
 
             <div class="form-group">
                 <label for="category">Category:</label>
-                <input type="text" id="category" name="category" required>
+                <input type="text" id="category" name="category" required maxlength="45">
             </div>
 
             <div class="form-group">
                 <label for="color">Color:</label>
-                <input type="text" id="color" name="color" required>
+                <input type="text" id="color" name="color" required maxlength="45">
             </div>
 
             <div class="form-group">
                 <label for="gender">Gender:</label>
-                <input type="text" id="gender" name="gender" required>
+                <input type="text" id="gender" name="gender" required maxlength="45">
             </div>
 
             <div class="form-group">
                 <label for="size">Size:</label>
-                <input type="text" id="size" name="size" required>
+                <input type="text" id="size" name="size" required maxlength="3">
             </div>
 
             <div class="form-group">
@@ -177,8 +195,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 <footer>
-    <!-- Your footer content -->
+    
 </footer>
-
+        
 </body>
 </html>
