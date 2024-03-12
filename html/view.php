@@ -160,7 +160,7 @@ if (!isset($_SESSION['username'])) {
                              <p class="color"> <?php echo htmlspecialchars($row['category']); ?></p>
                              <p class="color"> <?php echo htmlspecialchars($row['gender']); ?></p>
                              <p class="price">
-                                P<?php echo htmlspecialchars($row['price']); ?>
+                                $<?php echo htmlspecialchars($row['price']); ?>
                             </p>
                             <label for="size-select">Size:</label>
                             <select id="size-select" name="size">
