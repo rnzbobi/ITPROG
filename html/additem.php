@@ -1,5 +1,5 @@
 <?php
-session_start();
+session_start(); // Start the session at the beginning
 include 'database.php';
 
 // Redirect to login page if the user is not logged in
@@ -12,47 +12,39 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$message = ""; // Initialize the message variable.
-
 // Check if form was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Prepare and bind
     $stmt = $conn->prepare("INSERT INTO individual_clothes (name, brand, category, color, gender, size, price, available_quantity, image_url, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     
-    // Set parameters and sanitize input
-    $name = filter_var($_POST['name'], FILTER_SANITIZE_STRING);
-    $brand = filter_var($_POST['brand'], FILTER_SANITIZE_STRING);
-    $category = filter_var($_POST['category'], FILTER_SANITIZE_STRING);
-    $color = filter_var($_POST['color'], FILTER_SANITIZE_STRING);
-    $gender = filter_var($_POST['gender'], FILTER_SANITIZE_STRING);
-    $size = filter_var($_POST['size'], FILTER_SANITIZE_STRING);
-    $price = filter_var($_POST['price'], FILTER_VALIDATE_FLOAT);
-    $quantity = filter_var($_POST['quantity'], FILTER_VALIDATE_INT);
-    $image_url = filter_var($_POST['image_url'], FILTER_SANITIZE_URL);
-    $description = filter_var($_POST['description'], FILTER_SANITIZE_STRING);
+    // Set parameters
+    $name = $_POST['name'];
+    $brand = $_POST['brand'];
+    $category = $_POST['category'];
+    $color = $_POST['color'];
+    $gender = $_POST['gender'];
+    $size = $_POST['size'];
+    $price = (double)$_POST['price']; 
+    $quantity = (int)$_POST['quantity'];
+    $image_url = $_POST['image_url'];
+    $description = $_POST['description'];
 
-    // Validate inputs
-    if ($price === false || $quantity === false) {
-        $message = "Invalid input in price or quantity field.";
-    } else {
-        // Bind parameters with correct types
-        $stmt->bind_param("ssssssdiss", $name, $brand, $category, $color, $gender, $size, $price, $quantity, $image_url, $description);
+    // Bind parameters with correct types
+    $stmt->bind_param("ssssssdiss", $name, $brand, $category, $color, $gender, $size, $price, $quantity, $image_url, $description);
 
-        // Execute and set message based on result
-        if ($stmt->execute()) {
-            $_SESSION['message'] = "New record created successfully";
-        } else {
-            $_SESSION['message'] = "Error: " . $stmt->error;
-        }
-        $stmt->close();
-        $conn->close();
-        // Redirect to the same page to display the success message
-        header("Location: " . $_SERVER['PHP_SELF']);
+    // Execute
+    if ($stmt->execute()) {
+        $_SESSION['item_added'] = true; // Use a flag to indicate item addition
+        header("Location: addItem.php"); // Redirect back to the add item page to display the message
         exit();
+    } else {
+        echo "Error: " . $stmt->error;
     }
+
+    $stmt->close();
+    $conn->close();
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -60,6 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Item</title>
     <link rel="stylesheet" href="css/style.css" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         .form-container {
             max-width: 800px;
@@ -114,28 +107,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .submit-btn:hover {
             background: #0056b3;
         }
+
+        .back-btn {
+            padding: 1rem;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            text-decoration: none;
+            text-align: center; 
+            width: fit-content; 
+        }
+
+        .back-btn:hover {
+            background: #0056b3;
+        }
+        
     </style>
 </head>
 <body>
 
 <header>
-    
+
 </header>
 
 <main>
     <div class="form-container">
         <h1>Add New Item</h1>
-        <?php 
-        // Display the session message if set
-        if (!empty($_SESSION['message'])): ?>
-            <div class="alert success">
-                <?= $_SESSION['message']; ?>
-            </div>
-            <?php 
-            // Clear the message after displaying it
-            unset($_SESSION['message']);
-        endif;
-        ?>
+        <form method="POST" class="item-form">
             <div class="form-group">
                 <label for="name">Name:</label>
                 <input type="text" id="name" name="name" required maxlength="45">
@@ -189,14 +190,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="form-group">
                 <input type="submit" value="Add Item" class="submit-btn">
             </div>
+
+            <div class="form-group">
+                <a href="sellermode.php" class="back-btn">Back to Seller Mode</a>
+            </div>
         </form>
     </div>
 </main>
 
 
 <footer>
-    
+   
 </footer>
+
+<?php if (isset($_SESSION['item_added'])): ?>
+    <?php unset($_SESSION['item_added']); ?>
+    <script>
+    console.log('Attempting to show SweetAlert2 notification.'); 
+    Swal.fire({
+        title: "Success!",
+        text: "Item added",
+        icon: "success",
+        confirmButtonText: "Ok"
+    }).then(function() {
         
+    });
+    </script>
+<?php endif; ?>
+
 </body>
 </html>
