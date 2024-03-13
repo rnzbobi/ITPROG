@@ -163,22 +163,22 @@ if (!isset($_SESSION['username'])) {
                                 $<?php echo htmlspecialchars($row['price']); ?>
                             </p>
                             <label for="size-select">Size:</label>
-                            <select id="size-select" name="size">
-                                <?php 
-                                $sizes_sql = "SELECT DISTINCT size FROM individual_clothes WHERE name = ?";
-                                $sizes_stmt = $conn->prepare($sizes_sql);
-                                $sizes_stmt->bind_param("s", $row['name']);
-                                $sizes_stmt->execute();
-                                $sizes_result = $sizes_stmt->get_result();
-                                
-                                if ($sizes_result->num_rows > 0) {
-                                    while ($size_row = $sizes_result->fetch_assoc()) {
-                                        echo "<option value=\"" . htmlspecialchars($size_row['size']) . "\">" . htmlspecialchars($size_row['size']) . "</option>";
-                                    }
-                                }
-                                $sizes_stmt->close();
-                                ?>
-                            </select>
+<select id="size-select" name="size" onchange="updateItemID(this.value);">
+    <?php 
+    $sizes_sql = "SELECT id, size FROM individual_clothes WHERE name = ? ORDER BY size DESC";
+    $sizes_stmt = $conn->prepare($sizes_sql);
+    $sizes_stmt->bind_param("s", $row['name']);
+    $sizes_stmt->execute();
+    $sizes_result = $sizes_stmt->get_result();
+    
+    if ($sizes_result->num_rows > 0) {
+        while ($size_row = $sizes_result->fetch_assoc()) {
+            echo "<option value=\"" . htmlspecialchars($size_row['id']) . "\">" . htmlspecialchars($size_row['size']) . "</option>";
+        }
+    }
+    $sizes_stmt->close();
+    ?>
+</select>
                             <a href="cart.php?item_id=<?php echo $item_id; ?>" class="add-to-cart-btn">Add to Cart</a>
 
                             <a href="checkout.php?item_id=<?php echo $item_id; ?>" class="add-to-cart-btn">Checkout</a>
@@ -199,6 +199,13 @@ if (!isset($_SESSION['username'])) {
         </div>
     </main>
 
-    <!-- Your existing footer -->
+    <script>
+function updateItemID(selectedItemID) {
+    var addToCartBtn = document.querySelector('.add-to-cart-btn');
+    var checkoutBtn = document.querySelector('.checkout-btn');
+    addToCartBtn.href = 'cart.php?item_id=' + selectedItemID;
+    checkoutBtn.href = 'checkout.php?item_id=' + selectedItemID;
+}
+</script>
 </body>
 </html>
