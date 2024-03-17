@@ -18,21 +18,76 @@ if (!isset($_SESSION['username'])) {
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
     <style>
+        .top{
+            display: flex;
+            font-family: 'Open Sans', sans-serif;  
+            font-weight: bold;
+            font-size: 30px;
+            text-align: center; 
+            justify-content: center;
+            flex-direction: column;
+            margin-bottom: 50px;
+        }
+        .amountitems{
+            display: flex;
+            padding:5px;
+            font-size:15px;
+            text-align: center; 
+            justify-content: center;
+        }
         .cart{
             display: flex;
-            font-family: 'Open Sans', sans-serif;
-            font-size: 20px;
+            font-family: 'Open Sans', sans-serif;  
+            font-size: 15px;      
+            line-height: 1.4;
+            flex-direction: column; 
+            align-items: center;
         }
-        .cartrow{
+        .cart-item-holder{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            padding: 20px;
+            width: 30%;  
+        }
+        .cart-item-details{
+            display:flex;
+            flex: 1;
+            flex-direction:column;
+            margin-right: 20px;
+        }
+        .cart-item-name{
+            display: flex;
+            flex-direction: row;
+            text-align: left;
+            font-weight: bold;
+            font-size: 20px;    
+        }
+        .cart-item-size-price{
+            display:block;
+            flex-direction:row;
+            text-align: left;
+            line-height: 1.2;
+        }
+        .cart-image-holder{
             display: flex;
             flex-direction: column;
+            margin-right: 20px; 
         }
-        .cartcol{
+        .editquantity{
             display: flex;
-            flex-direction: column;
+            height: 50px;
+            min-width: 80px;
+            border: 2px solid black;
+            align-items: center;
+            justify-content: center;
         }
-        .cartheader{
-            display: flex;
+        .editquantity span{
+            width: 100%;
+            font-size: 20px; 
+        }
+        .editquantity span.count{
+            font size:50px;
         }
     </style>
 </head>
@@ -75,27 +130,79 @@ if (!isset($_SESSION['username'])) {
         JOIN carts ON user_id.userid = carts.user_id
         JOIN individual_clothes ON carts.item_id = individual_clothes.id
     WHERE user_id.username='$username'");
+    
 ?>
 <center>
-
-
+<div class="top">
+    Your Shopping Cart
+        <div class="amountitems">
+            Total items: 
+            <?php
+                $countItems = mysqli_num_rows ($getuserCart);
+                echo $countItems;
+            ?>
+        </div>
+</div>
+<div class="cart">
 <?php
 $subTotal=0;
 $totalPrice=0;
-echo "<div class ='cart'>";
     while($viewCart=mysqli_fetch_assoc($getuserCart)){
-        echo "<div class = 'cartrow'>";
-        echo "<div class = 'cartcol'>";
-        
-       echo $viewCart['name'] ;
-       echo $viewCart['size'];
-       echo "</div>";
-      
-    }
-echo"</div>";
+        echo "<div class='cart-item-holder'>";
 
-   
+            echo "<div class = 'cart-image-holder'>";
+                 echo "<img src='".$viewCart['image_URL']."'style='width: 100px; height: 100px;'>";
+            echo "</div>";
+
+                echo "<div class='cart-item-details'>";
+
+                    echo "<div class = 'cart-item-name'>";
+                        echo $viewCart['name'];
+                    echo "</div>";
+
+                    echo "<div class = 'cart-item-size-price'>";
+                        echo $viewCart['size'];
+                    echo "</div>";
+
+                    echo "<div class = 'cart-item-size-price'>";
+                        echo $viewCart['price'];
+                    echo "</div>";
+
+                    
+                echo "</div>";
+
+        echo "<div class ='editquantity' id='editquantity".$viewCart['id']."'>";
+            echo "<span class ='minus'>"."-"."</span>";
+            echo "<span class ='count'>".$viewCart['quantity']."</span>";
+            echo "<span class ='plus'>"."+"."</span>";
+        echo "</div>";
+
+     echo "</div>";
 ?>
+<script>
+    const plus<?php echo $viewCart['id']; ?> = document.querySelector("#editquantity<?php echo $viewCart['id']; ?> .plus");
+    const minus<?php echo $viewCart['id']; ?> = document.querySelector("#editquantity<?php echo $viewCart['id']; ?> .minus");
+    const count<?php echo $viewCart['id']; ?> = document.querySelector("#editquantity<?php echo $viewCart['id']; ?> .count");
+
+    plus<?php echo $viewCart['id']; ?>.addEventListener("click", function(){
+        count<?php echo $viewCart['id']; ?>.textContent = parseInt(count<?php echo $viewCart['id']; ?>.textContent) + 1;
+    });
+
+    minus<?php echo $viewCart['id']; ?>.addEventListener("click", function(){
+        if (parseInt(count<?php echo $viewCart['id']; ?>.textContent) > 0){
+        count<?php echo $viewCart['id']; ?>.textContent = parseInt(count<?php echo $viewCart['id']; ?>.textContent) - 1;
+        }
+    });
+</script>
+<?php
+    } 
+?>
+
+</div>
 </center>
+
+
+
+
 </body>
 </html>
