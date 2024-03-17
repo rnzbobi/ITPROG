@@ -17,7 +17,24 @@ if (!isset($_SESSION['username'])) {
     <link rel="stylesheet" href="css/style.css" type="text/css" />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
-    
+    <style>
+        .cart{
+            display: flex;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 20px;
+        }
+        .cartrow{
+            display: flex;
+            flex-direction: column;
+        }
+        .cartcol{
+            display: flex;
+            flex-direction: column;
+        }
+        .cartheader{
+            display: flex;
+        }
+    </style>
 </head>
 <body>
 <header>
@@ -60,39 +77,22 @@ if (!isset($_SESSION['username'])) {
     WHERE user_id.username='$username'");
 ?>
 <center>
-<h2>Your Shopping Cart</h2>
-<table border="0">
-<tr>
-        <th></th>
-        <th></th>
-        <th>Quantity</th>
-        <th>Total</th>
-        <th></th>
-</tr>
+
 
 <?php
 $subTotal=0;
 $totalPrice=0;
+echo "<div class ='cart'>";
     while($viewCart=mysqli_fetch_assoc($getuserCart)){
-        echo "<tr>";
-        echo "<td rowspan=4>"."<img src='".$viewCart['image_URL']."'style='max-width: 100px; max-height: 100px;'>"."</td>";
-        echo "</tr>";
-        echo "<tr style='height: 10px'>";
-        echo "<td>" . $viewCart['name'] . "</td>";
-        echo "</tr>";
-        echo "<tr style='height: 10px'>";
-        echo "<td>" . $viewCart['size'] . "</td>";
-        echo "</tr>";
-        echo "<tr style='height: 10px'>";
-        echo "<td> $".$viewCart['price'] . "</td>";
-        echo "<td>".$viewCart['quantity']."</td>";
-        $totalPrice=($viewCart['price'] * $viewCart['quantity']);
-        echo "<td> $".$totalPrice."</td>";
-        echo "</tr>";
-        $subTotal+=$totalPrice;  
+        echo "<div class = 'cartrow'>";
+        echo "<div class = 'cartcol'>";
+        
+       echo $viewCart['name'] ;
+       echo $viewCart['size'];
+       echo "</div>";
+      
     }
-    echo "<td colspan=4>Subtotal: $".$subTotal."</tr>";
-    echo "</table>"
+echo"</div>";
 
    
 ?>
