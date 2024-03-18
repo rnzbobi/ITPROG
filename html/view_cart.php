@@ -123,13 +123,53 @@ if (!isset($_SESSION['username'])) {
         </div>
     </header>  
 <?php
-    $getuserCart = 
-    mysqli_query($conn,
+    
+
+    $initializeCart = mysqli_query($conn,
+    "SELECT *, SUM(c.quantity) AS total_quantity
+    FROM user_id ui 
+    JOIN carts c ON ui.userid = c.user_id 
+    JOIN individual_clothes ic ON c.item_id = ic.id
+    WHERE ui.username = '$username'
+    GROUP BY c.item_id, ic.size;");
+
+    while ($getSum = mysqli_fetch_assoc($initializeCart)){
+        $isDeletionExecuted = false;
+        $item_id = $getSum['item_id'];
+       // $item_size = $getSum['size'];
+        $item_quantity = $getSum['total_quantity'];
+
+        $updateQuantity = 
+        "UPDATE carts 
+        SET quantity = '$item_quantity'
+        WHERE item_id = '$item_id'
+            AND user_id = (SELECT userid FROM user_id WHERE username='$username');";
+        mysqli_query($conn, $updateQuantity);
+
+        if (!$isDeletionExecuted){
+            $deleteDuplicate =
+            "DELETE FROM carts
+            WHERE item_id = '$item_id'
+                AND user_id = (SELECT userid FROM user_id WHERE username='$username')
+                AND cart_id NOT IN(
+                    SELECT MIN(cart_id)
+                    FROM carts 
+                    WHERE item_id='$item_id'
+                        AND user_id = (SELECT userid FROM user_id WHERE username='$username')
+                        );";
+            mysqli_query($conn, $deleteDuplicate);
+
+            $isDeletionExecuted = true;
+        }
+    }
+    
+    $getuserCart = mysqli_query($conn,
     "SELECT *
     FROM user_id 
         JOIN carts ON user_id.userid = carts.user_id
         JOIN individual_clothes ON carts.item_id = individual_clothes.id
     WHERE user_id.username='$username'");
+  
     
 ?>
 <center>
@@ -145,8 +185,6 @@ if (!isset($_SESSION['username'])) {
 </div>
 <div class="cart">
 <?php
-$subTotal=0;
-$totalPrice=0;
     while($viewCart=mysqli_fetch_assoc($getuserCart)){
         echo "<div class='cart-item-holder'>";
 
@@ -170,7 +208,6 @@ $totalPrice=0;
 
                     
                 echo "</div>";
-
         echo "<div class ='editquantity' id='editquantity".$viewCart['id']."'>";
             echo "<span class ='minus'>"."-"."</span>";
             echo "<span class ='count'>".$viewCart['quantity']."</span>";
@@ -186,11 +223,13 @@ $totalPrice=0;
 
     plus<?php echo $viewCart['id']; ?>.addEventListener("click", function(){
         count<?php echo $viewCart['id']; ?>.textContent = parseInt(count<?php echo $viewCart['id']; ?>.textContent) + 1;
+        form<?php echo $viewCart['id']; ?>.submit();
     });
 
     minus<?php echo $viewCart['id']; ?>.addEventListener("click", function(){
         if (parseInt(count<?php echo $viewCart['id']; ?>.textContent) > 0){
         count<?php echo $viewCart['id']; ?>.textContent = parseInt(count<?php echo $viewCart['id']; ?>.textContent) - 1;
+        form<?php echo $viewCart['id']; ?>.submit();
         }
     });
 </script>
@@ -200,9 +239,5 @@ $totalPrice=0;
 
 </div>
 </center>
-
-
-
-
 </body>
 </html>
