@@ -263,5 +263,6 @@ if (!isset($_SESSION['username'])) {
     </script>
     </main>
     <div class="clearfix"></div>
+
 </body>
 </html>
