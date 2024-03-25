@@ -19,13 +19,15 @@ if (!isset($_SESSION['username'])) {
     <link rel="stylesheet" href="css/style.css" type="text/css" />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </head>
 <body>
     <header>
         <div class="header">
             <div class="logo">
                 <a href="index.php">
-                    <img src="images/EGGHEAD.png" alt="Logo">
+                    <img src="images/logo.png" alt="Logo">
                 </a>
             </div>
             <form class="search-form" action="index.php?search=" method="GET">
@@ -189,6 +191,19 @@ if (!isset($_SESSION['username'])) {
             // Display content based on the result fetched
             displayContent($result);
         }
+		
+		
+		if (isset($_SESSION['item_added_to_cart'])) {
+    unset($_SESSION['item_added_to_cart']);
+    echo '<script>
+    Swal.fire({
+        title: "Success!",
+        text: "Item added to cart",
+        icon: "success",
+        confirmButtonText: "Ok"
+    });
+    </script>';
+}
         ?>
 
     <script>
