@@ -22,38 +22,71 @@ if (!isset($_SESSION['username'])) {
 </head>
 <body>
     <aside class="sidebar">
-            <div class="logo">
-                <a href="index.php">
-                    <img src="images/EGGHEAD(dark).png" alt="Logo">
-                </a>
-            </div>
-            <div class="nav-links">
-                <a href="index.php"><img src="images/shop.png" alt="Index"></a>
-                <a href="view_cart.php"><img src="images/shopping-cart.png" alt="Cart"></a>
-                <a href="user.php"><img src="images/user.png" alt="User"></a>
-            </div>
-            <div class="word-links">
+        <div class="logo">
+            <a href="index.php">
+                <img src="images/EGGHEAD(dark).png" alt="Logo">
+            </a>
+        </div>
+        <div class="nav-links">
+            <a href="index.php"><img src="images/shop.png" alt="Index"></a>
+            <a href="view_cart.php"><img src="images/shopping-cart.png" alt="Cart"></a>
+            <a href="user.php"><img src="images/user.png" alt="User"></a>
+        </div>
+        <div class="word-links">
             <?php
-                    if($loggedIn){
-                        echo '<button id="post-button"><span id="post-id">Post</span></button><br><br><br><br><br>';
-                        echo '<a href="user.php"><span id="user-id">Profile</span></a><br><br><br><br>';
-                        echo '<a href="logout.php"><span id="user-id">Logout</span></a><br><br><br>';
-                    } else {
-                        echo '<a href="login.php"><span id="user-id">Login/Signup</span></a><br><br><br>';
-                    }
+            if($loggedIn){
+                echo '<button id="post-button"><span id="post-id">Post</span></button><br><br><br><br><br>';
+                echo '<a href="user.php"><span id="user-id">Profile</span></a><br><br><br><br>';
+                echo '<a href="logout.php"><span id="user-id">Logout</span></a><br><br><br>';
+            } else {
+                echo '<a href="login.php"><span id="user-id">Login/Signup</span></a><br><br><br>';
+            }
             ?>
-            </div>
+        </div>
     </aside>
     <main>
         <?php include 'display_posts.php'; ?>
     </main>
+    <div id="postModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <form action="post.php" method="POST">
+                <label for="caption">Caption:</label><br>
+                <input type="text" id="caption" name="caption" required><br>
+                <label for="imageUrl">Image URL:</label><br>
+                <input type="url" id="imageUrl" name="imageUrl" required><br><br>
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+    </div>
     <div class="clearfix"></div>
     <script>
-        // Add event listener to the post button
+        // Get the modal
+        const modal = document.getElementById('postModal');
+
+        // Get the button that opens the modal
         const postButton = document.getElementById('post-button');
-        postButton.addEventListener('click', function() {
-            window.location.href = 'post.php'; // Redirect to post.php when the button is clicked
-        });
+
+        // Get the <span> element that closes the modal
+        const closeBtn = document.getElementsByClassName('close')[0];
+
+        // When the user clicks the button, open the modal 
+        postButton.onclick = function() {
+            modal.style.display = 'block';
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        closeBtn.onclick = function() {
+            modal.style.display = 'none';
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
     </script>
 </body>
 </html>
