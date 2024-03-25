@@ -57,10 +57,28 @@ main {
     font-weight: 600;
 }
 
+#post-id{
+    color:#181818;
+    font-size: 22px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+}
+
+.sidebar button{
+    padding: auto;
+    width: 220px;
+    height: 60px;
+    border: none;
+    border-radius: 5px;
+    margin-left: 17px;
+}
+
+
 .word-links a{
     text-decoration: none;
     margin-left: 25px;
 }
+
 
 .logo img {
     width: 125%; /* Adjust the width according to your design */
@@ -101,3 +119,4 @@ main {
     height: auto;
     border-radius: 5px;
 }
+

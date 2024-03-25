@@ -21,6 +21,12 @@ if (!isset($_SESSION['username'])) {
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <style>
+        .confirm.custom-black-btn {
+            background-color: black; /* Set the background color to black */
+            color: white; /* Set the text color to white */
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -200,7 +206,10 @@ if (!isset($_SESSION['username'])) {
                 title: "Success!",
                 text: "Item added to cart",
                 icon: "success",
-                confirmButtonText: "Confirm"
+                confirmButtonText: "Ok",
+                customClass: {
+                    confirmButton: "swal2-confirm custom-black-btn" // Apply the custom class
+                }
             });
             </script>';
         }

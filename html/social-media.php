@@ -35,10 +35,11 @@ if (!isset($_SESSION['username'])) {
             <div class="word-links">
             <?php
                     if($loggedIn){
+                        echo '<button id="post-button"><span id="post-id">Post</span></button><br><br><br><br><br>';
                         echo '<a href="user.php"><span id="user-id">Profile</span></a><br><br><br><br>';
-                        echo '<a href="logout.php"><span id="user-id">Logout</span></a>';
+                        echo '<a href="logout.php"><span id="user-id">Logout</span></a><br><br><br>';
                     } else {
-                        echo '<a href="login.php"><span id="user-id">Login/Signup</span></a>';
+                        echo '<a href="login.php"><span id="user-id">Login/Signup</span></a><br><br><br>';
                     }
             ?>
             </div>
@@ -47,5 +48,12 @@ if (!isset($_SESSION['username'])) {
         <?php include 'display_posts.php'; ?>
     </main>
     <div class="clearfix"></div>
+    <script>
+        // Add event listener to the post button
+        const postButton = document.getElementById('post-button');
+        postButton.addEventListener('click', function() {
+            window.location.href = 'post.php'; // Redirect to post.php when the button is clicked
+        });
+    </script>
 </body>
 </html>
