@@ -68,7 +68,6 @@ if (!function_exists('displayContent')) {
                 echo "<div class='box-items-content'>";
                 echo "<h3>" . $row["name"] . "</h3>";
                 echo "<p class='price'>$" . $row["price"] . "</p>";
-                echo "<a href='cart.php?item_id=" . $row['id'] . "' class='add-to-cart-btn'>Add to Cart</a>";
                 echo "</div>";
                 echo "</div>";                
                 }

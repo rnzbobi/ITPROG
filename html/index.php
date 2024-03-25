@@ -193,17 +193,17 @@ if (!isset($_SESSION['username'])) {
         }
 		
 		
-		if (isset($_SESSION['item_added_to_cart'])) {
-    unset($_SESSION['item_added_to_cart']);
-    echo '<script>
-    Swal.fire({
-        title: "Success!",
-        text: "Item added to cart",
-        icon: "success",
-        confirmButtonText: "Ok"
-    });
-    </script>';
-}
+        if (isset($_SESSION['item_added_to_cart'])) {
+            unset($_SESSION['item_added_to_cart']);
+            echo '<script>
+            Swal.fire({
+                title: "Success!",
+                text: "Item added to cart",
+                icon: "success",
+                confirmButtonText: "Confirm"
+            });
+            </script>';
+        }
         ?>
 
     <script>

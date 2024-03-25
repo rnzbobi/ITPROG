@@ -19,10 +19,9 @@ if (!isset($_SESSION['username'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Item</title>
     <link rel="stylesheet" href="css/style.css" type="text/css" />
-    <!-- Your other existing links and styles -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
     <style>
-
-
         /* New styles for updated layout */
         .container {
             display: flex; /* Set up flex container for side-by-side layout */
@@ -39,32 +38,51 @@ if (!isset($_SESSION['username'])) {
             height: auto; /* Maintain aspect ratio */
         }
         .item-info {
+            font-family: 'Montserrat', sans-serif;
             flex: 2; /* The item-info section will take twice as much width as the image container */
             padding: 1rem; /* Padding around the text */
         }
+        #bold{
+            font-weight: 1000;
+        }
         .item-details h1 {
+            font-family: 'Montserrat', sans-serif;
             font-size: 3rem;
             margin-bottom: 0.5em;
         }
         .item-details .name {
-            font-size: 1.5rem;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
             color: #333;
             margin-bottom: 0.5em;
         }
 		.item-details .color {
-            font-size: 1.5rem;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
             color: #333;
             margin-bottom: 0.5em;
         }
         .item-details .price {
+            font-family: 'Montserrat', sans-serif;
             font-size: 2.3rem;
             color: #E44D26;
             font-weight: bold;
         }
+        .item-details label{
+            font-family: 'Montserrat', sans-serif;
+            font-size: 22px;
+        }
+        #size-select{
+            font-size: 20px;
+            padding: auto;
+            width: 100px;
+        }
         .size-options {
+            font-family: 'Montserrat', sans-serif;
             margin: 20px 0;
         }
         .size-options button {
+            font-family: 'Montserrat', sans-serif;
             padding: 5px 15px;
             margin-right: 10px;
             background-color: #f8f8f8;
@@ -82,25 +100,26 @@ if (!isset($_SESSION['username'])) {
             font-size: 1rem; /* Sets the font size */
             line-height: 1.3; /* Sets the line height for better readability */
             color: #333; /* Dark grey color for the text, easier on the eyes than pure black */
+            font-family: 'Montserrat', sans-serif;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* A subtle shadow to lift the description off the page */
         }
         .add-to-cart-btn, .checkout-btn {
+            font-family: 'Montserrat', sans-serif;
             display: block; /* Makes the link fill the width of its container */
-            padding: 10px 15px; /* Adds padding inside the button */
+            padding: 25px 20px; /* Adds padding inside the button */
             background-color: #000000; /* Blue background color */
             color: white; /* White text */
             text-align: center; /* Centers the text inside the button */
             text-decoration: none; /* Removes the underline from the link */
-            border-radius: 5px; /* Rounded corners for the button */
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Adds a shadow for depth */
+            border-radius: 3px; /* Rounded corners for the button */
             border: none; /* No border */
             margin-top: 10px; /* Adds space above the first button */
         }
         .checkout-btn {
+            font-family: 'Montserrat', sans-serif;
            background-color: #28a745; /* Green background color for the checkout button */
             margin-top: 20px; /* Adds more space above the checkout button */
         }
-        
     </style>
 </head>
 <body>
@@ -134,7 +153,6 @@ if (!isset($_SESSION['username'])) {
             </div>
         </div>
     </header> 
-
     <main>
         <div class="container">
             <?php
@@ -156,13 +174,13 @@ if (!isset($_SESSION['username'])) {
                         <div class="item-details">
                             <h1><?php echo htmlspecialchars($row['brand']); ?></h1>
 							 <p class="name"> <?php echo htmlspecialchars($row['name']); ?></p>
-							 <p class="color"> <?php echo htmlspecialchars($row['color']); ?></p>
-                             <p class="color"> <?php echo htmlspecialchars($row['category']); ?></p>
-                             <p class="color"> <?php echo htmlspecialchars($row['gender']); ?></p>
+							 <p class="color"> <span id="bold">● Color:</span> <?php echo htmlspecialchars($row['color']); ?></p>
+                             <p class="color"> <span id="bold">● Category:</span> <?php echo htmlspecialchars($row['category']); ?></p>
+                             <p class="color"> <span id="bold">● Gender:</span> <?php echo htmlspecialchars($row['gender']); ?></p>
                              <p class="price">
                                 $<?php echo htmlspecialchars($row['price']); ?>
                             </p>
-                            <label for="size-select">Size:</label>
+                            <label for="size-select">Size:</label><br><br>
 <select id="size-select" name="size" onchange="updateItemID(this.value);">
     <?php 
     $sizes_sql = "SELECT id, size FROM individual_clothes WHERE name = ? ORDER BY size DESC";
@@ -183,7 +201,7 @@ if (!isset($_SESSION['username'])) {
 
                             <a href="checkout.php?item_id=<?php echo $item_id; ?>" class="add-to-cart-btn">Checkout</a>
                             <div class="description">
-                                <?php echo htmlspecialchars($row['description']); ?>
+                                <h3>Description:</h3><?php echo htmlspecialchars($row['description']); ?>
                              </div>      
                         </div>
                     </div>
