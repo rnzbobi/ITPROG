@@ -222,4 +222,10 @@ main {
     margin-top: 5px; /* Adjust margin as needed */
     font-family: 'Montserrat', sans-serif;
 }
+
+.post button.liked {
+    color: white;
+    background-color: #181818; /* Change to your preferred color */
+    border: 1px solid white;
+}
   

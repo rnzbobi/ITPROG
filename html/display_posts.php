@@ -1,6 +1,5 @@
 <?php
 // display_posts.php
-
 include 'database.php';
 
 // Fetch posts from the database
@@ -18,12 +17,25 @@ if (mysqli_num_rows($result) > 0) {
         echo '<p>' . $row['caption'] . '</p>'; // Display the caption
         echo '<img src="' . $row['image_URL'] . '" alt="Post Image">'; // Display the image
 
-        // Display the like button
+        // Check if the user is logged in and has already liked the post
         if (isset($_SESSION['username'])) {
-            echo '<form method="post" action="like.php">';
-            echo '<input type="hidden" name="post_id" value="' . $post_id . '">';
-            echo '<button type="submit">Like</button>';
-            echo '</form>';
+            $username = $_SESSION['username'];
+            $sql_check_like = "SELECT * FROM likes WHERE post_id = $post_id AND user_id = (SELECT userid FROM user_id WHERE username = '$username')";
+            $result_check_like = mysqli_query($conn, $sql_check_like);
+
+            if (mysqli_num_rows($result_check_like) > 0) {
+                // User has already liked the post
+                echo '<form method="post" action="like.php">';
+                echo '<input type="hidden" name="post_id" value="' . $post_id . '">';
+                echo '<button type="submit" class="liked">Unlike</button>';
+                echo '</form>';
+            } else {
+                // User hasn't liked the post yet
+                echo '<form method="post" action="like.php">';
+                echo '<input type="hidden" name="post_id" value="' . $post_id . '">';
+                echo '<button type="submit">Like</button>';
+                echo '</form>';
+            }
         }
 
         // Display the number of likes
