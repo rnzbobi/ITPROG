@@ -29,6 +29,9 @@ if (!isset($_SESSION['username'])) {
             color:black;
             font-size:20px;
             font-family: 'Open Sans', sans-serif;  
+            padding: 10px 20px;
+            margin: 0;
+            max-height: 53px;
         }
         .button-bottom:hover{
             border:3px solid black;
@@ -142,6 +145,7 @@ if (!isset($_SESSION['username'])) {
         .link-design{
             text-decoration: none;
             color: inherit;
+            margin: 0;
         }
     </style>
 </head>
@@ -305,14 +309,23 @@ if (!isset($_SESSION['username'])) {
             echo "<div class='separator'>";
                 echo "Subtotal: $".$subTotal;
             echo "</div>";
+
             echo "<div class ='bottom'>";
-                echo "<button class='button-bottom' value='checkout'>Checkout";
+
+                echo "<form action='checkout.php' method='GET'>";
+                    mysqli_data_seek($getuserCart, 0); //This goes to the very first row
+                    while($viewCart = mysqli_fetch_assoc($getuserCart)){
+                        echo "<input type ='hidden' name='item_id' value='".$viewCart['id']."'>";
+                        echo "<input type='hidden' name='user_id' value='".$viewCart['price']."'>";
+                    }
+                    echo "<button class='button-bottom' value='checkout'>Checkout";
+                echo "</form>";
+
                 echo "<a class ='link-design' href='index.php'>";
                     echo "<button class='button-bottom'>Continue Shopping";
                 echo "</a>";
-            echo "</div>";
-    
 
+            echo "</div>";
 ?>
 
 </div>
