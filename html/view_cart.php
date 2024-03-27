@@ -23,22 +23,24 @@ if (!isset($_SESSION['username'])) {
             background: white;
             border: 0px;
         }
-        .top{
-            display: flex;
+        .button-bottom{
+            border:3px solid black;
+            background-color:white;
+            color:black;
+            font-size:20px;
             font-family: 'Open Sans', sans-serif;  
-            font-weight: bold;
-            font-size: 30px;
-            text-align: center; 
-            justify-content: center;
-            flex-direction: column;
-            margin-bottom: 50px;
         }
-        .amountitems{
+        .button-bottom:hover{
+            border:3px solid black;
+            border-color:black;
+            background-color:black;
+            color:white; 
+        }
+        .bottom{
             display: flex;
-            padding:5px;
-            font-size:15px;
-            text-align: center; 
-            justify-content: center;
+            flex-direction: row;
+            justify-content: flex-start;
+            gap:20px;
         }
         .cart{
             display: flex;
@@ -53,7 +55,7 @@ if (!isset($_SESSION['username'])) {
             flex-direction: row;
             align-items: center;
             padding: 20px;
-            width: 30%;  
+            width: 40%;  
         }
         .cart-item-details{
             display:flex;
@@ -81,11 +83,29 @@ if (!isset($_SESSION['username'])) {
             margin-left: 17px; 
             margin-top: 12px;
             line-height: 1.2;
+            margin-bottom:20px;
         }
         .cart-image-holder{
             display: flex;
             flex-direction: column;
             margin-right: 20px; 
+        }
+        .top{
+            display: flex;
+            font-family: 'Open Sans', sans-serif;  
+            font-weight: bold;
+            font-size: 30px;
+            text-align: center; 
+            justify-content: center;
+            flex-direction: column;
+            margin-bottom: 50px;
+        }
+        .amountitems{
+            display: flex;
+            padding:5px;
+            font-size:15px;
+            text-align: center; 
+            justify-content: center;
         }
         .editquantity{
             display: flex;
@@ -103,6 +123,25 @@ if (!isset($_SESSION['username'])) {
         }
         .editquantity span.count{
             font-size:20px;
+        } 
+        .total-price-item{
+            display: flex;
+            text-align: right;
+            font-size:20px;
+            margin-left:40px;
+            margin-bottom:20px;
+            min-width:100px;
+            align-items: center;
+            justify-content: center;
+        }
+        .separator{
+            justify-content: left;
+            flex-direction:column;
+            font-size:20px;
+        }
+        .link-design{
+            text-decoration: none;
+            color: inherit;
         }
     </style>
 </head>
@@ -210,6 +249,7 @@ if (!isset($_SESSION['username'])) {
 </div>
 <div class="cart">
 <?php
+    $subTotal=0;
     while($viewCart=mysqli_fetch_assoc($getuserCart)){
         echo "<div class='cart-item-holder'>";
 
@@ -228,7 +268,7 @@ if (!isset($_SESSION['username'])) {
                     echo "</div>";
 
                     echo "<div class = 'cart-item-placeholder'>";
-                        echo $viewCart['price'];
+                        echo "$".$viewCart['price'];
                     echo "</div>";
 
                     
@@ -244,6 +284,11 @@ if (!isset($_SESSION['username'])) {
                     echo "</div>";
                 echo "</form>";
 
+                echo "<div class = total-price-item>";
+                $totalPriceItem =$viewCart['quantity'] * $viewCart['price'];
+                    echo "$".$totalPriceItem;
+                echo "</div>";
+
                 echo "<div class = 'cart-item-delete'>";
                     echo "<form action='delete_item.php' method='GET'>";
                     echo "<button class='button' type='submit' name='Delete' value='Delete'>";
@@ -253,13 +298,21 @@ if (!isset($_SESSION['username'])) {
                     echo"</button>";
                     echo "</form>";
                 echo "</div>";
-        
+            $subTotal+=$totalPriceItem;
 
-     echo "</div>";
-?>
-
-<?php
+            echo "</div>";
     } 
+            echo "<div class='separator'>";
+                echo "Subtotal: $".$subTotal;
+            echo "</div>";
+            echo "<div class ='bottom'>";
+                echo "<button class='button-bottom' value='checkout'>Checkout";
+                echo "<a class ='link-design' href='index.php'>";
+                    echo "<button class='button-bottom'>Continue Shopping";
+                echo "</a>";
+            echo "</div>";
+    
+
 ?>
 
 </div>
