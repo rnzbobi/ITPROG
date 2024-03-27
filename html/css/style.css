@@ -290,8 +290,168 @@ main {
     background-color: #292929;
 }
 
-.black-text-btn {
-    background-color: black !important; 
-    color: white; 
+
+/* CSS Styles for view_cart.php */
+
+.view_cart-button{
+    display: flex;
+    background: white;    
+    border: 0px;
+}
+
+.view_cart-button-bottom{
+    border:3px solid black;
+    background-color:white;
+    color:black;
+    font-size:20px;
+    font-family: 'Open Sans', sans-serif;  
+    padding: 10px 20px;
+    margin: 0;
+    max-height: 53px;
+}
+
+        .view_cart-button-bottom:hover{
+            border:3px solid black;
+            border-color:black;
+            background-color:black;
+            color:white; 
+        }
+
+        .view_cart-bottom{
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            gap:20px;
+        }
+
+        .view_cart{
+            display: flex;
+            font-family: 'Open Sans', sans-serif;  
+            font-size: 15px;      
+            line-height: 1.4;
+            flex-direction: column; 
+            align-items: center;
+        }
+
+        .cart-item-holder{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            padding: 20px;
+            width: 40%;  
+        }
+
+        .cart-item-details{
+            display:flex;
+            flex: 1;
+            flex-direction:column;
+            margin-right: 20px;
+        }
+
+        .cart-item-name{
+            display: flex;
+            flex-direction: row;
+            text-align: left;
+            font-weight: bold;
+            font-size: 20px;    
+        }
+        
+        .cart-item-placeholder{
+            display:block;
+            flex-direction:row;
+            text-align: left;
+            line-height: 1.2;
+        }
+
+        .cart-item-delete{
+            display:block;
+            flex-direction:row;
+            text-align: right;
+            margin-left: 17px; 
+            margin-top: 12px;
+            line-height: 1.2;
+            margin-bottom:20px;
+        }
+
+        .cart-image-holder{
+            display: flex;
+            flex-direction: column;
+            margin-right: 20px; 
+        }
+
+        .view_cart-top{
+            display: flex;
+            font-family: 'Open Sans', sans-serif;  
+            font-weight: bold;
+            font-size: 30px;
+            text-align: center; 
+            justify-content: center;
+            flex-direction: column;
+            margin-bottom: 50px;
+        }
+
+        .view_cart-amountitems{
+            display: flex;
+            padding:5px;
+            font-size:15px;
+            text-align: center; 
+            justify-content: center;
+        }
+
+        .view_cart-editquantity{
+            display: flex;
+            height: 50px;
+            min-width: 80px;
+            border: 2px solid black;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .view_cart-minusplus{
+            width: 100%;
+            background:white;
+            border: white;
+            font-size: 20px; 
+        }
+
+        .view_cart-editquantity span.count{
+            font-size:20px;
+        } 
+
+        .total-price-item{
+            display: flex;
+            text-align: right;
+            font-size:20px;
+            margin-left:40px;
+            margin-bottom:20px;
+            min-width:100px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .view_cart-subtotal{
+            justify-content: left;
+            flex-direction:column;
+            font-size:30px;
+            padding-left: 20px;
+	    padding-bottom:20px;
+        }
+
+        .link-design-view_cart{
+            text-decoration: none;
+            color: inherit;
+            margin: 0;
+        }
+
+	.view_cart-search-input{
+	padding: 1.2vh; /* Adjust padding using viewport units */
+ 	border: solid;
+  	height: 3.3vw;
+  	border-width: 1px;
+   	border-radius: 5px 0 0 5px;
+   	width: 44vw; /* Adjust width using viewport units */
+    	max-width: 80%; /* Limit maximum width */
+	font-family: 'Montserrat', sans-serif;
+	font-size: 17px;
 }
 
