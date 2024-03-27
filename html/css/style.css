@@ -428,11 +428,12 @@ main {
             justify-content: center;
         }
 
-        .view_cart-separator{
+        .view_cart-subtotal{
             justify-content: left;
             flex-direction:column;
             font-size:30px;
-            padding-left: 50px;
+            padding-left: 20px;
+	    padding-bottom:20px;
         }
 
         .link-design-view_cart{
@@ -440,3 +441,16 @@ main {
             color: inherit;
             margin: 0;
         }
+
+	.view_cart-search-input{
+	padding: 1.2vh; /* Adjust padding using viewport units */
+ 	border: solid;
+  	height: 3.3vw;
+  	border-width: 1px;
+   	border-radius: 5px 0 0 5px;
+   	width: 44vw; /* Adjust width using viewport units */
+    	max-width: 80%; /* Limit maximum width */
+	font-family: 'Montserrat', sans-serif;
+	font-size: 17px;
+}
+

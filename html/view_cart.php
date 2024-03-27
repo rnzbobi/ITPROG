@@ -28,7 +28,7 @@ if (!isset($_SESSION['username'])) {
                 </a>
             </div>
             <form class="search-form" action="index.php?search=" method="GET">
-                <input type="text" name="search" class="search-input" placeholder="Search..." value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
+                <input type="text" name="search" class="view_cart-search-input" placeholder="Search..." value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
                 <button type="submit" class="search-button"><img src="images/search-interface-symbol.png" alt="Search"></button>
             </form>
             <div class="nav-links">
@@ -189,7 +189,7 @@ if (!isset($_SESSION['username'])) {
 
             echo "</div>";
     } 
-            echo "<div class='view_cart-separator'>";
+            echo "<div class='view_cart-subtotal'>";
                 echo "Subtotal: $".$subTotal;
             echo "</div>";
 
