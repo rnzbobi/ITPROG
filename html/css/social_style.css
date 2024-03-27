@@ -91,9 +91,12 @@ main {
     padding: 50px 0;
     margin-bottom: 0px;
     max-width: 500px;
-    max-height: 750px;
     margin-left: 100px;
-}
+    /* Reset other styles */
+    width: 100%;
+    height: auto;
+    box-sizing: border-box;
+  }
 
 .post p {
     color: rgb(255, 255, 255);
@@ -189,3 +192,34 @@ main {
             text-decoration: none;
             cursor: pointer;
         }
+
+/* Styling for the like button */
+.post button[type="submit"] {
+    background-color: white; /* Change to your preferred color */
+    color: #000000; /* Text color */
+    border: none;
+    border-radius: 3px;
+    padding: 10px 15px; /* Adjust padding as needed */
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    
+}
+
+.post button[type="submit"]:hover {
+    color: white;
+    background-color: #181818; /* Change to your preferred hover color */
+    border: 1px solid white;
+}
+
+/* Styling for the number of likes */
+.post p.likes {
+    font-size: 14px;
+    color: white; /* Text color */
+    margin-top: 5px; /* Adjust margin as needed */
+    font-family: 'Montserrat', sans-serif;
+}
+  
