@@ -194,6 +194,12 @@ main {
         }
 
 /* Styling for the like button */
+
+.button-container {
+    display: flex;
+    gap: 10px; /* Adjust the gap between buttons as needed */
+}
+
 .post button[type="submit"] {
     background-color: white; /* Change to your preferred color */
     color: #000000; /* Text color */
@@ -228,4 +234,6 @@ main {
     background-color: #181818; /* Change to your preferred color */
     border: 1px solid white;
 }
+
+
   
