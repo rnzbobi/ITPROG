@@ -191,7 +191,15 @@ if (!isset($_SESSION['username'])) {
         <div class="amountitems">
             Total items: 
             <?php
-                $countItems = mysqli_num_rows ($getuserCart);
+                $countItemsQuery = mysqli_query($conn,
+                    "SELECT SUM(carts.quantity) AS 'total_quantity'
+                    FROM user_id 
+                        JOIN carts ON user_id.userid = carts.user_id
+                        JOIN individual_clothes ON carts.item_id = individual_clothes.id
+                    WHERE user_id.username='$username'");
+                $countItemsRow = mysqli_fetch_assoc($countItemsQuery);
+                $countItems = $countItemsRow['total_quantity'];
+
                 echo $countItems;
             ?>
         </div>
