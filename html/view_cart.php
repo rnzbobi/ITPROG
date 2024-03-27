@@ -95,12 +95,14 @@ if (!isset($_SESSION['username'])) {
             align-items: center;
             justify-content: center;
         }
-        .editquantity span{
+        .minusplus{
             width: 100%;
+            background:white;
+            border: white;
             font-size: 20px; 
         }
         .editquantity span.count{
-            font size:50px;
+            font-size:20px;
         }
     </style>
 </head>
@@ -176,6 +178,8 @@ if (!isset($_SESSION['username'])) {
         }
     }
     
+
+
     $getuserCart = mysqli_query($conn,
     "SELECT *
     FROM user_id 
@@ -199,8 +203,8 @@ if (!isset($_SESSION['username'])) {
                     WHERE user_id.username='$username'");
                 $countItemsRow = mysqli_fetch_assoc($countItemsQuery);
                 $countItems = $countItemsRow['total_quantity'];
-
                 echo $countItems;
+                
             ?>
         </div>
 </div>
@@ -229,12 +233,16 @@ if (!isset($_SESSION['username'])) {
 
                     
                 echo "</div>";
-        
-                echo "<div class ='editquantity' id='editquantity".$viewCart['id']."'>";
-                    echo "<span class ='minus'>"."-"."</span>";
-                    echo "<span class ='count'>".$viewCart['quantity']."</span>";
-                    echo "<span class ='plus'>"."+"."</span>";
-                echo "</div>";
+                echo "<form action='update_quantity.php' method='GET'>";
+                    echo "<div class ='editquantity' id='editquantity".$viewCart['id']."'>";
+                        echo "<input type='hidden' name='item_id' value='".$viewCart['id']."'>";
+                        echo "<input type='hidden' name='user_id' value='".$viewCart['user_id']."'>";
+                        echo "<input type='hidden' name='quantity' value='".$viewCart['quantity']."'>";
+                        echo "<button class ='minusplus' name='operation' value='subtract'>"."-"."</button>";
+                        echo "<span class ='count'>".$viewCart['quantity']."</span>";
+                        echo "<button class ='minusplus' name='operation' value='add'>"."+"."</button>";
+                    echo "</div>";
+                echo "</form>";
 
                 echo "<div class = 'cart-item-delete'>";
                     echo "<form action='delete_item.php' method='GET'>";
@@ -249,23 +257,7 @@ if (!isset($_SESSION['username'])) {
 
      echo "</div>";
 ?>
-<script>
-    const plus<?php echo $viewCart['id']; ?> = document.querySelector("#editquantity<?php echo $viewCart['id']; ?> .plus");
-    const minus<?php echo $viewCart['id']; ?> = document.querySelector("#editquantity<?php echo $viewCart['id']; ?> .minus");
-    const count<?php echo $viewCart['id']; ?> = document.querySelector("#editquantity<?php echo $viewCart['id']; ?> .count");
 
-    plus<?php echo $viewCart['id']; ?>.addEventListener("click", function(){
-        count<?php echo $viewCart['id']; ?>.textContent = parseInt(count<?php echo $viewCart['id']; ?>.textContent) + 1;
-        form<?php echo $viewCart['id']; ?>.submit();
-    });
-
-    minus<?php echo $viewCart['id']; ?>.addEventListener("click", function(){
-        if (parseInt(count<?php echo $viewCart['id']; ?>.textContent) > 0){
-        count<?php echo $viewCart['id']; ?>.textContent = parseInt(count<?php echo $viewCart['id']; ?>.textContent) - 1;
-        form<?php echo $viewCart['id']; ?>.submit();
-        }
-    });
-</script>
 <?php
     } 
 ?>
