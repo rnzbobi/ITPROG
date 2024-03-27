@@ -57,10 +57,28 @@ main {
     font-weight: 600;
 }
 
+#post-id{
+    color:#181818;
+    font-size: 22px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+}
+
+.sidebar button{
+    padding: auto;
+    width: 220px;
+    height: 60px;
+    border: none;
+    border-radius: 5px;
+    margin-left: 17px;
+}
+
+
 .word-links a{
     text-decoration: none;
     margin-left: 25px;
 }
+
 
 .logo img {
     width: 125%; /* Adjust the width according to your design */
@@ -73,9 +91,12 @@ main {
     padding: 50px 0;
     margin-bottom: 0px;
     max-width: 500px;
-    max-height: 750px;
     margin-left: 100px;
-}
+    /* Reset other styles */
+    width: 100%;
+    height: auto;
+    box-sizing: border-box;
+  }
 
 .post p {
     color: rgb(255, 255, 255);
@@ -101,3 +122,104 @@ main {
     height: auto;
     border-radius: 5px;
 }
+
+        /* Style for the modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+
+        /* Modal content */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 5px;
+        }
+
+        .modal-content label{
+            font-size: 22px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .modal-content input{
+            width: 500px;
+            height: 30px;
+            margin-top: 15px;
+            margin-bottom: 10px;
+        }
+
+        input[type="submit"] {
+            background-color: #181818;
+            color: white;
+            padding: 10px 20px;
+            border: 2px solid black;
+            border-radius: 5px;
+            font-family: 'Montserrat', sans-serif;
+            cursor: pointer;
+            font-size: 18px;
+            height: 70px;
+            width: 510px;
+        }
+    
+        /* Hover effect for the submit button */
+        input[type="submit"]:hover {
+            background-color: #ffffff;
+            color: black;
+        }
+
+        /* Close button */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+/* Styling for the like button */
+.post button[type="submit"] {
+    background-color: white; /* Change to your preferred color */
+    color: #000000; /* Text color */
+    border: none;
+    border-radius: 3px;
+    padding: 10px 15px; /* Adjust padding as needed */
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    
+}
+
+.post button[type="submit"]:hover {
+    color: white;
+    background-color: #181818; /* Change to your preferred hover color */
+    border: 1px solid white;
+}
+
+/* Styling for the number of likes */
+.post p.likes {
+    font-size: 14px;
+    color: white; /* Text color */
+    margin-top: 5px; /* Adjust margin as needed */
+    font-family: 'Montserrat', sans-serif;
+}
+  

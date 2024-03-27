@@ -52,6 +52,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Item</title>
     <link rel="stylesheet" href="css/style.css" type="text/css" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         .form-container {
@@ -73,6 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             display: flex;
             flex-direction: column;
             margin-bottom: 1rem;
+            font-family: 'Montserrat', sans-serif;
         }
 
         .form-group label {
@@ -96,24 +99,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         .submit-btn {
             padding: 1rem;
-            background: #007bff;
+            background: black;
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 3px;
             cursor: pointer;
             transition: background 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
         }
 
         .submit-btn:hover {
-            background: #0056b3;
+            background: gray;
         }
 
         .back-btn {
             padding: 1rem;
-            background: #007bff;
+            background: black;
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 3px;
             cursor: pointer;
             transition: background 0.3s ease;
             text-decoration: none;
@@ -122,7 +126,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         .back-btn:hover {
-            background: #0056b3;
+            background: gray;
         }
         
     </style>
@@ -138,7 +142,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <h1>Add New Item</h1>
         <form method="POST" class="item-form">
             <div class="form-group">
-                <label for="name">Name:</label>
+                <label for="name">Item Name:</label>
                 <input type="text" id="name" name="name" required maxlength="45">
             </div>
 
@@ -192,7 +196,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
 
             <div class="form-group">
-                <a href="sellermode.php" class="back-btn">Back to Seller Mode</a>
+                <a href="sellermode.php" class="back-btn">Back to Dashboard</a>
             </div>
         </form>
     </div>

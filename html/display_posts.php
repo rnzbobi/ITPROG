@@ -12,11 +12,27 @@ $result = mysqli_query($conn, $sql);
 if (mysqli_num_rows($result) > 0) {
     // Loop through each post and display it
     while ($row = mysqli_fetch_assoc($result)) {
+        $post_id = $row['post_id'];
         echo '<div class="post">';
         echo '<h2><strong>@' . $row['username'] . '</strong></h2>'; // Display the username
         echo '<p>' . $row['caption'] . '</p>'; // Display the caption
         echo '<img src="' . $row['image_URL'] . '" alt="Post Image">'; // Display the image
-        // You can add more elements like like button, comment button, etc.
+
+        // Display the like button
+        if (isset($_SESSION['username'])) {
+            echo '<form method="post" action="like.php">';
+            echo '<input type="hidden" name="post_id" value="' . $post_id . '">';
+            echo '<button type="submit">Like</button>';
+            echo '</form>';
+        }
+
+        // Display the number of likes
+        $sql_likes = "SELECT COUNT(*) AS num_likes FROM likes WHERE post_id = $post_id";
+        $result_likes = mysqli_query($conn, $sql_likes);
+        $row_likes = mysqli_fetch_assoc($result_likes);
+        $num_likes = $row_likes['num_likes'];
+        echo '<p>' . $num_likes . ' Likes</p>';
+
         echo '</div>';
     }
 } else {
