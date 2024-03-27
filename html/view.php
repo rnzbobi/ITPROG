@@ -8,6 +8,8 @@ if (!isset($_SESSION['username'])) {
     $loggedIn = true;
     $username = $_SESSION['username'];
 }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -19,50 +21,109 @@ if (!isset($_SESSION['username'])) {
     <link rel="stylesheet" href="css/style.css" type="text/css" />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
-	 <style>
-        body {
-            font-family: 'Open Sans', sans-serif;
-            margin: 0;
-            padding: 0;
-            background: #f5f5f5;
+    <style>
+        /* New styles for updated layout */
+        .container {
+            display: flex; /* Set up flex container for side-by-side layout */
+            align-items: flex-start; /* Align items to the start of the flex container */
+            gap: 2rem; /* Space between image and details */
+            padding: 1rem;
         }
-        .item-details-container {
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            padding: 20px;
-            gap: 20px;
+        .item-image {
+            max-width: 700px; /* Maximum width of image container */
+            flex: 5; /* Allows the image container to grow and shrink as needed */
         }
         .item-image img {
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            width: 100%; /* Image will fill its container */
+            height: auto; /* Maintain aspect ratio */
         }
         .item-info {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            width: 300px;
+            font-family: 'Montserrat', sans-serif;
+            flex: 2; /* The item-info section will take twice as much width as the image container */
+            padding: 1rem; /* Padding around the text */
         }
-        .item-info h2 {
-            margin-top: 0;
+        #bold{
+            font-weight: 1000;
         }
-        .add-to-cart-btn, .go-back-btn {
-            display: inline-block;
-            background: #007bff;
-            color: white;
-            padding: 10px 15px;
-            text-decoration: none;
-            border-radius: 5px;
-            margin-top: 10px;
+        .item-details h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3rem;
+            margin-bottom: 0.5em;
         }
-        .add-to-cart-btn:hover, .go-back-btn:hover {
-			background: #0056b3; /* Slightly darker blue on hover for both */
-		}
+        .item-details .name {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            color: #333;
+            margin-bottom: 0.5em;
+        }
+		.item-details .color {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            color: #333;
+            margin-bottom: 0.5em;
+        }
+        .item-details .price {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.3rem;
+            color: #E44D26;
+            font-weight: bold;
+        }
+        .item-details label{
+            font-family: 'Montserrat', sans-serif;
+            font-size: 22px;
+        }
+        #size-select{
+            font-size: 20px;
+            padding: auto;
+            width: 100px;
+        }
+        .size-options {
+            font-family: 'Montserrat', sans-serif;
+            margin: 20px 0;
+        }
+        .size-options button {
+            font-family: 'Montserrat', sans-serif;
+            padding: 5px 15px;
+            margin-right: 10px;
+            background-color: #f8f8f8;
+            border: 1px solid #ddd;
+            cursor: pointer;
+        }
+        .size-options button:hover {
+            background-color: #e9e9e9;
+        }
+        .description {
+            margin-top: 20px; /* Adds space above the description */
+            padding: 15px; /* Adds padding inside the description box */
+            background-color: #f2f2f2; /* Light grey background for the description area */
+            border-radius: 8px; /* Rounded corners for the description box */
+            font-size: 1rem; /* Sets the font size */
+            line-height: 1.3; /* Sets the line height for better readability */
+            color: #333; /* Dark grey color for the text, easier on the eyes than pure black */
+            font-family: 'Montserrat', sans-serif;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* A subtle shadow to lift the description off the page */
+        }
+        .add-to-cart-btn, .checkout-btn {
+            font-family: 'Montserrat', sans-serif;
+            display: block; /* Makes the link fill the width of its container */
+            padding: 25px 20px; /* Adds padding inside the button */
+            background-color: #000000; /* Blue background color */
+            color: white; /* White text */
+            text-align: center; /* Centers the text inside the button */
+            text-decoration: none; /* Removes the underline from the link */
+            border-radius: 3px; /* Rounded corners for the button */
+            border: none; /* No border */
+            margin-top: 10px; /* Adds space above the first button */
+        }
+        .checkout-btn {
+            font-family: 'Montserrat', sans-serif;
+           background-color: #28a745; /* Green background color for the checkout button */
+            margin-top: 20px; /* Adds more space above the checkout button */
+        }
     </style>
 </head>
 <body>
-    <header>
+     <header>
         <div class="header">
             <div class="logo">
                 <a href="index.php">
@@ -74,9 +135,9 @@ if (!isset($_SESSION['username'])) {
                 <button type="submit" class="search-button"><img src="images/search-interface-symbol.png" alt="Search"></button>
             </form>
             <div class="nav-links">
-                <a href="social-media.html"><img src="images/social.png" alt="Social"></a>
-                <a href="user.html"><img src="images/user.png" alt="User"></a>
-                <a href="cart.html"><img src="images/shopping-cart.png" alt="Cart"></a>
+                <a href="social-media.php"><img src="images/social.png" alt="Social"></a>
+                <a href="view_cart.php"><img src="images/shopping-cart.png" alt="Cart"></a>
+                <a href="user.php"><img src="images/user.png" alt="User"></a>
                 <?php
             if($loggedIn){
                 echo '<a href="profile.php"><h2><span id="user-id">Profile</span></h2></a>';
@@ -86,69 +147,83 @@ if (!isset($_SESSION['username'])) {
             }
             ?>
 			 <h2>Balance: <span id="balance-value">10000</span></h2>
-       
             </div>
             <div class="Balance-header">
                 <h2 id="balance">Balance: <span id="balance-value">10000</span></h2>
             </div>
         </div>
-    </header>  
-
+    </header> 
     <main>
-        <div class="item-details-container">
+        <div class="container">
             <?php
-            // Check if item_id is provided in the URL parameters
-            if(isset($_GET['item_id'])) {
+            if (isset($_GET['item_id'])) {
                 $item_id = $_GET['item_id'];
-                
-                // Query to retrieve item details from the individual_clothes table
-                $sql = "SELECT * FROM individual_clothes WHERE id = $item_id";
-                $result = executeQuery($conn, $sql);
-                
-                // Check if the query returned any result
-                if(mysqli_num_rows($result) > 0) {
-                    // Fetch the item details
-                    $row = mysqli_fetch_assoc($result);
-                    $name = $row['name'];
-                    $brand = $row['brand'];
-                    $category = $row['category'];
-                    $color = $row['color'];
-                    $price = $row['price'];
-                    $gender = $row['gender'];
-                    $size = $row['size'];
-                    $available_quantity = $row['available_quantity'];
-                    $image_URL = $row['image_URL'];
-                    $description = $row['description'];
-                    
-                    // Display the item image
-					echo '<div class="item-image">';
-					echo '<img src="' . $image_URL . '" alt="' . $name . '" style="max-width: 300px; max-height: 300px;">';
-					echo '</div>';
-                    
-                    // Display the item details
-                    echo '<div class="item-info">';
-                    echo '<h2>' . $name . '</h2>';
-                    echo '<p><strong>Brand:</strong> ' . $brand . '</p>';
-                    echo '<p><strong>Category:</strong> ' . $category . '</p>';
-                    echo '<p><strong>Color:</strong> ' . $color . '</p>';
-                    echo '<p><strong>Price:</strong> $' . $price . '</p>';
-                    echo '<p><strong>Gender:</strong> ' . $gender . '</p>';
-                    echo '<p><strong>Size:</strong> ' . $size . '</p>';
-                    echo '<p><strong>Available Quantity:</strong> ' . $available_quantity . '</p>';
-                    echo '<p><strong>Description:</strong> ' . $description . '</p>';
-                    // Add any other information you want to display
-                    echo '<a href="cart.php?item_id=' . $item_id . '" class="add-to-cart-btn">Add to Cart</a>';
-					echo '<a href="index.php" class="go-back-btn">Go Back</a>';
-                    echo '</div>';
-					
+                $sql = "SELECT * FROM individual_clothes WHERE id = ?";
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("i", $item_id);
+                $stmt->execute();
+                $result = $stmt->get_result();
+
+                if ($result->num_rows > 0) {
+                    $row = $result->fetch_assoc();
+                    ?>
+                    <div class="item-image">
+                        <img src="<?php echo htmlspecialchars($row['image_URL']); ?>" alt="<?php echo htmlspecialchars($row['name']); ?>">
+                    </div>
+                    <div class="item-info">
+                        <div class="item-details">
+                            <h1><?php echo htmlspecialchars($row['brand']); ?></h1>
+							 <p class="name"> <?php echo htmlspecialchars($row['name']); ?></p>
+							 <p class="color"> <span id="bold">● Color:</span> <?php echo htmlspecialchars($row['color']); ?></p>
+                             <p class="color"> <span id="bold">● Category:</span> <?php echo htmlspecialchars($row['category']); ?></p>
+                             <p class="color"> <span id="bold">● Gender:</span> <?php echo htmlspecialchars($row['gender']); ?></p>
+                             <p class="price">
+                                $<?php echo htmlspecialchars($row['price']); ?>
+                            </p>
+                            <label for="size-select">Size:</label><br><br>
+<select id="size-select" name="size" onchange="updateItemID(this.value);">
+    <?php 
+    $sizes_sql = "SELECT id, size FROM individual_clothes WHERE name = ? ORDER BY size DESC";
+    $sizes_stmt = $conn->prepare($sizes_sql);
+    $sizes_stmt->bind_param("s", $row['name']);
+    $sizes_stmt->execute();
+    $sizes_result = $sizes_stmt->get_result();
+    
+    if ($sizes_result->num_rows > 0) {
+        while ($size_row = $sizes_result->fetch_assoc()) {
+            echo "<option value=\"" . htmlspecialchars($size_row['id']) . "\">" . htmlspecialchars($size_row['size']) . "</option>";
+        }
+    }
+    $sizes_stmt->close();
+    ?>
+</select>
+                            <a href="cart.php?item_id=<?php echo $item_id; ?>" class="add-to-cart-btn">Add to Cart</a>
+
+                            <a href="checkout.php?item_id=<?php echo $item_id; ?>" class="add-to-cart-btn">Checkout</a>
+                            <div class="description">
+                                <h3>Description:</h3><?php echo htmlspecialchars($row['description']); ?>
+                             </div>      
+                        </div>
+                    </div>
+                    <?php
                 } else {
                     echo "Item not found.";
                 }
+                $stmt->close();
             } else {
                 echo "Item ID not provided.";
             }
             ?>
         </div>
     </main>
+
+    <script>
+function updateItemID(selectedItemID) {
+    var addToCartBtn = document.querySelector('.add-to-cart-btn');
+    var checkoutBtn = document.querySelector('.checkout-btn');
+    addToCartBtn.href = 'cart.php?item_id=' + selectedItemID;
+    checkoutBtn.href = 'checkout.php?item_id=' + selectedItemID;
+}
+</script>
 </body>
 </html>

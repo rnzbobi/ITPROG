@@ -82,6 +82,7 @@
             echo '<label class="labelstyle" for="balance">Balance:</label>';
             echo '<input class="inputstyle2" type="text" id="balance" value="' . $user['balance'] . '" disabled><br>';
             echo '<a class="astyle" href="editprofile.php"><h3>Edit Profile</h3></a><br><br>';
+            echo '<a class="astyle" href="sellermode.php"><h3>Seller Mode</h3></a><br><br>';
             echo '<a class="astyle" href="viewpurchasehistory.php"><h3>View Purchase History</h3></a>';
             echo '<a class="astyle" href="index.php"><h3>Go Back</h3></a>';
         } else {
