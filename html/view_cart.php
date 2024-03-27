@@ -258,13 +258,17 @@ if (!isset($_SESSION['username'])) {
         echo "<div class='cart-item-holder'>";
 
             echo "<div class = 'cart-image-holder'>";
-                 echo "<img src='".$viewCart['image_URL']."'style='width: 100px; height: 100px;'>";
+                echo "<a class='link-design' href='view.php?item_id=".$viewCart['id']."'>";
+                    echo "<img src='".$viewCart['image_URL']."'style='width: 100px; height: 100px;'>";
+                echo "</a>";
             echo "</div>";
 
                 echo "<div class='cart-item-details'>";
 
                     echo "<div class = 'cart-item-name'>";
-                        echo $viewCart['name'];
+                        echo "<a class='link-design' href='view.php?item_id=".$viewCart['id']."'>";
+                            echo $viewCart['name'];
+                        echo "</a>";
                     echo "</div>";
 
                     echo "<div class = 'cart-item-placeholder'>";
