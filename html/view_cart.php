@@ -18,6 +18,11 @@ if (!isset($_SESSION['username'])) {
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
     <style>
+        .button{
+            display: flex;
+            background: white;
+            border: 0px;
+        }
         .top{
             display: flex;
             font-family: 'Open Sans', sans-serif;  
@@ -63,10 +68,18 @@ if (!isset($_SESSION['username'])) {
             font-weight: bold;
             font-size: 20px;    
         }
-        .cart-item-size-price{
+        .cart-item-placeholder{
             display:block;
             flex-direction:row;
             text-align: left;
+            line-height: 1.2;
+        }
+        .cart-item-delete{
+            display:block;
+            flex-direction:row;
+            text-align: right;
+            margin-left: 17px; 
+            margin-top: 12px;
             line-height: 1.2;
         }
         .cart-image-holder{
@@ -198,21 +211,33 @@ if (!isset($_SESSION['username'])) {
                         echo $viewCart['name'];
                     echo "</div>";
 
-                    echo "<div class = 'cart-item-size-price'>";
+                    echo "<div class = 'cart-item-placeholder'>";
                         echo $viewCart['size'];
                     echo "</div>";
 
-                    echo "<div class = 'cart-item-size-price'>";
+                    echo "<div class = 'cart-item-placeholder'>";
                         echo $viewCart['price'];
                     echo "</div>";
 
                     
                 echo "</div>";
-        echo "<div class ='editquantity' id='editquantity".$viewCart['id']."'>";
-            echo "<span class ='minus'>"."-"."</span>";
-            echo "<span class ='count'>".$viewCart['quantity']."</span>";
-            echo "<span class ='plus'>"."+"."</span>";
-        echo "</div>";
+        
+                echo "<div class ='editquantity' id='editquantity".$viewCart['id']."'>";
+                    echo "<span class ='minus'>"."-"."</span>";
+                    echo "<span class ='count'>".$viewCart['quantity']."</span>";
+                    echo "<span class ='plus'>"."+"."</span>";
+                echo "</div>";
+
+                echo "<div class = 'cart-item-delete'>";
+                    echo "<form action='delete_item.php' method='GET'>";
+                    echo "<button class='button' type='submit' name='Delete' value='Delete'>";
+                    echo "<input type='hidden' name='item_id' value='".$viewCart['id']."'>";
+                    echo "<input type='hidden' name='user_id' value='".$viewCart['user_id']."'>";
+                    echo "<img src='https://clipground.com/images/x-image-png-6.png' height='35px' width='35px' alt='delete'>";
+                    echo"</button>";
+                    echo "</form>";
+                echo "</div>";
+        
 
      echo "</div>";
 ?>
