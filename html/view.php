@@ -181,9 +181,10 @@ if (!isset($_SESSION['username'])) {
                                 $<?php echo htmlspecialchars($row['price']); ?>
                             </p>
                             <label for="size-select">Size:</label><br><br>
-<select id="size-select" name="size" onchange="updateItemID(this.value);">
+                            <select id="size-select" name="size" onchange="updateItemID(this.value);">
     <?php 
-    $sizes_sql = "SELECT id, size FROM individual_clothes WHERE name = ? ORDER BY size DESC";
+    
+    $sizes_sql = "SELECT id, size FROM individual_clothes WHERE name = ? ORDER BY id";
     $sizes_stmt = $conn->prepare($sizes_sql);
     $sizes_stmt->bind_param("s", $row['name']);
     $sizes_stmt->execute();
