@@ -115,11 +115,6 @@ if (!isset($_SESSION['username'])) {
             border: none; /* No border */
             margin-top: 10px; /* Adds space above the first button */
         }
-        .checkout-btn {
-            font-family: 'Montserrat', sans-serif;
-           background-color: #28a745; /* Green background color for the checkout button */
-            margin-top: 20px; /* Adds more space above the checkout button */
-        }
     </style>
 </head>
 <body>
@@ -181,9 +176,10 @@ if (!isset($_SESSION['username'])) {
                                 $<?php echo htmlspecialchars($row['price']); ?>
                             </p>
                             <label for="size-select">Size:</label><br><br>
-<select id="size-select" name="size" onchange="updateItemID(this.value);">
+                            <select id="size-select" name="size" onchange="updateItemID(this.value);">
     <?php 
-    $sizes_sql = "SELECT id, size FROM individual_clothes WHERE name = ? ORDER BY size DESC";
+    
+    $sizes_sql = "SELECT id, size FROM individual_clothes WHERE name = ? ORDER BY id";
     $sizes_stmt = $conn->prepare($sizes_sql);
     $sizes_stmt->bind_param("s", $row['name']);
     $sizes_stmt->execute();
@@ -199,7 +195,7 @@ if (!isset($_SESSION['username'])) {
 </select>
                             <a href="cart.php?item_id=<?php echo $item_id; ?>" class="add-to-cart-btn">Add to Cart</a>
 
-                            <a href="checkoutitem.php?item_id=<?php echo $item_id; ?>" class="add-to-cart-btn" onclick="return confirm('Are you sure you want to proceed to checkout?')">Checkout</a>
+                            <a href="checkoutitem.php?item_id=<?php echo $item_id; ?>" class="checkout-btn" onclick="return confirm('Are you sure you want to proceed to checkout?')">Checkout</a>
                             <div class="description">
                                 <h3>Description:</h3><?php echo htmlspecialchars($row['description']); ?>
                              </div>      
@@ -227,5 +223,3 @@ function updateItemID(selectedItemID) {
 </script>
 </body>
 </html>
-
-
