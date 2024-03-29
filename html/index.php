@@ -213,6 +213,21 @@ if (!isset($_SESSION['username'])) {
             });
             </script>';
         }
+
+        if (isset($_SESSION['itemcheckout'])) {
+            unset($_SESSION['itemcheckout']);
+            echo '<script>
+            Swal.fire({
+                title: "Success!",
+                text: "Item Checkout Successful",
+                icon: "success",
+                confirmButtonText: "Ok",
+                customClass: {
+                    confirmButton: "swal2-confirm custom-black-btn" // Apply the custom class
+                }
+            });
+            </script>';
+        }
         ?>
 
     <script>

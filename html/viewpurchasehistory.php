@@ -28,7 +28,7 @@ if (isset($_SESSION['username'])) {
         $purchases = array();
 
         $sql = "SELECT * FROM orders JOIN order_items ON orders.order_id=order_items.order_id JOIN individual_clothes 
-                ON order_items.item_id=individual_clothes.id WHERE user_id='$userid'";
+                ON order_items.item_id=individual_clothes.id WHERE user_id='$userid' ORDER BY orders.order_date ASC";
         $result = mysqli_query($conn, $sql);
         ?>
 

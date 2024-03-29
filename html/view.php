@@ -199,7 +199,7 @@ if (!isset($_SESSION['username'])) {
 </select>
                             <a href="cart.php?item_id=<?php echo $item_id; ?>" class="add-to-cart-btn">Add to Cart</a>
 
-                            <a href="checkout.php?item_id=<?php echo $item_id; ?>" class="add-to-cart-btn">Checkout</a>
+                            <a href="checkoutitem.php?item_id=<?php echo $item_id; ?>" class="add-to-cart-btn" onclick="return confirm('Are you sure you want to proceed to checkout?')">Checkout</a>
                             <div class="description">
                                 <h3>Description:</h3><?php echo htmlspecialchars($row['description']); ?>
                              </div>      
@@ -222,8 +222,10 @@ function updateItemID(selectedItemID) {
     var addToCartBtn = document.querySelector('.add-to-cart-btn');
     var checkoutBtn = document.querySelector('.checkout-btn');
     addToCartBtn.href = 'cart.php?item_id=' + selectedItemID;
-    checkoutBtn.href = 'checkout.php?item_id=' + selectedItemID;
+    checkoutBtn.href = 'checkoutitem.php?item_id=' + selectedItemID;
 }
 </script>
 </body>
 </html>
+
+
