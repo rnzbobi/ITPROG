@@ -199,7 +199,7 @@ if (!isset($_SESSION['username'])) {
                     mysqli_data_seek($getuserCart, 0); //This goes to the very first row
                     while($viewCart = mysqli_fetch_assoc($getuserCart)){
                         echo "<input type ='hidden' name='item_id' value='".$viewCart['id']."'>";
-                        echo "<input type ='hidden' name='user_id' value='".$viewCart['price']."'>";
+                        echo "<input type ='hidden' name='user_id' value='".$viewCart['user_id']."'>";
                     }
                     echo "<button class='view_cart-button-bottom' value='checkout'>Checkout";
                 echo "</form>";
