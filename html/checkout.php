@@ -18,13 +18,14 @@ if(mysqli_num_rows($result_user) > 0) {
     $userbalance = $user_row['balance'];
 }
 
-$sql_user = "SELECT * FROM carts WHERE user_id = '$userid'";
-$getuserCart = mysqli_query($conn, $sql_user);
+//Gets all rows in cart that matches current user_id
+$getuserCart = mysqli_query($conn, "SELECT * FROM carts WHERE user_id = '$userid'");
 
-for ($i = 0; $i < $checkoutcount; $i++)
+//Starting from first row until last 
+while ($checkout=mysqli_fetch_assoc($getuserCart) )
 {
-    if(isset($_GET['item_id'])) {
-        $item_id = $_GET['item_id'];
+    if(isset($checkout['item_id'])) {
+        $item_id = $checkout['item_id'];
         $sql_item = "SELECT * FROM individual_clothes WHERE id = $item_id";
         $result_item = executeQuery($conn, $sql_item);
         
@@ -33,20 +34,10 @@ for ($i = 0; $i < $checkoutcount; $i++)
             $itemquantity = $item['available_quantity'];
             $itemprice = $item['price'];
     
-            $username = $_SESSION['username'];
-            $sql_user = "SELECT * FROM user_id WHERE username = '$username'";
-            $result_user = executeQuery($conn, $sql_user);
-    
-            if(mysqli_num_rows($result_user) > 0) {
-                $user_row = mysqli_fetch_assoc($result_user);
-                $userid = $user_row['userid'];
-                $userbalance = $user_row['balance'];
-            }
-    
-            if($itemquantity >= 1 && $userbalance >= $itemprice) {
-                $newavailablequantity = $itemquantity - 1;
-                $newsoldquantity = $item['sold_quantity'] + 1;
-                $newuserbalance = $userbalance - $itemprice;
+            if( ($itemquantity >= 1 && $itemquantity >= $checkout['quantity']) && $userbalance >= $itemprice * $checkout['quantity']) {
+                $newavailablequantity = $itemquantity - $checkout['quantity'];
+                $newsoldquantity = $item['sold_quantity'] + $checkout['quantity'];
+                $newuserbalance = $userbalance - ($itemprice * $checkout['quantity']);
     
                 $studQuery = "UPDATE individual_clothes SET available_quantity=?, sold_quantity=? WHERE id=?";
                 $stmt = mysqli_prepare($conn, $studQuery);
@@ -71,14 +62,30 @@ for ($i = 0; $i < $checkoutcount; $i++)
                 mysqli_stmt_bind_param($stmt4, "di", $newuserbalance, $userid);
     
                 mysqli_stmt_execute($stmt4);
-    
+
+            } 
+            //ELSE INVALID QUANTITY OR PRICE
+            else {
+                header("Location: index.php");
+                exit();
+            }
+        }
+        //ELSE WALANG STOCK YUNG TINRY BILHIN NI USER 
+        else { 
+            header("Location: index.php");
+            exit();
+        } 
+    }
+    //ITEM DOES NOT EXIST
+    else {
+        header("Location: index.php");
+        exit();
+    } 
+}
                 //CHECKOUT NA MISMO
                 $_SESSION['itemcheckout'] = true;
     
                 header("Location: index.php");
                 exit();
-            } 
-        } 
-    } 
-}
+
     ?>
