@@ -195,7 +195,7 @@ if (!isset($_SESSION['username'])) {
             // Fetch default content if no filters, search, or sort
             $result = getDefaultContent($conn);
             // Display content based on the result fetched
-            displayContent($result);
+            displayContent($result, $conn);
         }
 		
 		
