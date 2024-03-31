@@ -57,19 +57,19 @@ if (!function_exists('displayContent')) {
             while ($row = mysqli_fetch_assoc($result)) {
                 $key = $row['name'] . $row['brand'] . $row['category'] . $row['color'] . $row['price'] . $row['gender'] . $row['image_URL'] . $row['description']; // Define a key for merging
 
-                if (!in_array($key, $displayedItems)) {
-                    // If the item has not been displayed yet, display it
+                if (!in_array($key, $displayedItems) && $row['available_quantity'] > 0) {
+                    // If the item has not been displayed yet and available_quantity is greater than 0, display it
                     $displayedItems[] = $key;
                     
-                echo "<div class='box-items'>";
-                echo "<div class='image-container'>";
-                echo '<a href="view.php?item_id=' . $row['id'] . '"><img src="'.$row['image_URL'].'" alt="'.$row["name"].'" /></a>';
-                echo "</div>"; 
-                echo "<div class='box-items-content'>";
-                echo "<h3>" . $row["name"] . "</h3>";
-                echo "<p class='price'>$" . $row["price"] . "</p>";
-                echo "</div>";
-                echo "</div>";                
+                    echo "<div class='box-items'>";
+                    echo "<div class='image-container'>";
+                    echo '<a href="view.php?item_id=' . $row['id'] . '"><img src="'.$row['image_URL'].'" alt="'.$row["name"].'" /></a>';
+                    echo "</div>"; 
+                    echo "<div class='box-items-content'>";
+                    echo "<h3>" . $row["name"] . "</h3>";
+                    echo "<p class='price'>$" . $row["price"] . "</p>";
+                    echo "</div>";
+                    echo "</div>";                
                 }
             }
             echo '</div>';
@@ -79,6 +79,7 @@ if (!function_exists('displayContent')) {
         }
     }
 }
+
 
 
 
