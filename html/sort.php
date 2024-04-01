@@ -12,7 +12,7 @@ if (isset($_GET['sort'])) {
 
     switch ($sortOption) {
         case 'best-selling':
-            // Add sorting query for best-selling items (not implemented)
+            $sortQuery = 'ORDER BY sold_quantity DESC';
             break;
         case 'A-Z':
             // Add sorting query for A-Z
@@ -37,10 +37,10 @@ if (isset($_GET['sort'])) {
     }
 
     // Construct the SQL query for individual items with sorting
-    $sql = "SELECT id, name, brand, category, color, price, gender, size, available_quantity, image_URL, description FROM individual_clothes $sortQuery";
+    $sql = "SELECT id, name, brand, category, color, price, gender, size, available_quantity, sold_quantity, image_URL, description FROM individual_clothes $sortQuery";
 
     // Construct the SQL query for combo items with sorting
-    $comboSql = "SELECT combo_id, combo_name AS name, 'Combo' AS brand, 'Combo' AS category, 'Combo' AS color, price, 'Unisex' AS gender, 'One Size' AS size, 1 AS available_quantity, image_URL, description FROM combo_clothes $sortQuery";
+    $comboSql = "SELECT combo_id, combo_name AS name, 'Combo' AS brand, 'Combo' AS category, 'Combo' AS color, price, 'Unisex' AS gender, 'One Size' AS size,available_quantity, sold_quantity,image_URL, description FROM combo_clothes $sortQuery";
 
     // Union the individual items and combo items queries
     $sql .= " UNION " . $comboSql;
