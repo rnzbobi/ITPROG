@@ -228,6 +228,22 @@ if (!isset($_SESSION['username'])) {
             });
             </script>';
         }
+
+        if (isset($_SESSION['checkouterror'])) {
+            unset($_SESSION['checkouterror']);
+            echo '<script>
+            Swal.fire({
+                title: "Oops...",
+                text: "An error occurred while checking out! Item maybe unavailable or you have insufficient balance.",
+                icon: "error",
+                confirmButtonText: "Ok",
+                customClass: {
+                    confirmButton: "swal2-confirm custom-black-btn" // Apply the custom class
+                }
+            });
+            </script>';
+        }
+
         ?>
 
     <script>

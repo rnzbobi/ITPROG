@@ -63,6 +63,7 @@ if(isset($_GET['item_id'])) {
             header("Location: index.php");
             exit();
         } else {
+            $_SESSION['checkouterror'] = true;
             header("Location: index.php");
             exit();
         }
