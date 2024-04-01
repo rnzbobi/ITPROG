@@ -199,8 +199,8 @@ if (!isset($_SESSION['username'])) {
         }
 		
 		
-        if (isset($_SESSION['item_added_to_cart'])) {
-            unset($_SESSION['item_added_to_cart']);
+        if (isset($_SESSION['item_added'])) {
+            unset($_SESSION['item_added']);
             echo '<script>
             Swal.fire({
                 title: "Success!",
