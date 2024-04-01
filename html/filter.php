@@ -14,7 +14,7 @@ if (isset($_GET['category']) || isset($_GET['brand']) || isset($_GET['color']) |
     );
 
     // Construct the SQL query for individual items based on the applied filters
-    $sql = "SELECT id, name, brand, category, color, price, gender, size, available_quantity, image_URL, description FROM individual_clothes WHERE 1";
+    $sql = "SELECT id, name, brand, category, color, price, gender, size, available_quantity,sold_quantity,image_URL, description FROM individual_clothes WHERE 1";
 
     foreach ($filters as $column => $value) {
         if (!empty($value)) {
@@ -33,7 +33,7 @@ if (isset($_GET['category']) || isset($_GET['brand']) || isset($_GET['color']) |
     }
 
     // Construct the SQL query for combo items based on the applied filters
-    $comboSql = "SELECT combo_id, combo_name AS name, 'Combo' AS brand, 'Combo' AS category, 'Combo' AS color, price, 'Unisex' AS gender, 'One Size' AS size, 1 AS available_quantity,image_URL, description FROM combo_clothes WHERE 1";
+    $comboSql = "SELECT combo_id, combo_name AS name, 'Combo' AS brand, 'Combo' AS category, 'Combo' AS color, price, 'Unisex' AS gender, 'One Size' AS size, available_quantity, sold_quantity,image_URL, description FROM combo_clothes WHERE 1";
 
     foreach ($filters as $column => $value) {
         if (!empty($value)) {
@@ -58,7 +58,7 @@ if (isset($_GET['category']) || isset($_GET['brand']) || isset($_GET['color']) |
         // Initialize the sorting query based on the selected option
         switch ($sortOption) {
             case 'best-selling':
-                // Add sorting query for best-selling items (not implemented)
+                $sql .= ' ORDER BY sold_quantity DESC';
                 break;
             case 'A-Z':
                 // Add sorting query for A-Z

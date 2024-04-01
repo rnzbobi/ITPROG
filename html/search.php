@@ -10,7 +10,7 @@ if (isset($_GET['search'])) {
             WHERE name LIKE '%$searchKeyword%'";
 
     // Query for combo items
-    $comboSql = "SELECT combo_id, combo_name AS name, 'Combo' AS brand, 'Combo' AS category, 'Combo' AS color, price, 'Unisex' AS gender, 'One Size' AS size, 1 AS available_quantity, image_URL, description 
+    $comboSql = "SELECT combo_id, combo_name AS name, 'Combo' AS brand, 'Combo' AS category, 'Combo' AS color, price, 'Unisex' AS gender, 'One Size' AS size, available_quantity, image_URL, description 
                  FROM combo_clothes 
                  WHERE combo_name LIKE '%$searchKeyword%'";
 
