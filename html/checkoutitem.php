@@ -58,9 +58,15 @@ if(isset($_GET['item_id'])) {
 
             mysqli_stmt_execute($stmt4);
 
+            $studQuery5 = "INSERT INTO receipt (receiptid, item_id, quantity, subtotal, receipt_date) VALUES (NULL, ?, 1, ?, NOW());";
+            $stmt5 = mysqli_prepare($conn, $studQuery5);
+            mysqli_stmt_bind_param($stmt5, "id", $item_id, $itemprice);
+    
+            mysqli_stmt_execute($stmt5);
+
             $_SESSION['itemcheckout'] = true;
 
-            header("Location: index.php");
+            header("Location: receipt.php");
             exit();
         } else {
             $_SESSION['checkouterror'] = true;

@@ -20,6 +20,7 @@ if(mysqli_num_rows($result_user) > 0) {
 
 //Gets all rows in cart that matches current user_id
 $getuserCart = mysqli_query($conn, "SELECT * FROM carts WHERE user_id = '$userid'");
+$subtotal = 0;
 
 //Starting from first row until last 
 while ($checkout=mysqli_fetch_assoc($getuserCart) )
@@ -48,6 +49,7 @@ while ($checkout=mysqli_fetch_assoc($getuserCart) )
                 $newavailablequantity = $itemquantity - $checkout['quantity'];
                 $newsoldquantity = $item['sold_quantity'] + $checkout['quantity'];
                 $newuserbalance = $userbalance - ($itemprice * $checkout['quantity']);
+                $subtotal += $itemprice * $checkout['quantity'];
     
                 $studQuery = "UPDATE individual_clothes SET available_quantity=?, sold_quantity=? WHERE id=?";
                 $stmt = mysqli_prepare($conn, $studQuery);
@@ -85,6 +87,12 @@ while ($checkout=mysqli_fetch_assoc($getuserCart) )
     
                 mysqli_stmt_execute($stmt5);
 
+                $studQuery6 = "INSERT INTO receipt (receiptid, item_id, quantity, subtotal, receipt_date) VALUES (NULL, ?, ?, ?, NOW());";
+                $stmt6 = mysqli_prepare($conn, $studQuery6);
+                mysqli_stmt_bind_param($stmt6, "iid", $item_id, $checkout['quantity'], $subtotal);
+    
+                mysqli_stmt_execute($stmt6);
+
             } 
             //ELSE INVALID QUANTITY OR PRICE
             else {
@@ -106,10 +114,15 @@ while ($checkout=mysqli_fetch_assoc($getuserCart) )
         exit();
     } 
 }
+
+if (mysqli_num_rows($getuserCart) == 0) {
+    header("Location: view_cart.php");
+    exit();
+}
     
     $_SESSION['itemcheckout'] = true;
     //CHECKOUT NA MISMO
     
-    header("Location: index.php");
+    header("Location: receipt.php");
     exit();
 ?>
