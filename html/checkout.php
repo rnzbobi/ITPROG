@@ -35,6 +35,16 @@ while ($checkout=mysqli_fetch_assoc($getuserCart) )
             $itemprice = $item['price'];
     
             if( ($itemquantity >= 1 && $itemquantity >= $checkout['quantity']) && $userbalance >= $itemprice * $checkout['quantity']) {
+
+                $sql_user = "SELECT * FROM user_id WHERE username = '$username'";
+                $result_user = executeQuery($conn, $sql_user);
+                
+                if(mysqli_num_rows($result_user) > 0) {
+                    $user_row = mysqli_fetch_assoc($result_user);
+                    $userid = $user_row['userid'];
+                    $userbalance = $user_row['balance'];
+                }
+
                 $newavailablequantity = $itemquantity - $checkout['quantity'];
                 $newsoldquantity = $item['sold_quantity'] + $checkout['quantity'];
                 $newuserbalance = $userbalance - ($itemprice * $checkout['quantity']);
@@ -63,15 +73,29 @@ while ($checkout=mysqli_fetch_assoc($getuserCart) )
     
                 mysqli_stmt_execute($stmt4);
 
+                $studQuery4 = "UPDATE user_id SET balance=? WHERE userid=?";
+                $stmt4 = mysqli_prepare($conn, $studQuery4);
+                mysqli_stmt_bind_param($stmt4, "di", $newuserbalance, $userid);
+    
+                mysqli_stmt_execute($stmt4);
+
+                $studQuery5 = "DELETE FROM carts WHERE item_id=?";
+                $stmt5 = mysqli_prepare($conn, $studQuery5);
+                mysqli_stmt_bind_param($stmt5, "i", $item_id);
+    
+                mysqli_stmt_execute($stmt5);
+
             } 
             //ELSE INVALID QUANTITY OR PRICE
             else {
+                $_SESSION['checkouterror'] = true;
                 header("Location: index.php");
                 exit();
             }
         }
         //ELSE WALANG STOCK YUNG TINRY BILHIN NI USER 
-        else { 
+        else {
+            $_SESSION['checkouterror'] = true;
             header("Location: index.php");
             exit();
         } 
@@ -82,10 +106,10 @@ while ($checkout=mysqli_fetch_assoc($getuserCart) )
         exit();
     } 
 }
-                //CHECKOUT NA MISMO
-                $_SESSION['itemcheckout'] = true;
     
-                header("Location: index.php");
-                exit();
-
-    ?>
+    $_SESSION['itemcheckout'] = true;
+    //CHECKOUT NA MISMO
+    
+    header("Location: index.php");
+    exit();
+?>
