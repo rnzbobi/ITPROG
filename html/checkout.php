@@ -21,6 +21,8 @@ if(mysqli_num_rows($result_user) > 0) {
 //Gets all rows in cart that matches current user_id
 $getuserCart = mysqli_query($conn, "SELECT * FROM carts WHERE user_id = '$userid'");
 $subtotal = 0;
+$checkoutfail = false;
+$checkoutsuccess = false;
 
 //Starting from first row until last 
 while ($checkout=mysqli_fetch_assoc($getuserCart) )
@@ -92,13 +94,11 @@ while ($checkout=mysqli_fetch_assoc($getuserCart) )
                 mysqli_stmt_bind_param($stmt6, "iid", $item_id, $checkout['quantity'], $subtotal);
     
                 mysqli_stmt_execute($stmt6);
-
+                $checkoutsuccess = true;
             } 
             //ELSE INVALID QUANTITY OR PRICE
             else {
-                $_SESSION['checkouterror'] = true;
-                header("Location: index.php");
-                exit();
+                $checkoutfail = true;
             }
         }
         //ELSE WALANG STOCK YUNG TINRY BILHIN NI USER 
@@ -106,13 +106,25 @@ while ($checkout=mysqli_fetch_assoc($getuserCart) )
             $_SESSION['checkouterror'] = true;
             header("Location: index.php");
             exit();
-        } 
+        }
     }
     //ITEM DOES NOT EXIST
     else {
         header("Location: index.php");
         exit();
-    } 
+    }
+}
+
+if ($checkoutsuccess && $checkoutfail){
+    $_SESSION['partialcheckout'] = true;
+    header("Location: receipt.php");
+    exit();
+}
+
+if (!$checkoutsuccess && $checkoutfail){
+    $_SESSION['checkouterror'] = true;
+    header("Location: index.php");
+    exit();
 }
 
 if (mysqli_num_rows($getuserCart) == 0) {

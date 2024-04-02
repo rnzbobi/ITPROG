@@ -244,6 +244,21 @@ if (!isset($_SESSION['username'])) {
             </script>';
         }
 
+        if (isset($_SESSION['partialcheckout'])) {
+            unset($_SESSION['partialcheckout']);
+            echo '<script>
+            Swal.fire({
+                title: "Oops...",
+                text: "Not all items have been checked out in your cart",
+                icon: "warning",
+                confirmButtonText: "Ok",
+                customClass: {
+                    confirmButton: "swal2-confirm custom-black-btn" // Apply the custom class
+                }
+            });
+            </script>';
+        }
+
         ?>
 
     <script>
