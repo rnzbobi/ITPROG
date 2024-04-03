@@ -58,9 +58,9 @@ if(isset($_GET['item_id'])) {
 
             mysqli_stmt_execute($stmt4);
 
-            $studQuery5 = "INSERT INTO receipt (receiptid, item_id, combo_id, quantity, subtotal, receipt_date) VALUES (NULL, ?, NULL, 1, ?, NOW());";
+            $studQuery5 = "INSERT INTO receipt (receiptid, item_id, combo_id, quantity, price, subtotal, receipt_date) VALUES (NULL, ?, NULL, 1, ?, ?, NOW());";
             $stmt5 = mysqli_prepare($conn, $studQuery5);
-            mysqli_stmt_bind_param($stmt5, "id", $item_id, $itemprice);
+            mysqli_stmt_bind_param($stmt5, "idd", $item_id, $itemprice, $itemprice);
     
             mysqli_stmt_execute($stmt5);
 
