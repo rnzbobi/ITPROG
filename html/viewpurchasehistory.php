@@ -27,8 +27,11 @@ if (isset($_SESSION['username'])) {
         $userid = $user['userid'];
         $purchases = array();
 
-        $sql = "SELECT * FROM orders JOIN order_items ON orders.order_id=order_items.order_id JOIN individual_clothes 
-                ON order_items.item_id=individual_clothes.id WHERE user_id='$userid' ORDER BY orders.order_id DESC";
+        $sql = "SELECT * FROM orders 
+        LEFT JOIN order_items ON orders.order_id = order_items.order_id 
+        LEFT JOIN individual_clothes ON order_items.item_id = individual_clothes.id 
+        WHERE user_id = '$userid' 
+        ORDER BY orders.order_id DESC";
         $result = mysqli_query($conn, $sql);
         ?>
 
@@ -76,12 +79,28 @@ if (isset($_SESSION['username'])) {
         </div>
         </header>
         <h1 class="h1style">Purchase History for <?php echo $user['name'];?></h1>
-            <div class="container">
+        <div class="container">
                 <div class="card-container">
                     <?php while ($purchases = mysqli_fetch_assoc($result)): ?>
+                        <?php $comboid = $purchases['combo_id']; ?>
+                        <?php if($comboid !== null) {
+                            $sql2 = "SELECT * FROM combo_clothes WHERE combo_id='$comboid'";
+                            $result2 = mysqli_query($conn, $sql2);
+
+                            $combo = mysqli_fetch_assoc($result2);
+                        }?>
                         <div class="card">
                             <div class="card-header"><h2>Order ID</h2><?php echo $purchases['order_id']?></div>
                             <div class="card-details">
+                                <?php if($purchases['combo_id'] !== null) { ?>
+                                    <a href="view.php?item_id=<?php echo $combo['combo_id']; ?>">
+                                        <img src=<?php echo $combo['image_URL']; ?> class="card-image">
+                                    </a>
+                                    <p class="pstyle">Date: <?php echo $purchases['order_date']; ?></p>
+                                    <p class="pstyle">Product Name: <?php echo $combo['combo_name']; ?></p>
+                                    <p class="pstyle">Quantity: <?php echo $purchases['quantity']; ?></p>
+                                    <p class="pstyle">Total Cost: $<?php echo number_format($purchases['total_price'], 2); ?></p>
+                                <?php } else { ?>
                                 <a href="view.php?item_id=<?php echo $purchases['id']; ?>">
                                     <img src=<?php echo $purchases['image_URL']; ?> class="card-image">
                                 </a>
@@ -93,10 +112,12 @@ if (isset($_SESSION['username'])) {
                                 <p class="pstyle">Size: <?php echo $purchases['size']; ?></p>
                                 <p class="pstyle">Quantity: <?php echo $purchases['quantity']; ?></p>
                                 <p class="pstyle">Total Cost: $<?php echo number_format($purchases['total_price'], 2); ?></p>
+                                <?php } ?>
                             </div>
                         </div>
                     <?php endwhile; ?>
                 </div>
+            </div>
             </div>
         </body>
         </html>

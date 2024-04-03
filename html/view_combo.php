@@ -140,7 +140,7 @@ $username = $loggedIn ? $_SESSION['username'] : '';
                 <a href="user.php"><img src="images/user.png" alt="User"></a>
                 <?php
             if($loggedIn){
-                echo '<a href="profile.php"><h2><span id="user-id">Profile</span></h2></a>';
+                echo '<a href="user.php"><h2><span id="user-id">Profile</span></h2></a>';
                 echo '<a href="logout.php"><h2><span id="user-id">Logout</span></h2></a>';
             } else {
                 echo '<a href="login.php"><h2><span id="user-id">Login/Signup</span></h2></a>';
