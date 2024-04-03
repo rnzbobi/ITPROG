@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['combo_id'])) {
             $user_id = $user_result->fetch_assoc()['userid'];
 
     // Prepare the cart insert statement
-    $cart_query = "INSERT INTO carts (user_id, item_id, quantity, created_at) VALUES (?, ?, 1, NOW())";
+    $cart_query = "INSERT INTO carts (user_id, combo_id, quantity, created_at) VALUES (?, ?, 1, NOW())";
     $cart_stmt = $conn->prepare($cart_query);
     $cart_stmt->bind_param("ii", $user_id, $combo_id);
     
