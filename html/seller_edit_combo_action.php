@@ -20,10 +20,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $combo_URL=$_POST['url'];
     $combo_desc=$_POST['description'];
 }
-echo $_POST['item_id1'];
-echo $_POST['item_id2'];
-echo $_POST['item_id3'];
-echo $_POST['item_id4'];
+
 
 $updateQuery=
 "UPDATE combo_clothes
