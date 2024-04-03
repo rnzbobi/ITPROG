@@ -135,7 +135,8 @@ if (!isset($_SESSION['username'])) {
             LEFT JOIN carts ON user_id.userid = carts.user_id
             LEFT JOIN individual_clothes ON carts.item_id = individual_clothes.id
             LEFT JOIN combo_clothes ON combo_clothes.combo_id = carts.combo_id
-        WHERE user_id.username='$username'");
+        WHERE user_id.username='$username'
+        AND (carts.item_id IS NOT NULL or carts.combo_id IS NOT NULL)");
   
     
 ?>
@@ -162,95 +163,96 @@ if (!isset($_SESSION['username'])) {
 <div class="view_cart">
 <?php
     $subTotal=0;
-    while($viewCart=mysqli_fetch_assoc($getuserCart)){
-        echo "<div class='cart-item-holder'>";
+    $totalPriceItem = 0;
+ 
+    if ($getuserCart && mysqli_num_rows($getuserCart) >0){
+        while($viewCart=mysqli_fetch_assoc($getuserCart)){
+            echo "<div class='cart-item-holder'>";
 
-            echo "<div class = 'cart-image-holder'>";
-            if(!empty($viewCart['item_id'])){
-                echo "<a class='link-design-view_cart' href='view.php?item_id=".$viewCart['item_id']."'>";
-                echo "<img src='".$viewCart['item_image']."'style='width: 100px; height: 100px;'>";
-                echo "</a>";
-            }
-            elseif(!empty($viewCart['combo_id'])){
-                echo "<a class='link-design-view_cart' href='view_combo.php?item_id=".$viewCart['combo_id']."'>";
-                echo "<img src='".$viewCart['combo_image']."'style='width: 100px; height: 100px;'>";
-                echo "</a>";
-            }
-           
-                    
-            echo "</div>";
-
-                echo "<div class='cart-item-details'>";
+                echo "<div class = 'cart-image-holder'>";
                 if(!empty($viewCart['item_id'])){
-                    echo "<div class = 'cart-item-name'>";
-                        echo "<a class='link-design-view_cart' href='view.php?item_id=".$viewCart['item_id']."'>";
-                            echo $viewCart['item_name'];
-                        echo "</a>";
-                    echo "</div>";
-
-                    echo "<div class = 'cart-item-placeholder'>";
-                        echo $viewCart['size'];
-                    echo "</div>";
-
-                    echo "<div class = 'cart-item-placeholder'>";
-                        echo "$".$viewCart['item_price'];
-                    echo "</div>";
-                }  
-                elseif(!empty($viewCart['combo_id'])){
-                    echo "<div class = 'cart-item-name'>";
-                        echo "<a class='link-design-view_cart' href='view_combo.php?item_id=".$viewCart['combo_id']."'>";
-                            echo $viewCart['combo_name'];
-                        echo "</a>";
-                    echo "</div>";
-                    echo "<div class = 'cart-item-placeholder'>";
-                        echo "$".$viewCart['combo_price'];
-                    echo "</div>";
+                    echo "<a class='link-design-view_cart' href='view.php?item_id=".$viewCart['item_id']."'>";
+                    echo "<img src='".$viewCart['item_image']."'style='width: 100px; height: 100px;'>";
+                    echo "</a>";
                 }
-
-                    
-
-                    
+                elseif(!empty($viewCart['combo_id'])){
+                    echo "<a class='link-design-view_cart' href='view_combo.php?item_id=".$viewCart['combo_id']."'>";
+                    echo "<img src='".$viewCart['combo_image']."'style='width: 100px; height: 100px;'>";
+                    echo "</a>";
+                }
+            
+                        
                 echo "</div>";
 
-                echo "<form action='update_quantity.php' method='GET'>";
-                    echo "<div class ='view_cart-editquantity' id='editquantity".$viewCart['item_id']."'>";
-                        echo "<input type='hidden' name='item_id' value='".$viewCart['item_id']."'>";
-                        echo "<input type='hidden' name='combo_id' value='".$viewCart['combo_id']."'>";
-                        echo "<input type='hidden' name='user_id' value='".$viewCart['user_id']."'>";
-                        echo "<input type='hidden' name='quantity' value='".$viewCart['quantity']."'>";
-                        echo "<button class ='view_cart-minusplus' name='operation' value='subtract'>"."-"."</button>";
-                        echo "<span class ='count'>".$viewCart['quantity']."</span>";
-                        echo "<button class ='view_cart-minusplus' name='operation' value='add'>"."+"."</button>";
-                    echo "</div>";
-                echo "</form>"; 
-                echo "<div class = 'total-price-item'>";
+                    echo "<div class='cart-item-details'>";
+                    if(!empty($viewCart['item_id'])){
+                        echo "<div class = 'cart-item-name'>";
+                            echo "<a class='link-design-view_cart' href='view.php?item_id=".$viewCart['item_id']."'>";
+                                echo $viewCart['item_name'];
+                            echo "</a>";
+                        echo "</div>";
 
-            
-                if(!empty($viewCart['item_id'])){
-                $totalPriceItem = $viewCart['quantity'] * $viewCart['item_price'];
-                    echo "$".$totalPriceItem;
-                }
-                elseif(!empty($viewCart['combo_id'])){
-                    $totalPriceItem = $viewCart['quantity'] * $viewCart['combo_price'];
+                        echo "<div class = 'cart-item-placeholder'>";
+                            echo $viewCart['size'];
+                        echo "</div>";
+
+                        echo "<div class = 'cart-item-placeholder'>";
+                            echo "$".$viewCart['item_price'];
+                        echo "</div>";
+                    }  
+                    elseif(!empty($viewCart['combo_id'])){
+                        echo "<div class = 'cart-item-name'>";
+                            echo "<a class='link-design-view_cart' href='view_combo.php?item_id=".$viewCart['combo_id']."'>";
+                                echo $viewCart['combo_name'];
+                            echo "</a>";
+                        echo "</div>";
+                        echo "<div class = 'cart-item-placeholder'>";
+                            echo "$".$viewCart['combo_price'];
+                        echo "</div>";
+                    }
+
+                    echo "</div>";
+
+                    echo "<form action='update_quantity.php' method='GET'>";
+                        echo "<div class ='view_cart-editquantity' id='editquantity".$viewCart['item_id']."'>";
+                            echo "<input type='hidden' name='item_id' value='".$viewCart['item_id']."'>";
+                            echo "<input type='hidden' name='combo_id' value='".$viewCart['combo_id']."'>";
+                            echo "<input type='hidden' name='user_id' value='".$viewCart['user_id']."'>";
+                            echo "<input type='hidden' name='quantity' value='".$viewCart['quantity']."'>";
+                            echo "<button class ='view_cart-minusplus' name='operation' value='subtract'>"."-"."</button>";
+                            echo "<span class ='count'>".$viewCart['quantity']."</span>";
+                            echo "<button class ='view_cart-minusplus' name='operation' value='add'>"."+"."</button>";
+                        echo "</div>";
+                    echo "</form>"; 
+                    echo "<div class = 'total-price-item'>";
+
+                
+                    if(!empty($viewCart['item_id'])){
+                    $totalPriceItem = $viewCart['quantity'] * $viewCart['item_price'];
                         echo "$".$totalPriceItem;
                     }
+                    elseif(!empty($viewCart['combo_id'])){
+                        $totalPriceItem = $viewCart['quantity'] * $viewCart['combo_price'];
+                            echo "$".$totalPriceItem;
+                        }
+                    echo "</div>";
+
+                    echo "<div class = 'cart-item-delete'>";
+                        echo "<form action='delete_item.php' method='GET'>";
+                        echo "<button class='view_cart-button' type='submit' name='Delete' value='Delete'>";
+                        echo "<input type='hidden' name='combo_id' value='".$viewCart['combo_id']."'>";
+                        echo "<input type='hidden' name='item_id' value='".$viewCart['item_id']."'>";
+                        echo "<input type='hidden' name='user_id' value='".$viewCart['user_id']."'>";
+                        echo "<img src='https://clipground.com/images/x-image-png-6.png' height='35px' width='35px' alt='delete'>";
+                        echo"</button>";
+                        echo "</form>";
+                    echo "</div>";
+
+                $subTotal+=$totalPriceItem;
+
                 echo "</div>";
-
-                echo "<div class = 'cart-item-delete'>";
-                    echo "<form action='delete_item.php' method='GET'>";
-                    echo "<button class='view_cart-button' type='submit' name='Delete' value='Delete'>";
-                    echo "<input type='hidden' name='combo_id' value='".$viewCart['combo_id']."'>";
-                    echo "<input type='hidden' name='item_id' value='".$viewCart['item_id']."'>";
-                    echo "<input type='hidden' name='user_id' value='".$viewCart['user_id']."'>";
-                    echo "<img src='https://clipground.com/images/x-image-png-6.png' height='35px' width='35px' alt='delete'>";
-                    echo"</button>";
-                    echo "</form>";
-                echo "</div>";
-
-            $subTotal+=$totalPriceItem;
-
-            echo "</div>";
-    } 
+        } 
+     
             echo "<div class='view_cart-subtotal'>";
                 echo "Subtotal: $".$subTotal;
             echo "</div>";
@@ -266,7 +268,12 @@ if (!isset($_SESSION['username'])) {
                     }
                     echo "<button class='view_cart-button-bottom' value='checkout'>Checkout";
                 echo "</form>";
-
+        }
+        else{
+            echo "<div class='view_cart-bottom-no-items'>";
+                echo "There are no items in your cart.";
+            echo "</div>";
+        }
                 echo "<a class ='link-design-view_cart' href='index.php'>";
                     echo "<button class='view_cart-button-bottom'>Continue Shopping";
                 echo "</a>";
