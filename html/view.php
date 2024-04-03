@@ -141,10 +141,22 @@ if (!isset($_SESSION['username'])) {
                 echo '<a href="login.php"><h2><span id="user-id">Login/Signup</span></h2></a>';
             }
             ?>
-			 <h2>Balance: <span id="balance-value">10000</span></h2>
-            </div>
-            <div class="Balance-header">
-                <h2 id="balance">Balance: <span id="balance-value">10000</span></h2>
+			 <h2>Balance: <span id="balance-value"><?php 
+                    $getBalance = mysqli_query($conn,
+                        "SELECT user_id.balance AS 'balanceUser'
+                        FROM user_id 
+                            LEFT JOIN carts ON user_id.userid = carts.user_id
+                            LEFT JOIN individual_clothes ON carts.item_id = individual_clothes.id
+                        WHERE user_id.username='$username'");
+                    if ($getBalance && mysqli_num_rows($getBalance) > 0){
+                        $balanceRow = mysqli_fetch_assoc($getBalance);
+                        $balance = $balanceRow['balanceUser'];
+                        echo number_format($balance, 2); // Display balance with 2 decimal places
+                    }
+                    else{
+                        echo number_format(0, 2); // Default to 0 with 2 decimal places
+                }
+                ?></span></h2>
             </div>
         </div>
     </header> 
