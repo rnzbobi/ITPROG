@@ -47,7 +47,7 @@ if(isset($_GET['item_id'])) {
             mysqli_stmt_execute($stmt2);
             $latestOrderId = mysqli_insert_id($conn);
 
-            $studQuery3 = "INSERT INTO order_items (order_item_id, order_id, item_id, quantity, price_per_unit, subtotal) VALUES (NULL, ?, ?, 1, ?, ?);";
+            $studQuery3 = "INSERT INTO order_items (order_item_id, order_id, item_id, combo_id, quantity, price_per_unit, subtotal) VALUES (NULL, ?, ?, NULL, 1, ?, ?);";
             $stmt3 = mysqli_prepare($conn, $studQuery3);
             mysqli_stmt_bind_param($stmt3, "iidd", $latestOrderId, $item_id, $itemprice, $itemprice);
             mysqli_stmt_execute($stmt3);
@@ -58,7 +58,7 @@ if(isset($_GET['item_id'])) {
 
             mysqli_stmt_execute($stmt4);
 
-            $studQuery5 = "INSERT INTO receipt (receiptid, item_id, quantity, subtotal, receipt_date) VALUES (NULL, ?, 1, ?, NOW());";
+            $studQuery5 = "INSERT INTO receipt (receiptid, item_id, combo_id, quantity, subtotal, receipt_date) VALUES (NULL, ?, NULL, 1, ?, NOW());";
             $stmt5 = mysqli_prepare($conn, $studQuery5);
             mysqli_stmt_bind_param($stmt5, "id", $item_id, $itemprice);
     

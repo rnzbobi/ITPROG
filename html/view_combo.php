@@ -227,7 +227,7 @@ $username = $loggedIn ? $_SESSION['username'] : '';
                             <?php echo htmlspecialchars($combo_row['description']); ?>
                         </div>
                        
-                        <a href="checkout.php?item_id=<?php echo $combo_id; ?>" class="checkout-btn">Checkout</a>
+                        <a href="checkoutcombo.php?item_id=<?php echo $combo_id; ?>" class="checkout-btn">Checkout</a>
                     </div>      
                 </div>
                 <?php
