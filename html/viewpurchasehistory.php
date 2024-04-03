@@ -28,7 +28,7 @@ if (isset($_SESSION['username'])) {
         $purchases = array();
 
         $sql = "SELECT * FROM orders JOIN order_items ON orders.order_id=order_items.order_id JOIN individual_clothes 
-                ON order_items.item_id=individual_clothes.id WHERE user_id='$userid'";
+                ON order_items.item_id=individual_clothes.id WHERE user_id='$userid' ORDER BY orders.order_id DESC";
         $result = mysqli_query($conn, $sql);
         ?>
 
@@ -82,7 +82,9 @@ if (isset($_SESSION['username'])) {
                         <div class="card">
                             <div class="card-header"><h2>Order ID</h2><?php echo $purchases['order_id']?></div>
                             <div class="card-details">
-                                <img src=<?php echo $purchases['image_URL']; ?> class="card-image">
+                                <a href="view.php?item_id=<?php echo $purchases['id']; ?>">
+                                    <img src=<?php echo $purchases['image_URL']; ?> class="card-image">
+                                </a>
                                 <p class="pstyle">Date: <?php echo $purchases['order_date']; ?></p>
                                 <p class="pstyle">Product Name: <?php echo $purchases['name']; ?></p>
                                 <p class="pstyle">Product Brand: <?php echo $purchases['brand']; ?></p>

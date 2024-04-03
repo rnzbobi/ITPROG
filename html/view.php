@@ -115,11 +115,6 @@ if (!isset($_SESSION['username'])) {
             border: none; /* No border */
             margin-top: 10px; /* Adds space above the first button */
         }
-        .checkout-btn {
-            font-family: 'Montserrat', sans-serif;
-           background-color: #28a745; /* Green background color for the checkout button */
-            margin-top: 20px; /* Adds more space above the checkout button */
-        }
     </style>
 </head>
 <body>
@@ -140,7 +135,7 @@ if (!isset($_SESSION['username'])) {
                 <a href="user.php"><img src="images/user.png" alt="User"></a>
                 <?php
             if($loggedIn){
-                echo '<a href="profile.php"><h2><span id="user-id">Profile</span></h2></a>';
+                echo '<a href="user.php"><h2><span id="user-id">Profile</span></h2></a>';
                 echo '<a href="logout.php"><h2><span id="user-id">Logout</span></h2></a>';
             } else {
                 echo '<a href="login.php"><h2><span id="user-id">Login/Signup</span></h2></a>';
@@ -200,7 +195,7 @@ if (!isset($_SESSION['username'])) {
 </select>
                             <a href="cart.php?item_id=<?php echo $item_id; ?>" class="add-to-cart-btn">Add to Cart</a>
 
-                            <a href="checkout.php?item_id=<?php echo $item_id; ?>" class="add-to-cart-btn">Checkout</a>
+                            <a href="checkoutitem.php?item_id=<?php echo $item_id; ?>" class="checkout-btn" onclick="return confirm('Are you sure you want to proceed to checkout?')">Checkout</a>
                             <div class="description">
                                 <h3>Description:</h3><?php echo htmlspecialchars($row['description']); ?>
                              </div>      
@@ -223,7 +218,7 @@ function updateItemID(selectedItemID) {
     var addToCartBtn = document.querySelector('.add-to-cart-btn');
     var checkoutBtn = document.querySelector('.checkout-btn');
     addToCartBtn.href = 'cart.php?item_id=' + selectedItemID;
-    checkoutBtn.href = 'checkout.php?item_id=' + selectedItemID;
+    checkoutBtn.href = 'checkoutitem.php?item_id=' + selectedItemID;
 }
 </script>
 </body>

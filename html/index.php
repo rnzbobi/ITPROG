@@ -213,6 +213,52 @@ if (!isset($_SESSION['username'])) {
             });
             </script>';
         }
+
+        if (isset($_SESSION['itemcheckout'])) {
+            unset($_SESSION['itemcheckout']);
+            echo '<script>
+            Swal.fire({
+                title: "Success!",
+                text: "Item Checkout Successful",
+                icon: "success",
+                confirmButtonText: "Ok",
+                customClass: {
+                    confirmButton: "swal2-confirm custom-black-btn" // Apply the custom class
+                }
+            });
+            </script>';
+        }
+
+        if (isset($_SESSION['checkouterror'])) {
+            unset($_SESSION['checkouterror']);
+            echo '<script>
+            Swal.fire({
+                title: "Oops...",
+                text: "An error occurred while checking out! Item maybe unavailable or you have insufficient balance.",
+                icon: "error",
+                confirmButtonText: "Ok",
+                customClass: {
+                    confirmButton: "swal2-confirm custom-black-btn" // Apply the custom class
+                }
+            });
+            </script>';
+        }
+
+        if (isset($_SESSION['partialcheckout'])) {
+            unset($_SESSION['partialcheckout']);
+            echo '<script>
+            Swal.fire({
+                title: "Oops...",
+                text: "Not all items have been checked out in your cart",
+                icon: "warning",
+                confirmButtonText: "Ok",
+                customClass: {
+                    confirmButton: "swal2-confirm custom-black-btn" // Apply the custom class
+                }
+            });
+            </script>';
+        }
+
         ?>
 
     <script>

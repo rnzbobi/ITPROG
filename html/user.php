@@ -26,18 +26,20 @@
         $sql = "SELECT * FROM user_id WHERE username='$username'";
         $result = mysqli_query($conn, $sql);
     ?>
-    <html lang="en">
-    <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Index.html</title>
-    <link rel="stylesheet" href="css/style.css" type="text/css" />
-    <link rel='stylesheet' href='css/signupstyle.css' type='text/css' />
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
-    </head>
-    <body class="bodystyle">
-    <header>
+    <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Purchase History</title>
+            <link rel="stylesheet" href="css/style.css" type="text/css" />
+            <link rel='stylesheet' href='css/signupstyle.css' type='text/css' />
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap" rel="stylesheet">
+        </head>
+        <body class="bodystyle">
+        <header>
         <div class="header">
             <div class="logo">
                 <a href="index.php">
@@ -66,7 +68,7 @@
                 <h2 id="balance">Balance: <span id="balance-value">10000</span></h2>
             </div> -->
         </div>
-    </header>
+        </header>
 
     <div class="user-info">
     <?php
@@ -80,11 +82,11 @@
             echo '<label class="labelstyle" for="password">Password:</label>';
             echo '<input class="inputstyle2" type="password" id="password" value="' . $masked_password . '" disabled><br>';
             echo '<label class="labelstyle" for="balance">Balance:</label>';
-            echo '<input class="inputstyle2" type="text" id="balance" value="' . $user['balance'] . '" disabled><br>';
-            echo '<a class="astyle" href="editprofile.php"><h3>Edit Profile</h3></a><br><br>';
-            echo '<a class="astyle" href="sellermode.php"><h3>Seller Mode</h3></a><br><br>';
-            echo '<a class="astyle" href="viewpurchasehistory.php"><h3>View Purchase History</h3></a>';
-            echo '<a class="astyle" href="index.php"><h3>Go Back</h3></a>';
+            echo '<input class="inputstyle2" type="text" id="balance" value="' . number_format($user['balance'], 2) . '" disabled><br>';
+            echo '<a href="editprofile.php">Edit Profile</a><br><br>';
+            echo '<a href="sellermode.php">Seller Mode</a><br><br>';
+            echo '<a href="viewpurchasehistory.php" style="margin-right: 10px;">View Purchase History</a>';
+            echo '<a href="index.php">Go Back</a>';
         } else {
             echo "<h2>Error: " . mysqli_error($conn) . "</h2>";
         }
