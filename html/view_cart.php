@@ -47,8 +47,8 @@ if (!isset($_SESSION['username'])) {
                 $getBalance = mysqli_query($conn,
                     "SELECT user_id.balance AS 'balanceUser'
                     FROM user_id 
-                        JOIN carts ON user_id.userid = carts.user_id
-                        JOIN individual_clothes ON carts.item_id = individual_clothes.id
+                        LEFT JOIN carts ON user_id.userid = carts.user_id
+                        LEFT JOIN individual_clothes ON carts.item_id = individual_clothes.id
                     WHERE user_id.username='$username'");
                 if ($getBalance && mysqli_num_rows($getBalance) > 0){
                     $balanceRow = mysqli_fetch_assoc($getBalance);
@@ -65,25 +65,28 @@ if (!isset($_SESSION['username'])) {
     $initializeCart = mysqli_query($conn,
     "SELECT *, SUM(c.quantity) AS total_quantity
     FROM user_id ui 
-    JOIN carts c ON ui.userid = c.user_id 
-    JOIN individual_clothes ic ON c.item_id = ic.id
+    LEFT JOIN carts c ON ui.userid = c.user_id 
+    LEFT JOIN individual_clothes ic ON c.item_id = ic.id
+    LEFT JOIN combo_clothes cc ON c.combo_id = cc.combo_id
     WHERE ui.username = '$username'
-    GROUP BY c.item_id, ic.size;");
+    GROUP BY c.item_id, c.combo_id, ic.size;");
 
     while ($getSum = mysqli_fetch_assoc($initializeCart)){
-        $isDeletionExecuted = false;
+        $isItemDeletionExecuted = false;
+        $isComboDeletionExecuted = false;
         $item_id = $getSum['item_id'];
+        $combo_id = $getSum['combo_id'];
        // $item_size = $getSum['size'];
         $item_quantity = $getSum['total_quantity'];
 
-        $updateQuantity = 
+        $updateItemQuantity = 
         "UPDATE carts 
         SET quantity = '$item_quantity'
         WHERE item_id = '$item_id'
             AND user_id = (SELECT userid FROM user_id WHERE username='$username');";
-        mysqli_query($conn, $updateQuantity);
+        mysqli_query($conn, $updateItemQuantity);
 
-        if (!$isDeletionExecuted){
+        if (!$isItemDeletionExecuted){
             $deleteDuplicate =
             "DELETE FROM carts
             WHERE item_id = '$item_id'
@@ -96,18 +99,44 @@ if (!isset($_SESSION['username'])) {
                         );";
             mysqli_query($conn, $deleteDuplicate);
 
-            $isDeletionExecuted = true;
+            $isItemDeletionExecuted = true;
+        }
+        $updateComboQuantity = 
+        "UPDATE carts 
+        SET quantity = '$item_quantity'
+        WHERE combo_id = '$combo_id'
+            AND user_id = (SELECT userid FROM user_id WHERE username='$username');";
+        mysqli_query($conn, $updateComboQuantity);
+
+        if (!$isComboDeletionExecuted){
+            $deleteDuplicateCombo =
+            "DELETE FROM carts
+            WHERE combo_id = '$combo_id'
+                AND user_id = (SELECT userid FROM user_id WHERE username='$username')
+                AND cart_id NOT IN(
+                    SELECT MIN(cart_id)
+                    FROM carts 
+                    WHERE combo_id='$combo_id'
+                        AND user_id = (SELECT userid FROM user_id WHERE username='$username')
+                        );";
+            mysqli_query($conn, $deleteDuplicateCombo);
+
+            $isComboDeletionExecuted = true;
         }
     }
     
 
 
     $getuserCart = mysqli_query($conn,
-    "SELECT *
+    "SELECT *, combo_clothes.image_URL AS 'combo_image', individual_clothes.image_URL AS 'item_image',
+            combo_clothes.combo_name AS 'combo_name', individual_clothes.name AS 'item_name',
+            combo_clothes.price AS 'combo_price', individual_clothes.price AS 'item_price'
     FROM user_id 
-        JOIN carts ON user_id.userid = carts.user_id
-        JOIN individual_clothes ON carts.item_id = individual_clothes.id
-    WHERE user_id.username='$username'");
+            LEFT JOIN carts ON user_id.userid = carts.user_id
+            LEFT JOIN individual_clothes ON carts.item_id = individual_clothes.id
+            LEFT JOIN combo_clothes ON combo_clothes.combo_id = carts.combo_id
+        WHERE user_id.username='$username'
+        AND (carts.item_id IS NOT NULL or carts.combo_id IS NOT NULL)");
   
     
 ?>
@@ -120,8 +149,9 @@ if (!isset($_SESSION['username'])) {
                 $countItemsQuery = mysqli_query($conn,
                     "SELECT SUM(carts.quantity) AS 'total_quantity'
                     FROM user_id 
-                        JOIN carts ON user_id.userid = carts.user_id
-                        JOIN individual_clothes ON carts.item_id = individual_clothes.id
+                        LEFT JOIN carts ON user_id.userid = carts.user_id
+                        LEFT JOIN individual_clothes ON carts.item_id = individual_clothes.id
+                        LEFT JOIN combo_clothes ON combo_clothes.combo_id = carts.combo_id
                     WHERE user_id.username='$username'");
                 $countItemsRow = mysqli_fetch_assoc($countItemsQuery);
                 $countItems = $countItemsRow['total_quantity'];
@@ -133,62 +163,96 @@ if (!isset($_SESSION['username'])) {
 <div class="view_cart">
 <?php
     $subTotal=0;
-    while($viewCart=mysqli_fetch_assoc($getuserCart)){
-        echo "<div class='cart-item-holder'>";
+    $totalPriceItem = 0;
+ 
+    if ($getuserCart && mysqli_num_rows($getuserCart) >0){
+        while($viewCart=mysqli_fetch_assoc($getuserCart)){
+            echo "<div class='cart-item-holder'>";
 
-            echo "<div class = 'cart-image-holder'>";
-                echo "<a class='link-design-view_cart' href='view.php?item_id=".$viewCart['id']."'>";
-                    echo "<img src='".$viewCart['image_URL']."'style='width: 100px; height: 100px;'>";
-                echo "</a>";
-            echo "</div>";
-
-                echo "<div class='cart-item-details'>";
-
-                    echo "<div class = 'cart-item-name'>";
-                        echo "<a class='link-design-view_cart' href='view.php?item_id=".$viewCart['id']."'>";
-                            echo $viewCart['name'];
-                        echo "</a>";
-                    echo "</div>";
-
-                    echo "<div class = 'cart-item-placeholder'>";
-                        echo $viewCart['size'];
-                    echo "</div>";
-
-                    echo "<div class = 'cart-item-placeholder'>";
-                        echo "$".$viewCart['price'];
-                    echo "</div>";
-
-                    
+                echo "<div class = 'cart-image-holder'>";
+                if(!empty($viewCart['item_id'])){
+                    echo "<a class='link-design-view_cart' href='view.php?item_id=".$viewCart['item_id']."'>";
+                    echo "<img src='".$viewCart['item_image']."'style='width: 100px; height: 100px;'>";
+                    echo "</a>";
+                }
+                elseif(!empty($viewCart['combo_id'])){
+                    echo "<a class='link-design-view_cart' href='view_combo.php?item_id=".$viewCart['combo_id']."'>";
+                    echo "<img src='".$viewCart['combo_image']."'style='width: 100px; height: 100px;'>";
+                    echo "</a>";
+                }
+            
+                        
                 echo "</div>";
-                echo "<form action='update_quantity.php' method='GET'>";
-                    echo "<div class ='view_cart-editquantity' id='editquantity".$viewCart['id']."'>";
-                        echo "<input type='hidden' name='item_id' value='".$viewCart['id']."'>";
+
+                    echo "<div class='cart-item-details'>";
+                    if(!empty($viewCart['item_id'])){
+                        echo "<div class = 'cart-item-name'>";
+                            echo "<a class='link-design-view_cart' href='view.php?item_id=".$viewCart['item_id']."'>";
+                                echo $viewCart['item_name'];
+                            echo "</a>";
+                        echo "</div>";
+
+                        echo "<div class = 'cart-item-placeholder'>";
+                            echo $viewCart['size'];
+                        echo "</div>";
+
+                        echo "<div class = 'cart-item-placeholder'>";
+                            echo "$".$viewCart['item_price'];
+                        echo "</div>";
+                    }  
+                    elseif(!empty($viewCart['combo_id'])){
+                        echo "<div class = 'cart-item-name'>";
+                            echo "<a class='link-design-view_cart' href='view_combo.php?item_id=".$viewCart['combo_id']."'>";
+                                echo $viewCart['combo_name'];
+                            echo "</a>";
+                        echo "</div>";
+                        echo "<div class = 'cart-item-placeholder'>";
+                            echo "$".$viewCart['combo_price'];
+                        echo "</div>";
+                    }
+
+                    echo "</div>";
+
+                    echo "<form action='update_quantity.php' method='GET'>";
+                        echo "<div class ='view_cart-editquantity' id='editquantity".$viewCart['item_id']."'>";
+                            echo "<input type='hidden' name='item_id' value='".$viewCart['item_id']."'>";
+                            echo "<input type='hidden' name='combo_id' value='".$viewCart['combo_id']."'>";
+                            echo "<input type='hidden' name='user_id' value='".$viewCart['user_id']."'>";
+                            echo "<input type='hidden' name='quantity' value='".$viewCart['quantity']."'>";
+                            echo "<button class ='view_cart-minusplus' name='operation' value='subtract'>"."-"."</button>";
+                            echo "<span class ='count'>".$viewCart['quantity']."</span>";
+                            echo "<button class ='view_cart-minusplus' name='operation' value='add'>"."+"."</button>";
+                        echo "</div>";
+                    echo "</form>"; 
+                    echo "<div class = 'total-price-item'>";
+
+                
+                    if(!empty($viewCart['item_id'])){
+                    $totalPriceItem = $viewCart['quantity'] * $viewCart['item_price'];
+                        echo "$".$totalPriceItem;
+                    }
+                    elseif(!empty($viewCart['combo_id'])){
+                        $totalPriceItem = $viewCart['quantity'] * $viewCart['combo_price'];
+                            echo "$".$totalPriceItem;
+                        }
+                    echo "</div>";
+
+                    echo "<div class = 'cart-item-delete'>";
+                        echo "<form action='delete_item.php' method='GET'>";
+                        echo "<button class='view_cart-button' type='submit' name='Delete' value='Delete'>";
+                        echo "<input type='hidden' name='combo_id' value='".$viewCart['combo_id']."'>";
+                        echo "<input type='hidden' name='item_id' value='".$viewCart['item_id']."'>";
                         echo "<input type='hidden' name='user_id' value='".$viewCart['user_id']."'>";
-                        echo "<input type='hidden' name='quantity' value='".$viewCart['quantity']."'>";
-                        echo "<button class ='view_cart-minusplus' name='operation' value='subtract'>"."-"."</button>";
-                        echo "<span class ='count'>".$viewCart['quantity']."</span>";
-                        echo "<button class ='view_cart-minusplus' name='operation' value='add'>"."+"."</button>";
+                        echo "<img src='https://clipground.com/images/x-image-png-6.png' height='35px' width='35px' alt='delete'>";
+                        echo"</button>";
+                        echo "</form>";
                     echo "</div>";
-                echo "</form>";
 
-                echo "<div class = 'total-price-item'>";
-                $totalPriceItem =$viewCart['quantity'] * $viewCart['price'];
-                    echo "$".$totalPriceItem;
+                $subTotal+=$totalPriceItem;
+
                 echo "</div>";
-
-                echo "<div class = 'cart-item-delete'>";
-                    echo "<form action='delete_item.php' method='GET'>";
-                    echo "<button class='view_cart-button' type='submit' name='Delete' value='Delete'>";
-                    echo "<input type='hidden' name='item_id' value='".$viewCart['id']."'>";
-                    echo "<input type='hidden' name='user_id' value='".$viewCart['user_id']."'>";
-                    echo "<img src='https://clipground.com/images/x-image-png-6.png' height='35px' width='35px' alt='delete'>";
-                    echo"</button>";
-                    echo "</form>";
-                echo "</div>";
-            $subTotal+=$totalPriceItem;
-
-            echo "</div>";
-    } 
+        } 
+     
             echo "<div class='view_cart-subtotal'>";
                 echo "Subtotal: $".$subTotal;
             echo "</div>";
@@ -198,12 +262,18 @@ if (!isset($_SESSION['username'])) {
                 echo "<form action='checkout.php' method='GET'>";
                     mysqli_data_seek($getuserCart, 0); //This goes to the very first row
                     while($viewCart = mysqli_fetch_assoc($getuserCart)){
-                        echo "<input type ='hidden' name='item_id' value='".$viewCart['id']."'>";
+                        echo "<input type ='hidden' name='item_id' value='".$viewCart['item_id']."'>";
+                        echo "<input type ='hidden' name='combo_id' value='".$viewCart['combo_id']."'>";
                         echo "<input type ='hidden' name='user_id' value='".$viewCart['price']."'>";
                     }
                     echo "<button class='view_cart-button-bottom' value='checkout'>Checkout";
                 echo "</form>";
-
+        }
+        else{
+            echo "<div class='view_cart-bottom-no-items'>";
+                echo "There are no items in your cart.";
+            echo "</div>";
+        }
                 echo "<a class ='link-design-view_cart' href='index.php'>";
                     echo "<button class='view_cart-button-bottom'>Continue Shopping";
                 echo "</a>";
