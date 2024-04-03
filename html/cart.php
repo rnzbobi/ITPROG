@@ -28,7 +28,7 @@ if(isset($_GET['item_id'])) {
             $result_cart = executeQuery($conn, $sql_cart);
             
             // Set session variable for notification
-            $_SESSION['item_added_to_cart'] = true;
+            $_SESSION['item_added'] = true;
             
             // Redirect back to index.php
             header("Location: index.php");

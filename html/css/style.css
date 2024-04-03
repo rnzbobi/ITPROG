@@ -177,6 +177,7 @@ main {
     flex-grow: 1; 
 }
 
+
 .box-items h3 {
     font-size: 1.2rem;
     color: #333;
@@ -454,4 +455,9 @@ main {
 	font-family: 'Montserrat', sans-serif;
 	font-size: 17px;
 }
+
+    .view_cart-bottom-no-items{
+        font-size:30px; 
+        padding-bottom:30px;
+    }
 

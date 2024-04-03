@@ -195,12 +195,12 @@ if (!isset($_SESSION['username'])) {
             // Fetch default content if no filters, search, or sort
             $result = getDefaultContent($conn);
             // Display content based on the result fetched
-            displayContent($result);
+            displayContent($result, $conn);
         }
 		
 		
-        if (isset($_SESSION['item_added_to_cart'])) {
-            unset($_SESSION['item_added_to_cart']);
+        if (isset($_SESSION['item_added'])) {
+            unset($_SESSION['item_added']);
             echo '<script>
             Swal.fire({
                 title: "Success!",

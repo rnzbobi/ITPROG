@@ -2,6 +2,25 @@
 // display_posts.php
 include 'database.php';
 
+// Function to get the item_id from the image_URL
+function getItemIdFromImageUrl($imageUrl, $conn) {
+    $sql = "SELECT id FROM individual_clothes WHERE image_URL = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $imageUrl);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $itemId = $row['id'];
+        $stmt->close();
+        return $itemId;
+    } else {
+        $stmt->close();
+        return null;
+    }
+}
+
 // Fetch posts from the database
 $sql = "SELECT p.post_id, p.user_id, p.caption, p.image_URL, u.username FROM posts p INNER JOIN user_id u ON p.user_id = u.userid ORDER BY p.post_id DESC";
 // Order by most recent posts first
@@ -15,7 +34,16 @@ if (mysqli_num_rows($result) > 0) {
         echo '<div class="post">';
         echo '<h2><strong>@' . $row['username'] . '</strong></h2>'; // Display the username
         echo '<p>' . $row['caption'] . '</p>'; // Display the caption
-        echo '<img src="' . $row['image_URL'] . '" alt="Post Image">'; // Display the image
+        
+        // Get the item_id from the image_URL
+        $itemId = getItemIdFromImageUrl($row['image_URL'], $conn);
+        
+        // If the item_id is found, make the image clickable
+        if ($itemId !== null) {
+            echo '<a href="view.php?item_id=' . $itemId . '"><img src="' . $row['image_URL'] . '" alt="Post Image"></a>';
+        } else {
+            echo '<img src="' . $row['image_URL'] . '" alt="Post Image">'; // Display the image without a link
+        }
 
         // Check if the user is logged in and has already liked the post
         if (isset($_SESSION['username'])) {

@@ -6,8 +6,6 @@ if (!isset($_SESSION['username'])) {
     header("Location: login.php");
     exit();
 }
-
-// Assume database connection is successful from here onwards
 ?>
 
 <!DOCTYPE html>
@@ -30,6 +28,7 @@ if (!isset($_SESSION['username'])) {
 <div class="user-info">
     <h1>Seller Mode</h1>
     <a class="astyle" href="additem.php"><h3>Add Item</h3></a><br><br>
+    <a class="astyle" href="additemcombo.php"><h3>Add Combo Item</h3></a><br><br>
     <a class="astyle" href="deleteitem.php"><h3>Delete Item</h3></a><br><br>
     <a class="astyle" href="edititem.php"><h3>Edit Item</h3></a><br><br>
     <a class="astyle" href="index.php"><h3>Go Back</h3></a>

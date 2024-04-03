@@ -15,7 +15,7 @@ if ($conn->connect_error) {
 // Check if form was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Prepare and bind
-    $stmt = $conn->prepare("INSERT INTO individual_clothes (name, brand, category, color, gender, size, price, available_quantity, image_url, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO individual_clothes (name, brand, category, color, gender, size, price, available_quantity, image_url, description, total_quantity) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     
     // Set parameters
     $name = $_POST['name'];
@@ -28,9 +28,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $quantity = (int)$_POST['quantity'];
     $image_url = $_POST['image_url'];
     $description = $_POST['description'];
+    $total_quantity = $quantity; 
 
     // Bind parameters with correct types
-    $stmt->bind_param("ssssssdiss", $name, $brand, $category, $color, $gender, $size, $price, $quantity, $image_url, $description);
+    $stmt->bind_param("ssssssdissi", $name, $brand, $category, $color, $gender, $size, $price, $quantity, $image_url, $description, $total_quantity);
 
     // Execute
     if ($stmt->execute()) {
