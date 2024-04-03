@@ -160,7 +160,7 @@ if(isset($_GET['item_id'])) {
 
             $_SESSION['itemcheckout'] = true;
 
-            header("Location: index.php");
+            header("Location: receipt.php");
             exit();
         } else {
             $_SESSION['checkouterror'] = true;

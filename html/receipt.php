@@ -10,8 +10,11 @@ if (!isset($_SESSION['username'])) {
 }
 
 $purchases = array();
-$sql = "SELECT * FROM receipt JOIN individual_clothes ON individual_clothes.id=receipt.item_id ORDER BY receiptid";
-$result = mysqli_query($conn, $sql);
+$sql = "SELECT * FROM receipt 
+        LEFT JOIN individual_clothes ON individual_clothes.id = receipt.item_id 
+        LEFT JOIN combo_clothes ON combo_clothes.combo_id = receipt.combo_id 
+        ORDER BY receiptid";
+        $result = mysqli_query($conn, $sql);
 ?>
 
 <!DOCTYPE html>
@@ -67,15 +70,23 @@ $result = mysqli_query($conn, $sql);
         <div class="receipt">
             <?php
             while ($purchases = mysqli_fetch_assoc($result)): ?>
+                <?php $comboid = $purchases['combo_id']; ?>
                 <div class="item">
-                    <p><strong>Date:</strong> <?php echo $purchases['receipt_date']; ?></p>
-                    <p><strong>Product Name:</strong> <?php echo $purchases['name']; ?></p>
-                    <p><strong>Brand:</strong> <?php echo $purchases['brand']; ?></p>
-                    <p><strong>Category:</strong> <?php echo $purchases['category']; ?></p>
-                    <p><strong>Color:</strong> <?php echo $purchases['color']; ?></p>
-                    <p><strong>Size:</strong> <?php echo $purchases['size']; ?></p>
-                    <p><strong>Quantity:</strong> <?php echo $purchases['quantity']; ?></p>
-                    <p><strong>Price:</strong> $<?php echo number_format($purchases['quantity'] * $purchases['price'], 2); ?></p>
+                    <?php if($comboid !== null) { ?>
+                        <p><strong>Date:</strong> <?php echo $purchases['receipt_date']; ?></p>
+                        <p><strong>Product Name:</strong> <?php echo $purchases['combo_name']; ?></p>
+                        <p><strong>Quantity:</strong> <?php echo $purchases['quantity']; ?></p>
+                        <p><strong>Price:</strong> $<?php echo number_format($purchases['quantity'] * $purchases['price'], 2); ?></p>
+                    <?php } else { ?>
+                        <p><strong>Date:</strong> <?php echo $purchases['receipt_date']; ?></p>
+                        <p><strong>Product Name:</strong> <?php echo $purchases['name']; ?></p>
+                        <p><strong>Brand:</strong> <?php echo $purchases['brand']; ?></p>
+                        <p><strong>Category:</strong> <?php echo $purchases['category']; ?></p>
+                        <p><strong>Color:</strong> <?php echo $purchases['color']; ?></p>
+                        <p><strong>Size:</strong> <?php echo $purchases['size']; ?></p>
+                        <p><strong>Quantity:</strong> <?php echo $purchases['quantity']; ?></p>
+                        <p><strong>Price:</strong> $<?php echo number_format($purchases['quantity'] * $purchases['price'], 2); ?></p>
+                    <?php } ?>
                 </div>
                 <?php $total = $purchases['subtotal']; ?>
             <?php endwhile; ?>
