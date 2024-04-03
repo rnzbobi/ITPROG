@@ -93,7 +93,7 @@ if (isset($_SESSION['username'])) {
                             <div class="card-header"><h2>Order ID</h2><?php echo $purchases['order_id']?></div>
                             <div class="card-details">
                                 <?php if($purchases['combo_id'] !== null) { ?>
-                                    <a href="view.php?item_id=<?php echo $combo['combo_id']; ?>">
+                                    <a href="view_combo.php?item_id=<?php echo $combo['combo_id']; ?>">
                                         <img src=<?php echo $combo['image_URL']; ?> class="card-image">
                                     </a>
                                     <p class="pstyle">Date: <?php echo $purchases['order_date']; ?></p>
