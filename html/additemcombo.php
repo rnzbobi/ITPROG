@@ -190,6 +190,40 @@ document.addEventListener("DOMContentLoaded", function() {
             background: gray;
         }
         
+        .item-select {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 20px;
+        padding: 10px; /* adjusted from 'auto' to give actual padding */
+        width: 100%; /* adjusted from '100px' to fill the form */
+        margin: 20px 0;
+        background-color: #f8f8f8;
+        border: 1px solid #ddd;
+        border-radius: 4px; /* Added border-radius */
+        -webkit-appearance: none; /* Removes default styling on iOS */
+        -moz-appearance: none; /* Removes default styling on Firefox */
+        appearance: none; /* Removes default styling */
+        cursor: pointer;
+    }
+
+    .item-select:hover {
+        background-color: #e9e9e9;
+    }
+
+    /* Adding a custom arrow to the dropdown */
+    .item-select-wrapper {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+    }
+
+    .item-select-wrapper::after {
+        content: '▼'; /* This is a simple text arrow, you might want to use an actual image or SVG */
+        font-size: 20px;
+        right: 15px;
+        top: calc(50% - 10px);
+        position: absolute;
+        pointer-events: none;
+    }
     </style>
 </head>
 <body>
@@ -205,6 +239,7 @@ document.addEventListener("DOMContentLoaded", function() {
         <!-- Fields for the combo items' IDs -->
         <div class="form-group">
                 <label for="item_id1">Item ID 1:</label>
+                <div class="item-select-wrapper">
                 <select id="item_id1" name="item_id1" class="item-select">
                         <option value="">None</option>
                         <?php echo $itemOptions; ?>
@@ -213,6 +248,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         <div class="form-group">
                 <label for="item_id2">Item ID 2:</label>
+                <div class="item-select-wrapper">
                 <select id="item_id2" name="item_id2" class="item-select">
                         <option value="">None</option>
                         <?php echo $itemOptions; ?>
@@ -221,6 +257,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             <div class="form-group">
                 <label for="item_id3">Item ID 3:</label>
+                <div class="item-select-wrapper">
                 <select id="item_id3" name="item_id3" class="item-select">
                         <option value="">None</option>
                         <?php echo $itemOptions; ?>
@@ -229,6 +266,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             <div class="form-group">
                 <label for="item_id4">Item ID 4:</label>
+                <div class="item-select-wrapper">
                 <select id="item_id4" name="item_id4" class="item-select">
                         <option value="">None</option>
                         <?php echo $itemOptions; ?>
