@@ -140,16 +140,28 @@ $username = $loggedIn ? $_SESSION['username'] : '';
                 <a href="user.php"><img src="images/user.png" alt="User"></a>
                 <?php
             if($loggedIn){
-                echo '<a href="profile.php"><h2><span id="user-id">Profile</span></h2></a>';
+                echo '<a href="user.php"><h2><span id="user-id">Profile</span></h2></a>';
                 echo '<a href="logout.php"><h2><span id="user-id">Logout</span></h2></a>';
             } else {
                 echo '<a href="login.php"><h2><span id="user-id">Login/Signup</span></h2></a>';
             }
             ?>
-			 <h2>Balance: <span id="balance-value">10000</span></h2>
-            </div>
-            <div class="Balance-header">
-                <h2 id="balance">Balance: <span id="balance-value">10000</span></h2>
+			 <h2>Balance: <span id="balance-value"><?php 
+                    $getBalance = mysqli_query($conn,
+                    "SELECT user_id.balance AS 'balanceUser'
+                    FROM user_id 
+                        LEFT JOIN carts ON user_id.userid = carts.user_id
+                        LEFT JOIN individual_clothes ON carts.item_id = individual_clothes.id
+                    WHERE user_id.username='$username'");
+                if ($getBalance && mysqli_num_rows($getBalance) > 0){
+                    $balanceRow = mysqli_fetch_assoc($getBalance);
+                    $balance = $balanceRow['balanceUser'];
+                    echo "$" . number_format($balance, 2); // Display balance with dollar sign and 2 decimal places
+                }
+                else{
+                    echo "$" . number_format(0, 2); // Default to $0.00 if balance not found
+                }
+            ?></span></h2>
             </div>
         </div>
     </header>
@@ -227,7 +239,7 @@ $username = $loggedIn ? $_SESSION['username'] : '';
                             <?php echo htmlspecialchars($combo_row['description']); ?>
                         </div>
                        
-                        <a href="checkout.php?item_id=<?php echo $combo_id; ?>" class="checkout-btn">Checkout</a>
+                        <a href="checkoutcombo.php?item_id=<?php echo $combo_id; ?>" class="checkout-btn">Checkout</a>
                     </div>      
                 </div>
                 <?php

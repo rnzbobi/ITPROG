@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<summary_revenue>
+  <item id="10">
+    <name>Rhenz Bhovie</name>
+    <size>asd</size>
+    <image>https://www.udiscovermusic.com/wp-content/uploads/2020/04/Kendrick-Lamar-Damn-album-cover-820-820x820.jpg</image>
+    <revenue>1092.00</revenue>
+  </item>
+  <item id="2">
+    <name>Green H&amp;M Dress</name>
+    <size>S</size>
+    <image>https://images.squarespace-cdn.com/content/v1/580cf7ce6b8f5b3576a3da9f/1614531814117-M12UJV54Q636S6SD6P0Q/hmgoepprod.jpeg</image>
+    <revenue>559.86</revenue>
+  </item>
+  <item id="3">
+    <name>Chuck Taylor</name>
+    <size>8</size>
+    <image>https://www.converse.ph/media/catalog/product/0/8/0802-CONM9160C00010H-1.jpg</image>
+    <revenue>499.90</revenue>
+  </item>
+  <item id="1">
+    <name>Black Adidas Jacket</name>
+    <size>M</size>
+    <image>https://assets.adidas.com/images/h_840,f_auto,q_auto,fl_lossy,c_fill,g_auto/c6c5c294aed64a5da355ad120148b3c1_9366/Adicolor_Classics_Trefoil_Hoodie_Black_H06667_01_laydown.jpg</image>
+    <revenue>459.95</revenue>
+  </item>
+  <item id="4">
+    <name>Swoosh Short</name>
+    <size>L</size>
+    <image>https://i.pinimg.com/736x/d2/59/c9/d259c9aa3b49cc9c459dcd69c4b9c436.jpg</image>
+    <revenue>149.95</revenue>
+  </item>
+  <item id="5">
+    <name>Red Skirt</name>
+    <size>M</size>
+    <image>https://static.zara.net/photos///2023/I/0/1/p/9214/187/632/2/w/1920/9214187632_6_2_1.jpg?ts=1699009778336</image>
+    <revenue>104.97</revenue>
+  </item>
+</summary_revenue>
