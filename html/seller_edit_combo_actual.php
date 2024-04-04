@@ -112,6 +112,8 @@ if (!isset($_SESSION['username'])) {
                     mysqli_data_seek($getClothes, 0);
                     if($editCombo['item_id3'] === NULL){
                         echo "<option value='' selected>No clothes</option>";
+                    }else{
+                        echo "<option value='' >No clothes</option>";
                     }
                   
                     while($getItem=mysqli_fetch_assoc($getClothes)){
@@ -133,6 +135,8 @@ if (!isset($_SESSION['username'])) {
                 mysqli_data_seek($getClothes, 0);
                 if($editCombo['item_id4'] === NULL){
                     echo "<option value='' selected>No clothes</option>";
+                }else{
+                    echo "<option value='' >No clothes</option>";
                 }
                 while($getItem=mysqli_fetch_assoc($getClothes)){
                         if ($getItem['name']!==$editCombo['item4_name']){
