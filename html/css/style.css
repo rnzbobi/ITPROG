@@ -461,7 +461,8 @@ main {
         padding-bottom:30px;
     }
 
-/* CSS for the seller_deleteitem.php  and seller_deletecombo files */
+
+/* CSS for the seller_deleteitem.php file */
 
 .delete_interface{
     display: flex;

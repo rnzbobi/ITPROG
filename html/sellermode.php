@@ -29,10 +29,10 @@ if (!isset($_SESSION['username'])) {
     <h1>Seller Mode</h1>
     <a class="astyle" href="additem.php"><h3>Add Item</h3></a><br><br>
     <a class="astyle" href="additemcombo.php"><h3>Add Combo Item</h3></a><br><br>
-    <a class="astyle" href="deleteitem.php"><h3>Delete Item</h3></a><br><br>
-    <a class="astyle" href="edititem.php"><h3>Edit Item</h3></a><br><br>
-    <a class="astyle" href="create_summary_sold_clothes.php"><h3>Get A Summary of Top 5 Total Sold</h3></a><br><br>
-    <a class="astyle" href="create_summary_revenue_clothes.php"><h3>Get A Summary of Top 5 Total Revenue</h3></a><br><br>
+    <a class="astyle" href="seller_deleteitem.php"><h3>Delete Item</h3></a><br><br>
+    <a class="astyle" href="seller_deletecombo.php"><h3>Delete Combo</h3></a><br><br>
+    <a class="astyle" href="seller_edit_item.php"><h3>Edit Item</h3></a><br><br>
+    <a class="astyle" href="seller_edit_combo.php"><h3>Edit Combo</h3></a><br><br>
     <a class="astyle" href="index.php"><h3>Go Back</h3></a>
 </div>
 
