@@ -113,22 +113,24 @@ if (!isset($_SESSION['username'])) {
                     if($editCombo['item_id3'] === NULL){
                         echo "<option value='' selected>No clothes</option>";
                     }
+                  
                     while($getItem=mysqli_fetch_assoc($getClothes)){
                             if ($getItem['name']!==$editCombo['item3_name']){
                             echo "<option value='".$getItem['id']."'>".$getItem['name']."</option>";
                             }
                             else{
-                                echo "<option value='" . $getItem['id'] . "'>".$editCombo['item3_name']."</option>";
+                                echo "<option value='" . $getItem['id'] . "' selected>".$editCombo['item3_name']."</option>";
                             }
                         }
                     echo"</select>";
                 echo "</div>";
 
-                mysqli_data_seek($getClothes, 0);
+               
 
                 echo "<div class='eia-form-group'>";
                 echo "<label for='item_id4'>Item 4:</label>";
                 echo "<select id ='item_id4' name ='item_id4'>";
+                mysqli_data_seek($getClothes, 0);
                 if($editCombo['item_id4'] === NULL){
                     echo "<option value='' selected>No clothes</option>";
                 }
@@ -137,7 +139,7 @@ if (!isset($_SESSION['username'])) {
                         echo "<option value='".$getItem['id']."'>".$getItem['name']."</option>";
                         }
                         else{
-                            echo "<option value='" . $getItem['id'] . "'>".$editCombo['item4_name']."</option>";
+                            echo "<option value='" . $getItem['id'] . "' selected>".$editCombo['item4_name']."</option>";
                         }
                     }
                 echo"</select>";
