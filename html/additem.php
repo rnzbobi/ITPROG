@@ -14,8 +14,6 @@ if ($conn->connect_error) {
 
 // Check if form was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Prepare and bind
-    $stmt = $conn->prepare("INSERT INTO individual_clothes (name, brand, category, color, gender, size, price, available_quantity, image_url, description, total_quantity) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     
     // Set parameters
     $name = $_POST['name'];
@@ -30,6 +28,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $description = $_POST['description'];
     $total_quantity = $quantity; 
 
+    // Check if an item with the same details already exists
+    $checkStmt = $conn->prepare("SELECT * FROM individual_clothes WHERE name = ? AND brand = ? AND category = ? AND color = ? AND gender = ? AND size = ? AND price = ? AND available_quantity = ? AND image_url = ? AND description = ?");
+    $checkStmt->bind_param("ssssssdiss", $name, $brand, $category, $color, $gender, $size, $price, $quantity, $image_url, $description);
+    $checkStmt->execute();
+    $result = $checkStmt->get_result();
+    if ($result->num_rows > 0) {
+        // Item already exists
+        $_SESSION['item_exists'] = true; // Set a flag for item existence
+        header("Location: addItem.php"); // Redirect to the same page
+        exit();
+    } else {
+
+    // Prepare and bind
+    $stmt = $conn->prepare("INSERT INTO individual_clothes (name, brand, category, color, gender, size, price, available_quantity, image_url, description, total_quantity) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
     // Bind parameters with correct types
     $stmt->bind_param("ssssssdissi", $name, $brand, $category, $color, $gender, $size, $price, $quantity, $image_url, $description, $total_quantity);
 
@@ -43,6 +56,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     $stmt->close();
+}
+    $checkStmt->close();
     $conn->close();
 }
 ?>
@@ -208,20 +223,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
    
 </footer>
 
-<?php if (isset($_SESSION['item_added'])): ?>
+<?php if (isset($_SESSION['item_exists'])): ?>
+    <?php unset($_SESSION['item_exists']); ?>
+    <script>
+    Swal.fire({
+        title: "Duplicate Item!",
+        text: "An item with these details already exists.",
+        icon: "error",
+        confirmButtonText: "Ok"
+    });
+    </script>
+<?php elseif (isset($_SESSION['item_added'])): ?>
     <?php unset($_SESSION['item_added']); ?>
     <script>
-    console.log('Attempting to show SweetAlert2 notification.'); 
     Swal.fire({
         title: "Success!",
-        text: "Item added",
+        text: "Item added successfully",
         icon: "success",
         confirmButtonText: "Ok"
-    }).then(function() {
-        
     });
     </script>
 <?php endif; ?>
-
 </body>
 </html>

@@ -84,7 +84,9 @@
             echo '<label class="labelstyle" for="balance">Balance:</label>';
             echo '<input class="inputstyle2" type="text" id="balance" value="' . number_format($user['balance'], 2) . '" disabled><br>';
             echo '<a href="editprofile.php">Edit Profile</a><br><br>';
+            if ($username == "admin") {
             echo '<a href="sellermode.php">Seller Mode</a><br><br>';
+            }
             echo '<a href="viewpurchasehistory.php" style="margin-right: 10px;">View Purchase History</a>';
             echo '<a href="index.php">Go Back</a>';
         } else {
