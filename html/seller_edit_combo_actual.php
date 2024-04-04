@@ -35,7 +35,7 @@ if (!isset($_SESSION['username'])) {
         $clothes_desc = $_GET['description'];*/
 
     $getClothes = mysqli_query($conn, 
-                "SELECT * 
+                "SELECT DISTINCT name, id
                 FROM individual_clothes");
 
     $getCombotoEdit = mysqli_query($conn, 
@@ -77,12 +77,72 @@ if (!isset($_SESSION['username'])) {
 
                 echo "<div class='eia-form-group'>";
                     echo "<label for='item_id1'>Item 1:</label>";
-                    echo "<select id ='item_id1'name ='item_id1' required>";
-                        while($getItem=mysqli_fetch_assoc($getCombotoEdit)){
-                            echo "<option value='item_id1'>".$getItem['item1_name']."</option>";
+                    echo "<select id ='item_id1' name ='item_id1' required>";
+                        while($getItem=mysqli_fetch_assoc($getClothes)){
+                            if ($getItem['name']!==$editCombo['item1_name']){
+                            echo "<option value='".$getItem['id']."'>".$getItem['name']."</option>";
+                            }
+                            else{
+                                echo "<option value='" . $getItem['id'] . "' selected>".$editCombo['item1_name']."</option>";
+                            }
                         }
                     echo"</select>";
                 echo "</div>";
+
+                mysqli_data_seek($getClothes, 0);
+
+                echo "<div class='eia-form-group'>";
+                    echo "<label for='item_id2'>Item 2:</label>";
+                    echo "<select id ='item_id2' name ='item_id2' required>";
+                        while($getItem=mysqli_fetch_assoc($getClothes)){
+                            if ($getItem['name']!==$editCombo['item2_name']){
+                            echo "<option value='".$getItem['id']."'>".$getItem['name']."</option>";
+                            }
+                            else{
+                                echo "<option value='" . $getItem['id'] . "' selected>".$editCombo['item2_name']."</option>";
+                            }
+                        }
+                    echo"</select>";
+                echo "</div>";
+
+
+                echo "<div class='eia-form-group'>";
+                    echo "<label for='item_id3'>Item 3:</label>";
+                    echo "<select id ='item_id3' name ='item_id3'>";
+                    mysqli_data_seek($getClothes, 0);
+                    if($editCombo['item_id3'] === NULL){
+                        echo "<option value='' selected>No clothes</option>";
+                    }
+                    while($getItem=mysqli_fetch_assoc($getClothes)){
+                            if ($getItem['name']!==$editCombo['item3_name']){
+                            echo "<option value='".$getItem['id']."'>".$getItem['name']."</option>";
+                            }
+                            else{
+                                echo "<option value='" . $getItem['id'] . "'>".$editCombo['item3_name']."</option>";
+                            }
+                        }
+                    echo"</select>";
+                echo "</div>";
+
+                mysqli_data_seek($getClothes, 0);
+
+                echo "<div class='eia-form-group'>";
+                echo "<label for='item_id4'>Item 4:</label>";
+                echo "<select id ='item_id4' name ='item_id4'>";
+                if($editCombo['item_id4'] === NULL){
+                    echo "<option value='' selected>No clothes</option>";
+                }
+                while($getItem=mysqli_fetch_assoc($getClothes)){
+                        if ($getItem['name']!==$editCombo['item4_name']){
+                        echo "<option value='".$getItem['id']."'>".$getItem['name']."</option>";
+                        }
+                        else{
+                            echo "<option value='" . $getItem['id'] . "'>".$editCombo['item4_name']."</option>";
+                        }
+                    }
+                echo"</select>";
+            echo "</div>";
+
 
                 echo "<div class='eia-form-group'>";
                     echo "<label for='price'>Price:</label>";

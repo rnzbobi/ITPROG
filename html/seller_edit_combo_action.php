@@ -15,13 +15,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $item_id2 = isset($_POST['item_id2']) ? $_POST['item_id2'] : 'NULL';
     $item_id3 = isset($_POST['item_id3']) ? $_POST['item_id3'] : 'NULL';
     $item_id4 = isset($_POST['item_id4']) ? $_POST['item_id4'] : 'NULL';
+    echo $item_id1.$item_id2.$item_id3;
+    /*$item_id1 = $_POST['item_id1'];
+    $item_id2 = $_POST['item_id2'];
+    $item_id3 = $_POST['item_id3'];
+    $item_id4 = $_POST['item_id4'];*/
     $combo_price=$_POST['price'];
     $combo_quantity=$_POST['quantity'];
     $combo_URL=$_POST['url'];
     $combo_desc=$_POST['description'];
 }
 
-
+/*
 $updateQuery=
 "UPDATE combo_clothes
 SET 
@@ -37,7 +42,7 @@ description = '$combo_desc'
 WHERE combo_id=$combo_id";
 if(mysqli_query($conn, $updateQuery)){
     header("Location: seller_edit_combo.php");
-}
+}*/
 ?>
 
 
