@@ -44,7 +44,7 @@ if (!isset($_SESSION['username'])) {
             }
             ?>
                 <h2>Balance: <span id="balance-value"><?php 
-                $getBalance = mysqli_query($conn,
+                    $getBalance = mysqli_query($conn,
                     "SELECT user_id.balance AS 'balanceUser'
                     FROM user_id 
                         LEFT JOIN carts ON user_id.userid = carts.user_id
@@ -53,11 +53,12 @@ if (!isset($_SESSION['username'])) {
                 if ($getBalance && mysqli_num_rows($getBalance) > 0){
                     $balanceRow = mysqli_fetch_assoc($getBalance);
                     $balance = $balanceRow['balanceUser'];
-                    echo $balance;
+                    echo "$" . number_format($balance, 2); // Display balance with dollar sign and 2 decimal places
                 }
                 else{
-                    echo 0;
-                }?></span></h2>
+                    echo "$" . number_format(0, 2); // Default to $0.00 if balance not found
+                }
+            ?></span></h2>
             </div>
         </div>
     </header>

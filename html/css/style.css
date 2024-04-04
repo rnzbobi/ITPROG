@@ -461,6 +461,7 @@ main {
         padding-bottom:30px;
     }
 
+
 /* CSS for the seller_deleteitem.php file */
 
 .delete_interface{
@@ -925,4 +926,163 @@ ec = edit combo*/
     color:black;
     font-size:15px;
     font-family: 'Open Sans', sans-serif;  
+}
+
+/*CSS for create_summary_sold_clothes.php*/
+
+.sum_sold_interface{
+    display: flex;
+    flex-direction:column;
+    font-family: 'Montserrat', sans-serif;
+	font-size: 30px;
+	border-radius:20px;
+	padding:20px;
+	box-shadow: 2px 2px 5px 3px black;
+	margin:10px;
+	border:0px solid black;
+	max-width: 1500px;
+    justify-content:center;
+    align-items:center;
+}
+
+.sum_sold_container{
+    display: flex;
+    flex-direction:row;
+    flex-wrap: wrap;
+    padding-top:10px;
+    font-size: 20px;
+    max-width:1400px;
+}
+
+.sum_sold-header{
+    display: inline-block;
+    flex-direction: column;
+    margin-left:65px;
+    width:1200px;
+    justify-content:center;
+    align-items:center;
+}
+.sum_sold_title-left{
+    display: inline-block;
+    flex-direction: column;
+    margin-right: 250px;
+    padding: 10px 0;
+    justify-content: space-between;
+}
+.sum_sold_title-mid{
+    display: inline-block;
+    flex-direction: column;
+    padding: 10px 0;
+    margin-right: 150px;
+    justify-content: space-between;
+}
+.sum_sold_title-right{
+    display: inline-block;
+    flex-direction: column;
+    margin-left: 50px;
+    padding: 10px 0;
+    margin-right: 60px;
+    justify-content:center;
+    align-items:center;
+}
+.sum_sold_title-rank{
+    display: inline-block;
+    flex-direction: column;
+    margin-left: 50px;
+    padding: 10px 0;
+    justify-content:center;
+    align-items:center;
+}
+
+.sum_sold_image-holder{
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.sum_sold-item-details{
+    display:flex;
+    flex: 1;
+    flex-direction:column;
+    padding-top:15px;
+    margin-right: 30px;
+    width:700px;
+    align-items:center;
+    
+}
+
+.sum_sold-item-name{
+    display: flex;
+    flex-direction: row;
+    text-align: left;
+    font-weight: bold;
+    font-size: 30px;    
+}
+
+.sum-item-placeholder{
+    display:block;
+    flex-direction:row;
+    text-align: left;
+    line-height: 1.2;
+    font-size:15px;
+}
+
+.sum_sold_amount-holder{
+    display: flex;
+    flex-direction: column;
+    margin-left:5px;
+    padding-top:20px;
+    width:50px;
+}
+
+.sum_sold-rank{
+    display: flex;
+    flex-direction: column;
+    margin-left:200px;
+    padding-top:20px;
+    width:50px;
+}
+
+.sum-regbutton{
+    text-decoration: none;
+    padding:20px;
+    padding-top:20px;
+    display:flex;
+    border:3px solid black;
+    background:black;
+    color:white;
+    font-size:15px;
+    font-family: 'Open Sans', sans-serif;  
+    width: 300px;
+    height: 40px;
+    justify-content: center; 
+    align-items: center;
+    transition:0.5s;
+}
+
+.sum-regbutton:hover{
+    border:3px solid black;
+    background:white;
+    color:black;
+    font-size:15px;
+    font-family: 'Open Sans', sans-serif;  
+    transition:0.5s;
+}
+
+.revenue_sold_title-right{
+    display: inline-block;
+    flex-direction: column;
+    margin-left: 60px;
+    padding: 10px 0;
+    margin-right: 60px;
+    justify-content:center;
+    align-items:center;
+}
+.revenue_sold_title-rank{
+    display: inline-block;
+    flex-direction: column;
+    margin-left: 30px;
+    padding: 10px 0;
+    justify-content:center;
+    align-items:center;
 }

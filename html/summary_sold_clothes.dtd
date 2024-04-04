@@ -1,0 +1,8 @@
+<?xml version ="1.0"?>
+ <!DOCTYPE summary_sold [
+ <!ELEMENT summary (item,name,size,amount_sold)>
+ <!ATTLIST item id CDATA #REQUIRED>
+ <!ELEMENT name (#PCDATA)>
+ <!ELEMENT size (#PCDATA)>
+ <!ELEMENT amount_sold (#PCDATA)>
+ ]>
