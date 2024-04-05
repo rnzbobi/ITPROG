@@ -136,7 +136,6 @@ main {
             background-color: rgba(0,0,0,0.4);
         }
 
-        /* Modal content */
         .modal-content {
             background-color: #fefefe;
             margin: 15% auto;
@@ -146,20 +145,49 @@ main {
             max-width: 600px;
             border-radius: 5px;
         }
-
-        .modal-content label{
+        
+        .modal-content label {
             font-size: 22px;
             font-family: 'Montserrat', sans-serif;
         }
-
-        .modal-content input{
+        
+        .modal-content .file-upload {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #181818;
+            padding: 20px;
+            cursor: pointer;
+            margin-top: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .modal-content .file-upload input[type="file"] {
+            display: none;
+        }
+        
+        .modal-content .file-upload p {
+            font-size: 16px;
+            font-family: 'Montserrat', sans-serif;
+            color: #181818;
+            margin: 10px 0;
+        }
+        
+        .modal-content .file-upload img {
+            max-width: 100px;
+            max-height: 100px;
+            object-fit: contain;
+        }
+        
+        .modal-content input[type="text"] {
             width: 500px;
             height: 30px;
             margin-top: 15px;
             margin-bottom: 10px;
         }
-
-        input[type="submit"] {
+        
+        .modal-content input[type="submit"] {
             background-color: #181818;
             color: white;
             padding: 10px 20px;
@@ -171,7 +199,25 @@ main {
             height: 70px;
             width: 510px;
         }
-    
+        
+        .modal-content input[type="submit"]:hover {
+            background-color: #ffffff;
+            color: black;
+        }
+        
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
         /* Hover effect for the submit button */
         input[type="submit"]:hover {
             background-color: #ffffff;
