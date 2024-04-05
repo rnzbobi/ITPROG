@@ -8,6 +8,9 @@
         $username = $_SESSION['username'];
     }
 
+    // Encryption key
+    $encryption_key = "I7Pr063gGH3ad5";
+
     if (!isset($_SESSION['username'])) {
         header("Location: login.php");
         exit();
@@ -90,7 +93,15 @@
             echo '<input class="inputstyle2" type="text" id="name" value="' . $user['name'] . '" disabled><br>';
             echo '<label class="labelstyle" for="username">Username:</label>';
             echo '<input class="inputstyle2" type="text" id="username" value="' . $user['username'] . '" disabled><br>';
-            $masked_password = str_repeat('*', strlen($user['user_password']));
+
+            $iv_encrypted_password = $user["user_password"];
+
+            // Separate IV and encrypted password
+            list($iv, $encrypted_password) = explode(":", $iv_encrypted_password);
+            // Decrypt and prepopulate password field
+            $decrypted_password = openssl_decrypt($encrypted_password, "AES-256-CBC", $encryption_key, 0, base64_decode($iv));
+
+            $masked_password = str_repeat('*', strlen($decrypted_password));
             echo '<label class="labelstyle" for="password">Password:</label>';
             echo '<input class="inputstyle2" type="password" id="password" value="' . $masked_password . '" disabled><br>';
             echo '<label class="labelstyle" for="balance">Balance:</label>';
@@ -102,7 +113,7 @@
             echo '<a href="viewpurchasehistory.php" style="margin-right: 10px;">View Purchase History</a>';
             echo '<a href="index.php">Go Back</a>';
         } else {
-            echo "<h2>Error: " . mysqli_error($conn) . "</h2>";
+            echo "<h1>Error: " . mysqli_error($conn) . "</h1>";
         }
     }
     ?>

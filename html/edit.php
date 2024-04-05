@@ -40,10 +40,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: editprofile.php");
         exit();
     } else {
-        // Update user information
+        // Encryption key
+        $encryption_key = "I7Pr063gGH3ad5";
+
+        // Generate a random IV
+        $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('AES-256-CBC'));
+
+        // Encrypt the password with the generated IV
+        $encrypted_password = openssl_encrypt($password, 'AES-256-CBC', $encryption_key, 0, $iv);
+
+        // Combine IV and encrypted password
+        $iv_encrypted_password = base64_encode($iv) . ":" . $encrypted_password;
+
+        // Update user information including password
         $studQuery = "UPDATE user_id SET name=?, username=?, user_password=? WHERE userid=?";
         $stmt = mysqli_prepare($conn, $studQuery);
-        mysqli_stmt_bind_param($stmt, "sssi", $name, $new_username, $password, $id);
+        mysqli_stmt_bind_param($stmt, "sssi", $name, $new_username, $iv_encrypted_password, $id);
 
         if (mysqli_stmt_execute($stmt)) {
             $_SESSION["username"] = $new_username;
