@@ -2,6 +2,15 @@
 session_start();
 include 'database.php';
 
+// Function to create the uploads directory if it doesn't exist
+function createUploadsDirectory($dir) {
+    if (!file_exists($dir)) {
+        if (!mkdir($dir, 0777, true)) {
+            die('Failed to create uploads directory.');
+        }
+    }
+}
+
 // Redirect to login page if the user is not logged in
 if (!isset($_SESSION['username'])) {
     header("Location: login.php");
@@ -35,6 +44,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $available_quantity = $_POST['available_quantity'];
     $image_URL = $_POST['image_URL'];
     $total_quantity = $available_quantity; // Set total_quantity to the same as available_quantity
+
+    // Check if a file was uploaded
+    if (isset($_FILES['imageFile']) && $_FILES['imageFile']['error'] === UPLOAD_ERR_OK) {
+        $file = $_FILES['imageFile'];
+        $uploadDir = 'uploads/';
+
+        // Create the uploads directory if it doesn't exist
+        createUploadsDirectory($uploadDir);
+
+        // Generate a unique file name
+        $fileDestination = $uploadDir . uniqid() . '_' . basename($file['name']);
+
+        // Move the uploaded file to the uploads directory
+        if (move_uploaded_file($file['tmp_name'], $fileDestination)) {
+            $image_URL= $fileDestination;
+        } else {
+            $image_URL= '';
+        }
+    }
 
     // Update the prepared statement to include new fields
     $stmt = $conn->prepare("INSERT INTO combo_clothes (item_id1, item_id2, item_id3, item_id4, combo_name, description, price, available_quantity, image_URL, total_quantity) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
@@ -235,7 +263,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <main>
 <div class="form-container">
     <h1>Add New Combo</h1>
-    <form method="POST" class="item-form">
+    <form method="POST" action="additemcombo.php" enctype="multipart/form-data" class="item-form">
         <!-- Fields for the combo items' IDs -->
         <div class="form-group">
                 <label for="item_id1">Item ID 1:</label>
@@ -288,10 +316,13 @@ document.addEventListener("DOMContentLoaded", function() {
             <input type="number" id="available_quantity" name="available_quantity" required min="0">
         </div>
 
-        <div class="form-group">
-            <label for="image_url">Image URL:</label>
-            <input type="text" id="image_URL" name="image_URL" required>
-        </div>
+        <div class="file-upload">
+    <input type="file" id="imageFile" name="imageFile" accept="image/*" required>
+    <p>Drag and drop an image or click to upload</p>
+    <img id="previewImage" src="#" alt="Preview" style="display: none;">
+    <button type="button" id="cancelImage" style="display: none;">Cancel Image</button> <!-- Cancel button -->
+</div>
+                <input type="hidden" id="image_URL" name="image_URL">
 
         <div class="form-group">
             <label for="description">Description:</label>
@@ -314,6 +345,57 @@ document.addEventListener("DOMContentLoaded", function() {
 <footer>
    
 </footer>
+<script>
+   // Get the file input, preview image, and cancel button elements
+const fileInput = document.getElementById('imageFile');
+const previewImage = document.getElementById('previewImage');
+const image_URLInput = document.getElementById('image_URL');
+const cancelImageButton = document.getElementById('cancelImage');
+
+// Add event listener to the file input
+fileInput.addEventListener('change', handleFileSelect);
+
+// Function to handle file select
+function handleFileSelect(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const image_URL = URL.createObjectURL(file);
+        previewImage.src = image_URL;
+        previewImage.style.display = 'block';
+        cancelImageButton.style.display = 'inline'; // Show the cancel button
+        image_URLInput.value = image_URL;
+    }
+}
+
+// Add event listeners to the file upload area for drag and drop
+const fileUpload = document.querySelector('.file-upload');
+fileUpload.addEventListener('dragover', function(event) {
+    event.preventDefault();
+    fileUpload.classList.add('dragover');
+});
+fileUpload.addEventListener('dragleave', function(event) {
+    event.preventDefault();
+    fileUpload.classList.remove('dragover');
+});
+fileUpload.addEventListener('drop', function(event) {
+    event.preventDefault();
+    fileUpload.classList.remove('dragover');
+    // Use the handleFileSelect function here as well
+    fileInput.files = event.dataTransfer.files;
+    handleFileSelect({ target: fileInput });
+});
+
+// Add event listener to the cancel button
+cancelImageButton.addEventListener('click', function() {
+    // Clear the file input value
+    fileInput.value = '';
+    // Hide the preview image and cancel button
+    previewImage.style.display = 'none';
+    cancelImageButton.style.display = 'none';
+    // Clear the image_url input value
+    image_URLInput.value = '';
+});
+</script>
 
 <?php if (isset($_SESSION['item_added'])): ?>
     <?php unset($_SESSION['item_added']); ?>

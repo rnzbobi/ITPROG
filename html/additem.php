@@ -2,6 +2,16 @@
 session_start(); // Start the session at the beginning
 include 'database.php';
 
+
+// Function to create the uploads directory if it doesn't exist
+function createUploadsDirectory($dir) {
+    if (!file_exists($dir)) {
+        if (!mkdir($dir, 0777, true)) {
+            die('Failed to create uploads directory.');
+        }
+    }
+}
+
 // Redirect to login page if the user is not logged in
 if (!isset($_SESSION['username'])) {
     header("Location: login.php");
@@ -11,6 +21,7 @@ if (!isset($_SESSION['username'])) {
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+
 
 // Check if form was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -28,6 +39,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $description = $_POST['description'];
     $total_quantity = $quantity; 
 
+    // Check if a file was uploaded
+    if (isset($_FILES['imageFile']) && $_FILES['imageFile']['error'] === UPLOAD_ERR_OK) {
+        $file = $_FILES['imageFile'];
+        $uploadDir = 'uploads/';
+
+        // Create the uploads directory if it doesn't exist
+        createUploadsDirectory($uploadDir);
+
+        // Generate a unique file name
+        $fileDestination = $uploadDir . uniqid() . '_' . basename($file['name']);
+
+        // Move the uploaded file to the uploads directory
+        if (move_uploaded_file($file['tmp_name'], $fileDestination)) {
+            $image_url = $fileDestination;
+        } else {
+            $image_url = '';
+        }
+    }
+
+
     // Check if an item with the same details already exists
     $checkStmt = $conn->prepare("SELECT * FROM individual_clothes WHERE name = ? AND brand = ? AND category = ? AND color = ? AND gender = ? AND size = ? AND price = ? AND available_quantity = ? AND image_url = ? AND description = ?");
     $checkStmt->bind_param("ssssssdiss", $name, $brand, $category, $color, $gender, $size, $price, $quantity, $image_url, $description);
@@ -42,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Prepare and bind
     $stmt = $conn->prepare("INSERT INTO individual_clothes (name, brand, category, color, gender, size, price, available_quantity, image_url, description, total_quantity) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-
+        
     // Bind parameters with correct types
     $stmt->bind_param("ssssssdissi", $name, $brand, $category, $color, $gender, $size, $price, $quantity, $image_url, $description, $total_quantity);
 
@@ -156,7 +187,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <main>
     <div class="form-container">
         <h1>Add New Item</h1>
-        <form method="POST" class="item-form">
+        <form method="POST" action="addItem.php" enctype="multipart/form-data" class="item-form">
             <div class="form-group">
                 <label for="name">Item Name:</label>
                 <input type="text" id="name" name="name" required maxlength="45">
@@ -197,10 +228,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="number" id="quantity" name="quantity" required min="0">
             </div>
 
-            <div class="form-group">
-                <label for="image_url">Image URL:</label>
-                <input type="text" id="image_url" name="image_url" required>
-            </div>
+            <div class="file-upload">
+    <input type="file" id="imageFile" name="imageFile" accept="image/*" required>
+    <p>Drag and drop an image or click to upload</p>
+    <img id="previewImage" src="#" alt="Preview" style="display: none;">
+    <button type="button" id="cancelImage" style="display: none;">Cancel</button> <!-- The cancel button -->
+</div>
 
             <div class="form-group">
                 <label for="description">Description:</label>
@@ -208,8 +241,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
 
             <div class="form-group">
-                <input type="submit" value="Add Item" class="submit-btn">
-            </div>
+            <input type="submit" value="Add Item" class="submit-btn">
+        </div>
 
             <div class="form-group">
                 <a href="sellermode.php" class="back-btn">Back to Dashboard</a>
@@ -222,6 +255,57 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <footer>
    
 </footer>
+<script>
+   // Get the file input, preview image, and cancel button elements
+const fileInput = document.getElementById('imageFile');
+const previewImage = document.getElementById('previewImage');
+const image_urlInput = document.getElementById('image_url');
+const cancelImageButton = document.getElementById('cancelImage');
+
+// Add event listener to the file input
+fileInput.addEventListener('change', handleFileSelect);
+
+// Function to handle file select
+function handleFileSelect(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const image_url = URL.createObjectURL(file);
+        previewImage.src = image_url;
+        previewImage.style.display = 'block';
+        cancelImageButton.style.display = 'inline'; // Show the cancel button
+        image_urlInput.value = image_url;
+    }
+}
+
+// Add event listeners to the file upload area for drag and drop
+const fileUpload = document.querySelector('.file-upload');
+fileUpload.addEventListener('dragover', function(event) {
+    event.preventDefault();
+    fileUpload.classList.add('dragover');
+});
+fileUpload.addEventListener('dragleave', function(event) {
+    event.preventDefault();
+    fileUpload.classList.remove('dragover');
+});
+fileUpload.addEventListener('drop', function(event) {
+    event.preventDefault();
+    fileUpload.classList.remove('dragover');
+    // Use the handleFileSelect function here as well
+    fileInput.files = event.dataTransfer.files;
+    handleFileSelect({ target: fileInput });
+});
+
+// Add event listener to the cancel button
+cancelImageButton.addEventListener('click', function() {
+    // Clear the file input value
+    fileInput.value = '';
+    // Hide the preview image and cancel button
+    previewImage.style.display = 'none';
+    cancelImageButton.style.display = 'none';
+    // Clear the image_url input value
+    image_urlInput.value = '';
+});
+</script>
 
 <?php if (isset($_SESSION['item_exists'])): ?>
     <?php unset($_SESSION['item_exists']); ?>
