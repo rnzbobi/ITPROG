@@ -9,6 +9,13 @@ if (!isset($_SESSION['username'])) {
 }
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
+    $target_dir="uploads/";
+    $target_file= $target_dir.basename($_FILES["image_URL"]["name"]);
+    $uploadOk=1;
+    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+
+    
+
     $clothes_id = $_POST['item_id'];
     $clothes_name = $_POST['name'];
     $clothes_size = $_POST['size'];
@@ -20,6 +27,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $clothes_quantity = $_POST['quantity'];
     $clothes_url = $_POST['url'];
     $clothes_desc = $_POST['description'];
+
+    if ($_FILES['image_URL']['error']==UPLOAD_ERR_OK){
+        $temp_name=$_FILES['image_URL']['tmp_name'];
+        $new_name='uploads/'.uniqid().'_'.$_FILES['image_URL']['name'];
+        move_uploaded_file($temp_name,$new_name);
+        $clothes_url=$new_name;
+    }else{
+        $clothes_url=$_POST['image_URL'];
+    }
 }
 
 $updateQuery=

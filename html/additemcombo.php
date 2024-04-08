@@ -315,14 +315,14 @@ document.addEventListener("DOMContentLoaded", function() {
             <label for="available_quantity">Available Quantity:</label>
             <input type="number" id="available_quantity" name="available_quantity" required min="0">
         </div>
-
         <div class="file-upload">
     <input type="file" id="imageFile" name="imageFile" accept="image/*" required>
     <p>Drag and drop an image or click to upload</p>
     <img id="previewImage" src="#" alt="Preview" style="display: none;">
     <button type="button" id="cancelImage" style="display: none;">Cancel Image</button> <!-- Cancel button -->
-</div>
+    </div>
                 <input type="hidden" id="image_URL" name="image_URL">
+
 
         <div class="form-group">
             <label for="description">Description:</label>
