@@ -1,5 +1,4 @@
 <?php
-
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Get the submitted username and password
@@ -7,9 +6,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST["username"];
     $password = $_POST["password"];
 
+    // Encryption key
+    $encryption_key = "I7Pr063gGH3ad5";
+
+    // Generate a random IV
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('AES-256-CBC'));
+
+    // Encrypt the password with the generated IV
+    $encrypted_password = openssl_encrypt($password, 'AES-256-CBC', $encryption_key, 0, $iv);
+
+    // Combine IV and encrypted password
+    $iv_encrypted_password = base64_encode($iv) . ":" . $encrypted_password;
+
     // Create connection
     $conn = mysqli_connect("localhost", "root", "") or die ("Unable to connect!". mysqli_error());
-        mysqli_select_db($conn, "dbclothes");
+    mysqli_select_db($conn, "dbclothes");
 
     // Check connection
     if ($conn->connect_error) {
@@ -26,8 +37,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "<h2>$error_message</h2>";
     } else {
         // Username is available, proceed with registration
-        // Insert the new user into the database
-        $sql = "INSERT INTO user_id (balance, name, username, user_password) VALUES (10000, '$name', '$username', '$password')";
+        // Insert the new user into the database with combined IV and encrypted password
+        $sql = "INSERT INTO user_id (balance, name, username, user_password) VALUES (10000, '$name', '$username', '$iv_encrypted_password')";
         if ($conn->query($sql) === TRUE) {
             // Registration successful, redirect to login page
             header("Location: login.php?registration_successful=true"); // Redirect to a welcome page or dashboard
@@ -39,6 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
