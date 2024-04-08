@@ -33,6 +33,8 @@ if (!isset($_SESSION['username'])) {
     <a class="astyle" href="seller_deletecombo.php"><h3>Delete Combo</h3></a><br><br>
     <a class="astyle" href="seller_edit_item.php"><h3>Edit Item</h3></a><br><br>
     <a class="astyle" href="seller_edit_combo.php"><h3>Edit Combo</h3></a><br><br>
+    <a class="astyle" href="create_summary_revenue_clothes.php"><h3>View Summary Revenue of Items</h3></a><br><br>
+    <a class="astyle" href="create_summary_sold_clothes.php"><h3>View Summary Sold Items</h3></a><br><br>
     <a class="astyle" href="index.php"><h3>Go Back</h3></a>
 </div>
 

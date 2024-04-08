@@ -7,32 +7,52 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST["username"];
     $password = $_POST["password"];
 
+    // Encryption key
+    $encryption_key = "I7Pr063gGH3ad5";
+
     // Create connection
     $conn = mysqli_connect("localhost", "root", "") or die ("Unable to connect!". mysqli_error());
-        mysqli_select_db($conn, "dbclothes");
+    mysqli_select_db($conn, "dbclothes");
 
     // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    // Check if the username already exists in the database
-    $sql = "SELECT * FROM user_id WHERE username='$username' AND user_password='$password'";
+    // Retrieve IV and encrypted password from the database based on username
+    $sql = "SELECT user_password FROM user_id WHERE username='$username'";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
-        // Username exists
-        $_SESSION["username"] = $username;
-        header("Location: index.php"); // Redirect to a welcome page or dashboard
-        exit();
-    } else {      
-            $error_message = "Error: " . $sql . "<br>" . $conn->error;
+        // Username exists, verify the password
+        $row = $result->fetch_assoc();
+        $iv_encrypted_password = $row["user_password"];
+
+        // Separate IV and encrypted password
+        list($iv, $encrypted_password) = explode(":", $iv_encrypted_password);
+
+        // Decrypt the stored password
+        $decrypted_password = openssl_decrypt($encrypted_password, "AES-256-CBC", $encryption_key, 0, base64_decode($iv));
+
+        // Verify the password
+        if ($decrypted_password === $password) {
+            // Password is correct
+            $_SESSION["username"] = $username;
+            header("Location: index.php"); // Redirect to a welcome page or dashboard
+            exit();
+        } else {
+            // Password is incorrect
             echo "<h1>LOGIN FAILED! Username or password does not match!</h1>";
+        }
+    } else {
+        // Username doesn't exist
+        echo "<h1>LOGIN FAILED! Username or password does not match!</h1>";
     }
 }
 ?>
 
-<<!DOCTYPE html>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
