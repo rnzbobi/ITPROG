@@ -68,20 +68,3 @@ orders: This table stores information about orders. Each row represents a single
 order_items: This table stores information about the items included in each order. It contains details about the items ordered, including quantity, price per unit, and subtotal for each item in an order.
 
 ************************************************
-
-
-FONTS USED:
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-FOR THE USER ID:
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap" rel="stylesheet">
-font-family: 'Montserrat', sans-serif;
-
-FOR THE BALANCE:
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap" rel="stylesheet">
-font-family: 'Montserrat', sans-serif;
-
-FOR THE BALANCE VALUE:
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap" rel="stylesheet">
-font-family: 'Montserrat', sans-serif;
