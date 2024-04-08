@@ -196,10 +196,10 @@ if (!isset($_SESSION['username'])) {
         dropArea.addEventListener('drop', (e) =>{
             e.preventDefault();
             const file = e.dataTransfer.files[0];
-            handleFile(file);
+            handleFile(file, e);
         });
 
-        function handleFile(file){
+        function handleFile(file, e){
             if (file && file.type.startsWith('image/')){
                 const reader = new FileReader();
                 reader.onload = function (e){
@@ -208,6 +208,7 @@ if (!isset($_SESSION['username'])) {
                     imageContainer.textContent="";
                 }
                 reader.readAsDataURL(file);
+                dragFile.files = e.dataTransfer.files;
             }
             else{
                 alert('Please select an image file');

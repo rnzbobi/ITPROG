@@ -94,7 +94,7 @@ if (!isset($_SESSION['username'])) {
 
                 echo "<div class='eia-form-group'>";
                     echo "<label for='image_URL' id='drop-area-edit-item' class='drop-area-edit-item'> Drag and drop an image to be displayed for the combo.";
-                        echo  "<input type='file' id='image_URL' name='image_URL'  value='".$editClothes['image_URL']."' accept='image/*' required hidden >";
+                        echo  "<input type='file' id='image_URL' name='image_URL'  value='".$editClothes['image_URL']."' accept='image/*' required  >";
                             echo  "<div class='edit-item-image-area' id='edit-item-image-area'>";
                                 echo  "<div class='edit-item-image-container' id ='edit-item-image-container'></div>";
                             echo "</div>";
@@ -128,10 +128,10 @@ if (!isset($_SESSION['username'])) {
         dropArea.addEventListener('drop', (e) =>{
             e.preventDefault();
             const file = e.dataTransfer.files[0];
-            handleFile(file);
+            handleFile(file, e);
         });
 
-        function handleFile(file){
+        function handleFile(file,e){
             if (file && file.type.startsWith('image/')){
                 const reader = new FileReader();
                 reader.onload = function (e){
@@ -140,6 +140,7 @@ if (!isset($_SESSION['username'])) {
                     imageContainer.textContent="";
                 }
                 reader.readAsDataURL(file);
+                dragFile.files = e.dataTransfer.files;
             }
             else{
                 alert('Please select an image file');
