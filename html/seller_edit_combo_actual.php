@@ -164,7 +164,7 @@ if (!isset($_SESSION['username'])) {
                     echo "<label for='image_URL' id='drop-area-edit-item' class='drop-area-edit-item'> Drag and drop an image to be displayed for the combo.";
                         echo  "<input type='file' id='image_URL' name='image_URL'  value='".$editCombo['image_URL']."' accept='image/*' required hidden >";
                             echo  "<div class='edit-item-image-area' id='edit-item-image-area'>";
-                                echo  "<div class='edit-item-image-container' id ='edit-item-image-container'></div>";
+                                echo  "<div class='edit-item-image-container' id ='edit-item-image-container'><img src='".$editCombo['image_URL']."' height='200px' width='200px'></img></div>";
                             echo "</div>";
                    // echo "<input type='text' id ='url' name='url' value='".$editClothes['image_URL']."' required>";
                 echo "</div>";
