@@ -44,7 +44,7 @@ if (!isset($_SESSION['username'])) {
 
 <div class="eia-interface"> 
     <div class="eia-title"> <b>Item to Edit: <?php echo $clothes_name." Size ".$clothes_size?></b></div>
-    <form method="POST" action="seller_edit_item_action.php" class="eia-item-form">
+    <form method="POST" action="seller_edit_item_action.php" class="eia-item-form" enctype="multipart/form-data">
 
         <?php
             while($editClothes=mysqli_fetch_assoc($getClothestoEdit)){
@@ -93,9 +93,61 @@ if (!isset($_SESSION['username'])) {
                 echo "</div>";
 
                 echo "<div class='eia-form-group'>";
-                    echo "<label for='name'>Image URL:</label>";
-                    echo "<input type='text' id ='url' name='url' value='".$editClothes['image_URL']."' required>";
+                    echo "<label for='image_URL' id='drop-area-edit-item' class='drop-area-edit-item'> Drag and drop an image to be displayed for the combo.";
+                        echo  "<input type='file' id='image_URL' name='image_URL'  value='".$editClothes['image_URL']."' accept='image/*' required hidden >";
+                            echo  "<div class='edit-item-image-area' id='edit-item-image-area'>";
+                                echo  "<div class='edit-item-image-container' id ='edit-item-image-container'></div>";
+                            echo "</div>";
+                   // echo "<input type='text' id ='url' name='url' value='".$editClothes['image_URL']."' required>";
                 echo "</div>";
+        ?>
+
+<script>
+            const dragFile = document.getElementById("image_URL");
+            const displayImage = document.getElementById("edit-item-image-area");
+            const dropArea = document.getElementById("drop-area-edit-item");
+
+            function uploadImage(){
+                const file = dragFile.files[0];
+                handleFile(file);
+                //displayImage.style.backgroundImage=`url(${imgLink})`;
+                //displayImage.textContent="";
+            }
+
+        dragFile.addEventListener("change", (e) =>{
+            const file = e.target.files[0];
+            uploadImage(file);
+        });
+
+        dropArea.addEventListener('dragover', (e) =>{
+            if (e.target.id !== 'drop-area-edit-item') {
+             e.preventDefault();
+            }
+        });
+
+        dropArea.addEventListener('drop', (e) =>{
+            e.preventDefault();
+            const file = e.dataTransfer.files[0];
+            handleFile(file);
+        });
+
+        function handleFile(file){
+            if (file && file.type.startsWith('image/')){
+                const reader = new FileReader();
+                reader.onload = function (e){
+                    const imageContainer = document.getElementById("edit-item-image-container");
+                    imageContainer.style.backgroundImage=`url(${e.target.result})`;
+                    imageContainer.textContent="";
+                }
+                reader.readAsDataURL(file);
+            }
+            else{
+                alert('Please select an image file');
+            }
+        }
+</script>
+
+        <?php
 
                 echo "<div class='eia-form-group'>";
                     echo "<label for='name'>Description:</label>";                

@@ -1087,8 +1087,8 @@ ec = edit combo*/
     align-items:center;
 }
 
-/*Additional CSS for additemcombo.php*/
-.drop-area-add-combo{
+/*additional CSS for seller_edit_item_actual.php*/
+.drop-area-edit-item{
     width:722px;
     height:200px;
     padding:20px;
@@ -1096,7 +1096,7 @@ ec = edit combo*/
 
 }
 
-.add-combo-image-area{
+.edit-item-image-area{
     width:100%;
     height:100%;
     padding:5px;
@@ -1109,7 +1109,7 @@ ec = edit combo*/
 
 
 
-.add-combo-image-area:hover{
+.edit-item-image-area:hover{
     width:100%;
     height:100%;
     padding:5px;
@@ -1123,7 +1123,7 @@ ec = edit combo*/
 
 }
 
-.add-combo-image-container{
+.edit-item-image-container{
     width:100%;
     height:100%;
     background-size:20%;

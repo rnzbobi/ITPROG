@@ -23,6 +23,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $combo_quantity=$_POST['quantity'];
     $combo_URL=$_POST['url'];
     $combo_desc=$_POST['description'];
+
+    if ($_FILES['image_URL']['error']==UPLOAD_ERR_OK){
+        $temp_name=$_FILES['image_URL']['tmp_name'];
+        $new_name='uploads/'.uniqid().'_'.$_FILES['image_URL']['name'];
+        move_uploaded_file($temp_name,$new_name);
+        $combo_URL=$new_name;
+    }else{
+        $combo_URL=$_POST['image_URL']['name'];
+    }
 }
 
 $deleteCartsQuery = "DELETE FROM order_items WHERE combo_id = $combo_id";
