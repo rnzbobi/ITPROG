@@ -289,9 +289,56 @@ document.addEventListener("DOMContentLoaded", function() {
         </div>
 
         <div class="form-group">
-            <label for="image_url">Image URL:</label>
-            <input type="text" id="image_URL" name="image_URL" required>
+            <label for="image_url" class="drop-area-add-combo" id="drop-area-add-combo">Drag and drop an image to be displayed for the combo.
+            <input type="file" id="image_URL" name="image_URL" accept="image/*" required hidden >
+                <div class="add-combo-image-area" id="add-combo-image-area">
+                    <div class="add-combo-image-container" id ="add-combo-image-container"></div>
+                </div>
+            </label>
         </div>
+        <script>
+            const dragFile = document.getElementById("image_URL");
+            const displayImage = document.getElementById("add-combo-image-area");
+            const dropArea = document.getElementById("drop-area-add-combo");
+
+            document.getElementById("drop-area-add-combo").addEventListener("click", function(){
+                dragFile.click();
+            });
+
+            function uploadImage(){
+                const file = dragFile.files[0];
+                handleFile(file);
+                //displayImage.style.backgroundImage=`url(${imgLink})`;
+                //displayImage.textContent="";
+            }
+
+        dragFile.addEventListener("change", uploadImage);
+
+        dropArea.addEventListener('dragover', (e) =>{
+            e.preventDefault();
+        });
+
+        dropArea.addEventListener('drop', (e) =>{
+            e.preventDefault();
+            const file = event.dataTransfer.files[0];
+            handleFile(file);
+        });
+
+        function handleFile(file){
+            if (file && file.type.startsWith('image/')){
+                const reader = new FileReader();
+                reader.onload = function (e){
+                    const imageContainer = document.getElementById("add-combo-image-container");
+                    imageContainer.style.backgroundImage=`url(${e.target.result})`;
+                    imageContainer.textContent="";
+                }
+                reader.readAsDataURL(file);
+            }
+            else{
+                alert('Please select an image file');
+            }
+        }
+        </script>
 
         <div class="form-group">
             <label for="description">Description:</label>
