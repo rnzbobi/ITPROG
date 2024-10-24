@@ -1,10 +1,10 @@
 
 ---
 
-# ITPROG Project
+# E-Commerce Website
 
 ## Overview
-The ITPROG project is a PHP and MySQL-based application that includes various functionalities such as item management, shopping carts, and social media features. This guide will walk you through how to set up and run the project using **XAMPP**.
+The E-Commerce Website project is a PHP and MySQL-based application that includes various functionalities such as item management, shopping carts, and social media features. This guide will walk you through how to set up and run the project using **XAMPP**.
 
 ## Requirements
 - **XAMPP**: Install XAMPP, which includes Apache (for PHP) and MySQL (for the database).
